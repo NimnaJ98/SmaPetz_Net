@@ -3,7 +3,7 @@ from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser, PermissionsMixin
 )
 
-# Create your models here.
+# Create custom model manager
 
 class MyUserManager(BaseUserManager):
     def create_user(self, email, type, name, password=None):
@@ -31,15 +31,17 @@ class MyUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+#create custom user model
+
 class User(AbstractBaseUser):
     class Types(models.TextChoices):
         PET = "PET", "Pet"
-        VET = "VET", "Vet"
+        VET = "VET", "Veterinarian"
         STORE = "STORE", "Store"
-        PET_LOVER = "PET_LOVER", "Pet_lover"
+        PET_LOVER = "PET_LOVER", "Pet lover"
 
     email = models.EmailField(max_length=255,unique=True)
-    type = models.CharField(max_length=50, choices=Types.choices, blank=True)
+    type = models.CharField(max_length=50, choices=Types.choices, default=Types.PET_LOVER)
     name = models.CharField(blank=True, max_length=255)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
@@ -54,16 +56,16 @@ class User(AbstractBaseUser):
 
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"
-        # Simplest possible answer: Yes, always
+        
         return True
 
     def has_module_perms(self, app_label):
         "Does the user have permissions to view the app `app_label`?"
-        # Simplest possible answer: Yes, always
+
         return True
 
     @property
     def is_staff(self):
         "Is the user a member of staff?"
-        # Simplest possible answer: All admins are staff
+        
         return self.is_admin
