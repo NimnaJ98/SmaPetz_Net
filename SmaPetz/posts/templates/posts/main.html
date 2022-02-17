@@ -5,6 +5,15 @@
 {% endblock title %}
 
 {% block content %}
-    {{hello}}       
+    <div id ="test">
+        {{hello}}  
+    </div> 
+
+    <!--display posts-->
+    <div id ="posts">
+        {% for obj in qs %}
+            {{obj.caption}} <br>
+        {% endfor %} 
+    </div>
 {% endblock content %}
     
