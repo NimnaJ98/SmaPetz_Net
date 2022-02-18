@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import (
-    BaseUserManager, AbstractBaseUser, PermissionsMixin
+    BaseUserManager, AbstractBaseUser
 )
 
 # Create custom model manager
@@ -69,3 +69,4 @@ class User(AbstractBaseUser):
         "Is the user a member of staff?"
         
         return self.is_admin
+    
