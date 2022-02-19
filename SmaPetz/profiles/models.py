@@ -2,13 +2,13 @@ from django.db import models
 from users.models import User
 from phonenumber_field.modelfields import PhoneNumberField
 
-# Default profile model
+# abstract profile model
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user')
     background = models.ImageField(upload_to='backgrounds', default='background.png')
     following = models.ManyToManyField(User, related_name='following', blank=True)
-    bio = models.TextField(default="no bio...", blank=True, max_length=255,)
+    bio = models.TextField(default="no bio...", blank=True, max_length=255)
     address = models.TextField(max_length=255, blank=True)
     number = PhoneNumberField(unique = True, null = True, blank = True)
     updated = models.DateTimeField(auto_now=True)
