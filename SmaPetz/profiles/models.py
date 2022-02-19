@@ -35,7 +35,7 @@ class Pet(Profile):
         OTHER = "OTHER" , 'Other'
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='pet')
-    type = models.TextField(default="Pet", blank=True)
+    usertype1 = models.TextField(default="Pet", blank=True)
     following = models.ManyToManyField(User, related_name='pet_following', blank=True)
     avatar = models.ImageField(upload_to='avatars', default='pet_avatar.png')
     pet_type = models.CharField(max_length=50, choices=petTypes.choices, blank=True)
@@ -47,7 +47,7 @@ class Pet(Profile):
 class Veterinarian(Profile):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='vet') 
     following = models.ManyToManyField(User, related_name='vet_following', blank=True)
-    type = models.TextField(default="Veterinarian", blank=True)    
+    usertype2 = models.TextField(default="Veterinarian", blank=True)    
     avatar = models.ImageField(upload_to='avatars', default='vet_avatar.png')
 
     def __str__(self):
@@ -55,7 +55,7 @@ class Veterinarian(Profile):
 
 class Store(Profile):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='store')
-    type = models.TextField(default="Store", blank=True)  
+    usertype3 = models.TextField(default="Store", blank=True)  
     class storeTypes(models.TextChoices):
         PETSTORE = "PETSTORE", "Pet Store"
         PRODUCTSTORE = "PRODUCTSTORE", "Pet Product Store"
@@ -70,7 +70,7 @@ class Store(Profile):
 class Pet_Lover(Profile):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='petLover')
     following = models.ManyToManyField(User, related_name='petLover_following', blank=True)
-    type = models.TextField(default="Pet Lover", blank=True)  
+    usertype4 = models.TextField(default="Pet Lover", blank=True)  
     avatar = models.ImageField(upload_to='avatars', default='avatar.png')
 
     def __str__(self):
