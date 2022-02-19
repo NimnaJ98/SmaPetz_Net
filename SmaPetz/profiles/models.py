@@ -5,21 +5,10 @@ from phonenumber_field.modelfields import PhoneNumberField
 # Default profile model
 
 class Profile(models.Model):
-    PET = 1
-    VET = 2
-    STORE = 3
-    PET_LOVER = 4
-    ROLE_CHOICES = (
-        (PET, 'Pet'),
-        (VET, 'Vet'),
-        (STORE, 'Veterinarian'),
-        (PET_LOVER, 'Pet Lover'),
-    )
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user')
-    type = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, null=False, blank=False)
     background = models.ImageField(upload_to='backgrounds', default='background.png')
     following = models.ManyToManyField(User, related_name='following', blank=True)
-    bio = models.TextField(default="no bio...", blank=True)
+    bio = models.TextField(default="no bio...", blank=True, max_length=255,)
     address = models.TextField(max_length=255, blank=True)
     number = PhoneNumberField(unique = True, null = True, blank = True)
     updated = models.DateTimeField(auto_now=True)
@@ -27,6 +16,7 @@ class Profile(models.Model):
 
     class Meta:
         abstract = True
+    #abstract class will not have its own table, instead child classes will have their own tables
 
 class Pet(Profile):
     
@@ -45,10 +35,10 @@ class Pet(Profile):
         OTHER = "OTHER" , 'Other'
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='pet')
+    type = models.TextField(default="Pet", blank=True)
     following = models.ManyToManyField(User, related_name='pet_following', blank=True)
-    type = models.PositiveSmallIntegerField(default="PET")
     avatar = models.ImageField(upload_to='avatars', default='pet_avatar.png')
-    pet_type = models.CharField(max_length=50, choices=petTypes.choices)
+    pet_type = models.CharField(max_length=50, choices=petTypes.choices, blank=True)
     breed = models.TextField(max_length=50, blank=True)
 
     def __str__(self):
@@ -57,7 +47,7 @@ class Pet(Profile):
 class Veterinarian(Profile):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='vet') 
     following = models.ManyToManyField(User, related_name='vet_following', blank=True)
-    type = models.PositiveSmallIntegerField(default="VET")
+    type = models.TextField(default="Veterinarian", blank=True)    
     avatar = models.ImageField(upload_to='avatars', default='vet_avatar.png')
 
     def __str__(self):
@@ -65,7 +55,7 @@ class Veterinarian(Profile):
 
 class Store(Profile):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='store')
-    type = models.PositiveSmallIntegerField(default="STORE")
+    type = models.TextField(default="Store", blank=True)  
     class storeTypes(models.TextChoices):
         PETSTORE = "PETSTORE", "Pet Store"
         PRODUCTSTORE = "PRODUCTSTORE", "Pet Product Store"
@@ -80,7 +70,7 @@ class Store(Profile):
 class Pet_Lover(Profile):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='petLover')
     following = models.ManyToManyField(User, related_name='petLover_following', blank=True)
-    type = models.PositiveSmallIntegerField(default="PETLOVER")
+    type = models.TextField(default="Pet Lover", blank=True)  
     avatar = models.ImageField(upload_to='avatars', default='avatar.png')
 
     def __str__(self):
