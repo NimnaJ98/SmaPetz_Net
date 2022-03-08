@@ -1,6 +1,9 @@
+from ast import Lambda
+from itertools import chain
 from django.db import models
 from users.models import User
 from phonenumber_field.modelfields import PhoneNumberField
+from posts.models import Post
 
 # abstract profile model
 
@@ -128,6 +131,19 @@ class Pet(Profile):
         follower_list = [p for p in self.get_followers()]
         return follower_list
 
+    def feed_posts(self):
+        userPosts = self.get_user_posts()
+        following =self.get_follower_list()
+        posts =[]
+        qs = None
+        for f in following:
+            followingPosts =  f.post_set.all()
+            posts.append(followingPosts)
+        posts.append(userPosts)
+        if len(posts) > 0:
+            qs = sorted(chain(*posts), reverse=True, key=lambda obj:obj.created)
+        return qs
+
 class Veterinarian(Profile):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='vet') 
     following = models.ManyToManyField(User, related_name='vet_following', blank=True)
@@ -152,6 +168,20 @@ class Veterinarian(Profile):
     def get_follower_list(self):
         follower_list = [p for p in self.get_followers()]
         return follower_list
+
+    def feed_posts(self):
+        userPosts = self.get_user_posts()
+        following =self.get_follower_list()
+        posts =[]
+        qs = None
+        for f in following:
+            followingPosts =  f.post_set.all()
+            posts.append(followingPosts)
+        posts.append(userPosts)
+        if len(posts) > 0:
+            qs = sorted(chain(*posts), reverse=True, key=lambda obj:obj.created)
+        return qs
+    
 
 class Store(Profile):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='store')
@@ -182,6 +212,19 @@ class Store(Profile):
     def get_follower_list(self):
         follower_list = [p for p in self.get_followers()]
         return follower_list
+    
+    def feed_posts(self):
+        userPosts = self.get_user_posts()
+        following =self.get_follower_list()
+        posts =[]
+        qs = None
+        for f in following:
+            followingPosts =  f.post_set.all()
+            posts.append(followingPosts)
+        posts.append(userPosts)
+        if len(posts) > 0:
+            qs = sorted(chain(*posts), reverse=True, key=lambda obj:obj.created)
+        return qs
 
 class Pet_Lover(Profile):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='petLover')
@@ -208,3 +251,16 @@ class Pet_Lover(Profile):
     def get_follower_list(self):
         follower_list = [p for p in self.get_followers()]
         return follower_list
+
+    def feed_posts(self):
+        userPosts = self.get_user_posts()
+        following =self.get_follower_list()
+        posts =[]
+        qs = None
+        for f in following:
+            followingPosts =  f.post_set.all()
+            posts.append(followingPosts)
+        posts.append(userPosts)
+        if len(posts) > 0:
+            qs = sorted(chain(*posts), reverse=True, key=lambda obj:obj.created)
+        return qs
