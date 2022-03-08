@@ -9,9 +9,21 @@
     <b>My Posts</b>: 
     {{profile.get_user_posts}}
 </p>
+
 <p>
     <b>Number of Posts</b>: 
     {{profile.num_posts}}
 </p>
+
+<p>
+    <b>Following Profiles</b>: 
+    {{profile.get_followers}}
+</p>
+
+<p>
+    <b>Following Profiles List</b>: 
+    {{profile.get_follower_list}}
+</p>
     
 {% endblock content %}
+

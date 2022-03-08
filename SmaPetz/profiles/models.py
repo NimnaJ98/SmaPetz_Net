@@ -109,14 +109,24 @@ class Pet(Profile):
     def __str__(self):
         return str(self.user)
 
+    #get posts
     def get_user_posts(request):
         current_user = request.user
         return current_user.post_set.all()
 
+    #get no of posts
     @property
     def num_posts(request):
         current_user = request.user
         return current_user.post_set.all().count()
+
+    #get followers
+    def get_followers(self):
+        return self.following.all()
+
+    def get_follower_list(self):
+        follower_list = [p for p in self.get_followers()]
+        return follower_list
 
 class Veterinarian(Profile):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='vet') 
@@ -135,6 +145,13 @@ class Veterinarian(Profile):
     def num_posts(request):
         current_user = request.user
         return current_user.post_set.all().count()
+
+    def get_followers(self):
+        return self.following.all()
+
+    def get_follower_list(self):
+        follower_list = [p for p in self.get_followers()]
+        return follower_list
 
 class Store(Profile):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='store')
@@ -158,6 +175,13 @@ class Store(Profile):
     def num_posts(request):
         current_user = request.user
         return current_user.post_set.all().count()
+    
+    def get_followers(self):
+        return self.following.all()
+
+    def get_follower_list(self):
+        follower_list = [p for p in self.get_followers()]
+        return follower_list
 
 class Pet_Lover(Profile):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='petLover')
@@ -177,3 +201,10 @@ class Pet_Lover(Profile):
     def num_posts(request):
         current_user = request.user
         return current_user.post_set.all().count()
+
+    def get_followers(self):
+        return self.following.all()
+
+    def get_follower_list(self):
+        follower_list = [p for p in self.get_followers()]
+        return follower_list
