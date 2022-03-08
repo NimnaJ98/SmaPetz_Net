@@ -42,7 +42,7 @@ class User(AbstractBaseUser):
 
     email = models.EmailField(max_length=255,unique=True)
     type = models.CharField(max_length=50, choices=Types.choices, default=Types.PET_LOVER)
-    name = models.CharField(blank=True, max_length=255)
+    name = models.CharField(blank=True, max_length=255, unique=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
@@ -69,4 +69,5 @@ class User(AbstractBaseUser):
         "Is the user a member of staff?"
         
         return self.is_admin
+
     
