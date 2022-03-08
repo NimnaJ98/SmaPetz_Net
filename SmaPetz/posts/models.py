@@ -15,7 +15,7 @@ class Post(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return str(self.pk)
+        return str(self.caption)
 
     #get the users who liked a post
     def get_liked(self):

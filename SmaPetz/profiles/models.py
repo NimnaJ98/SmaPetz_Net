@@ -109,6 +109,15 @@ class Pet(Profile):
     def __str__(self):
         return str(self.user)
 
+    def get_user_posts(request):
+        current_user = request.user
+        return current_user.post_set.all()
+
+    @property
+    def num_posts(request):
+        current_user = request.user
+        return current_user.post_set.all().count()
+
 class Veterinarian(Profile):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='vet') 
     following = models.ManyToManyField(User, related_name='vet_following', blank=True)
@@ -117,6 +126,15 @@ class Veterinarian(Profile):
 
     def __str__(self):
         return str(self.user)
+    
+    def get_user_posts(request):
+        current_user = request.user
+        return current_user.post_set.all()
+    
+    @property
+    def num_posts(request):
+        current_user = request.user
+        return current_user.post_set.all().count()
 
 class Store(Profile):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='store')
@@ -132,6 +150,15 @@ class Store(Profile):
     def __str__(self):
         return str(self.user)
 
+    def get_user_posts(request):
+        current_user = request.user
+        return current_user.post_set.all()
+    
+    @property
+    def num_posts(request):
+        current_user = request.user
+        return current_user.post_set.all().count()
+
 class Pet_Lover(Profile):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='petLover')
     following = models.ManyToManyField(User, related_name='petLover_following', blank=True)
@@ -140,3 +167,13 @@ class Pet_Lover(Profile):
 
     def __str__(self):
         return str(self.user)
+
+    def get_user_posts(request):
+        current_user = request.user
+        return current_user.post_set.all()
+
+    @property
+    #property method will be treated as a field
+    def num_posts(request):
+        current_user = request.user
+        return current_user.post_set.all().count()

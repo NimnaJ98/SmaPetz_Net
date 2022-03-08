@@ -5,5 +5,12 @@
 {% endblock title %}
 
 {% block content %}
-    {{profile}}
+<p>
+    <b>My Posts</b>: 
+    {{profile.get_user_posts}}
+</p>
+<p>
+    <b>Number of Posts</b>: 
+    {{profile.num_posts}}
+</p>
 {% endblock content %}
