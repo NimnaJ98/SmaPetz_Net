@@ -126,22 +126,48 @@ class Pet(Profile):
         return current_user.post_set.all().count()
 
     #get followers
-    def get_followers(self):
+    def get_following(self):
         return self.following.all()
 
-    def get_follower_list(self):
-        follower_list = [p for p in self.get_followers()]
+    def get_following_list(self):
+        follower_list = [p for p in self.get_following()]
         return follower_list
 
     #get the count of followers
     @property
-    def get_follower_count(self):
-        return self.get_followers().count()
+    def get_following_count(self):
+        return self.get_following().count()
+
+    #get followers based on their user profiles
+    def get_followers(self):
+        qs1 = Pet.objects.all()
+        qs2 = Veterinarian.objects.all()
+        qs3 = Store.objects.all()
+        qs4 = Pet_Lover.objects.all()
+        followers_list = []
+        for pet in qs1:
+            if self.user in pet.get_following():
+                followers_list.append(pet)
+        for vet in qs2:
+            if self.user in vet.get_following():
+                followers_list.append(vet)
+        for store in qs3:
+            if self.user in store.get_following():
+                followers_list.append(store)
+        for petlover in qs4:
+            if self.user in petlover.get_following():
+                followers_list.append(petlover)
+        return followers_list
+    
+    @property
+    def get_followers_count(self):
+        return len(self.get_followers())
+
 
     #to get the posts of each user & their followers
     def feed_posts(self):
         userPosts = self.get_user_posts()
-        following =self.get_follower_list()
+        following =self.get_following_list()
         posts =[]
         qs = None
         for f in following:
@@ -155,28 +181,28 @@ class Pet(Profile):
     #to get follow suggestions
     def get_Petfollow_suggestions(self):
         pets = Pet.objects.all().exclude(user = self.user)
-        followers_list = [p for p in self.get_followers()]
+        followers_list = [p for p in self.get_following()]
         availablePets = [p.user for p in pets if p.user not in followers_list]
         random.shuffle(availablePets)
         return availablePets[:3]
 
     def get_Vetfollow_suggestions(self):
         vets = Veterinarian.objects.all()
-        followers_list = [p for p in self.get_followers()]
+        followers_list = [p for p in self.get_following()]
         availableVets = [p.user for p in vets if p.user not in followers_list]
         random.shuffle(availableVets)
         return availableVets[:3]
 
     def get_Storefollow_suggestions(self):
         stores = Store.objects.all()        
-        followers_list = [p for p in self.get_followers()]
+        followers_list = [p for p in self.get_following()]
         availableStores = [p.user for p in stores if p.user not in followers_list]
         random.shuffle(availableStores)
         return availableStores[:3]
 
     def get_PetLoverfollow_suggestions(self):
         petLovers = Pet_Lover.objects.all()
-        followers_list = [p for p in self.get_followers()]
+        followers_list = [p for p in self.get_following()]
         availablePetLovers = [p.user for p in petLovers if p.user not in followers_list]
         random.shuffle(availablePetLovers)
         return availablePetLovers[:3]
@@ -201,20 +227,44 @@ class Veterinarian(Profile):
         current_user = request.user
         return current_user.post_set.all().count()
 
-    def get_followers(self):
+    def get_following(self):
         return self.following.all()
 
-    def get_follower_list(self):
-        follower_list = [p for p in self.get_followers()]
+    def get_following_list(self):
+        follower_list = [p for p in self.get_following()]
         return follower_list
     
     @property
-    def get_follower_count(self):
-        return self.get_followers().count()
+    def get_following_count(self):
+        return self.get_following().count()
+    
+    def get_followers(self):
+        qs1 = Pet.objects.all()
+        qs2 = Veterinarian.objects.all()
+        qs3 = Store.objects.all()
+        qs4 = Pet_Lover.objects.all()
+        followers_list = []
+        for pet in qs1:
+            if self.user in pet.get_following():
+                followers_list.append(pet)
+        for vet in qs2:
+            if self.user in vet.get_following():
+                followers_list.append(vet)
+        for store in qs3:
+            if self.user in store.get_following():
+                followers_list.append(store)
+        for petlover in qs4:
+            if self.user in petlover.get_following():
+                followers_list.append(petlover)
+        return followers_list
+    
+    @property
+    def get_followers_count(self):
+        return len(self.get_followers())
 
     def feed_posts(self):
         userPosts = self.get_user_posts()
-        following =self.get_follower_list()
+        following =self.get_following_list()
         posts =[]
         qs = None
         for f in following:
@@ -227,28 +277,28 @@ class Veterinarian(Profile):
 
     def get_Vetfollow_suggestions(self):
         vets = Veterinarian.objects.all().exclude(user = self.user)
-        followers_list = [p for p in self.get_followers()]
+        followers_list = [p for p in self.get_following()]
         availableVets = [p.user for p in vets if p.user not in followers_list]
         random.shuffle(availableVets)
         return availableVets[:3]
 
     def get_Petfollow_suggestions(self):
         pets = Pet.objects.all()
-        followers_list = [p for p in self.get_followers()]
+        followers_list = [p for p in self.get_following()]
         availablePets = [p.user for p in pets if p.user not in followers_list]
         random.shuffle(availablePets)
         return availablePets[:3]
     
     def get_Storefollow_suggestions(self):
         stores = Store.objects.all()        
-        followers_list = [p for p in self.get_followers()]
+        followers_list = [p for p in self.get_following()]
         availableStores = [p.user for p in stores if p.user not in followers_list]
         random.shuffle(availableStores)
         return availableStores[:3]
 
     def get_PetLoverfollow_suggestions(self):
         petLovers = Pet_Lover.objects.all()
-        followers_list = [p for p in self.get_followers()]
+        followers_list = [p for p in self.get_following()]
         availablePetLovers = [p.user for p in petLovers if p.user not in followers_list]
         random.shuffle(availablePetLovers)
         return availablePetLovers[:3]
@@ -277,20 +327,50 @@ class Store(Profile):
         current_user = request.user
         return current_user.post_set.all().count()
     
-    def get_followers(self):
+    def get_following(self):
         return self.following.all()
 
-    def get_follower_list(self):
-        follower_list = [p for p in self.get_followers()]
+    def get_following_list(self):
+        follower_list = [p for p in self.get_following()]
         return follower_list
     
     @property
-    def get_follower_count(self):
-        return self.get_followers().count()
+    def get_following_count(self):
+        return self.get_following().count()
+
+    #get the count of followers
+    @property
+    def get_following_count(self):
+        return self.get_following().count()
+
+    #get followers based on their user profiles
+    def get_followers(self):
+        qs1 = Pet.objects.all()
+        qs2 = Veterinarian.objects.all()
+        qs3 = Store.objects.all()
+        qs4 = Pet_Lover.objects.all()
+        followers_list = []
+        for pet in qs1:
+            if self.user in pet.get_following():
+                followers_list.append(pet)
+        for vet in qs2:
+            if self.user in vet.get_following():
+                followers_list.append(vet)
+        for store in qs3:
+            if self.user in store.get_following():
+                followers_list.append(store)
+        for petlover in qs4:
+            if self.user in petlover.get_following():
+                followers_list.append(petlover)
+        return followers_list
+    
+    @property
+    def get_followers_count(self):
+        return len(self.get_followers())
     
     def feed_posts(self):
         userPosts = self.get_user_posts()
-        following =self.get_follower_list()
+        following =self.get_following_list()
         posts =[]
         qs = None
         for f in following:
@@ -304,28 +384,28 @@ class Store(Profile):
     
     def get_Storefollow_suggestions(self):
         stores = Store.objects.all().exclude(user = self.user)        
-        followers_list = [p for p in self.get_followers()]
+        followers_list = [p for p in self.get_following()]
         availableStores = [p.user for p in stores if p.user not in followers_list]
         random.shuffle(availableStores)
         return availableStores[:3]
 
     def get_Vetfollow_suggestions(self):
         vets = Veterinarian.objects.all()
-        followers_list = [p for p in self.get_followers()]
+        followers_list = [p for p in self.get_following()]
         availableVets = [p.user for p in vets if p.user not in followers_list]
         random.shuffle(availableVets)
         return availableVets[:3]
 
     def get_Petfollow_suggestions(self):
         pets = Pet.objects.all()
-        followers_list = [p for p in self.get_followers()]
+        followers_list = [p for p in self.get_following()]
         availablePets = [p.user for p in pets if p.user not in followers_list]
         random.shuffle(availablePets)
         return availablePets[:3]
 
     def get_PetLoverfollow_suggestions(self):
         petLovers = Pet_Lover.objects.all()
-        followers_list = [p for p in self.get_followers()]
+        followers_list = [p for p in self.get_following()]
         availablePetLovers = [p.user for p in petLovers if p.user not in followers_list]
         random.shuffle(availablePetLovers)
         return availablePetLovers[:3]
@@ -349,20 +429,50 @@ class Pet_Lover(Profile):
         current_user = request.user
         return current_user.post_set.all().count()
 
-    def get_followers(self):
+    def get_following(self):
         return self.following.all()
 
-    def get_follower_list(self):
-        follower_list = [p for p in self.get_followers()]
+    def get_following_list(self):
+        follower_list = [p for p in self.get_following()]
         return follower_list
 
     @property
-    def get_follower_count(self):
-        return self.get_followers().count()
+    def get_following_count(self):
+        return self.get_following().count()
+
+    #get the count of followers
+    @property
+    def get_following_count(self):
+        return self.get_following().count()
+
+    #get followers based on their user profiles
+    def get_followers(self):
+        qs1 = Pet.objects.all()
+        qs2 = Veterinarian.objects.all()
+        qs3 = Store.objects.all()
+        qs4 = Pet_Lover.objects.all()
+        followers_list = []
+        for pet in qs1:
+            if self.user in pet.get_following():
+                followers_list.append(pet)
+        for vet in qs2:
+            if self.user in vet.get_following():
+                followers_list.append(vet)
+        for store in qs3:
+            if self.user in store.get_following():
+                followers_list.append(store)
+        for petlover in qs4:
+            if self.user in petlover.get_following():
+                followers_list.append(petlover)
+        return followers_list
+    
+    @property
+    def get_followers_count(self):
+        return len(self.get_followers())
 
     def feed_posts(self):
         userPosts = self.get_user_posts()
-        following =self.get_follower_list()
+        following =self.get_following_list()
         posts =[]
         qs = None
         for f in following:
@@ -376,28 +486,28 @@ class Pet_Lover(Profile):
     
     def get_PetLoverfollow_suggestions(self):
         petLovers = Pet_Lover.objects.all().exclude(user = self.user)    
-        followers_list = [p for p in self.get_followers()]
+        followers_list = [p for p in self.get_following()]
         availablePetLovers = [p.user for p in petLovers if p.user not in followers_list]
         random.shuffle(availablePetLovers)
         return availablePetLovers[:3]
 
     def get_Storefollow_suggestions(self):
         stores = Store.objects.all()    
-        followers_list = [p for p in self.get_followers()]
+        followers_list = [p for p in self.get_following()]
         availableStores = [p.user for p in stores if p.user not in followers_list]
         random.shuffle(availableStores)
         return availableStores[:3]
 
     def get_Vetfollow_suggestions(self):
         vets = Veterinarian.objects.all()
-        followers_list = [p for p in self.get_followers()]
+        followers_list = [p for p in self.get_following()]
         availableVets = [p.user for p in vets if p.user not in followers_list]
         random.shuffle(availableVets)
         return availableVets[:3]
 
     def get_Petfollow_suggestions(self):
         pets = Pet.objects.all()
-        followers_list = [p for p in self.get_followers()]
+        followers_list = [p for p in self.get_following()]
         availablePets = [p.user for p in pets if p.user not in followers_list]
         random.shuffle(availablePets)
         return availablePets[:3]
