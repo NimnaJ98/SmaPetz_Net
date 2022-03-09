@@ -24,11 +24,37 @@
     <b>Following Profiles List</b>: 
     {{profile.get_follower_list}}
 </p>
-
 <p>
-    <b>Feed posts List</b>: 
+    <b>Followers Count</b>: 
+    {{profile.get_follower_count}}
+</p>
+<p>
+    <b>Feed Posts List</b>: 
     {{profile.feed_posts}}
 </p>
+
+<p>
+    <b>Pet Follow Suggestions</b>: 
+    {{profile.get_Petfollow_suggestions}}
+</p>
     
+<p>
+    <b>Veterinarian Follow Suggestions</b>: 
+    {{profile.get_Vetfollow_suggestions}}
+</p>
+
+<p>
+    <b>Store Follow Suggestions</b>: 
+    {{profile.get_Storefollow_suggestions}}
+</p>
+
+<p>
+    <b>PetLover Follow Suggestions</b>: 
+    {{profile.get_PetLoverfollow_suggestions}}
+</p>
 {% endblock content %}
+
+
+
+
 
