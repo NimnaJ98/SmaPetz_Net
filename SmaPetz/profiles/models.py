@@ -125,7 +125,7 @@ class Pet(Profile):
         current_user = request.user
         return current_user.post_set.all().count()
 
-    #get followers
+    #get the profiles user is following
     def get_following(self):
         return self.following.all()
 
@@ -133,12 +133,12 @@ class Pet(Profile):
         follower_list = [p for p in self.get_following()]
         return follower_list
 
-    #get the count of followers
+    #get the following count
     @property
     def get_following_count(self):
         return self.get_following().count()
 
-    #get followers based on their user profiles
+    #get followers of the user
     def get_followers(self):
         qs1 = Pet.objects.all()
         qs2 = Veterinarian.objects.all()
