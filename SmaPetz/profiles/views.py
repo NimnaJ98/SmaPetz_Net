@@ -3,6 +3,7 @@ from .models import Profile, Pet, Pet_Lover, Store, Veterinarian
 from users.models import User
 from django.views.generic import TemplateView, View
 from django.http import JsonResponse
+import random
 
 
 
@@ -80,6 +81,7 @@ class UserProfileData(View):
                 'avatar' : l.avatar.url
             }
             profiles_to_follow.append(vetProfile_item)
+            random.shuffle(profiles_to_follow)
             
 
         return JsonResponse ({'pf_data': profiles_to_follow})

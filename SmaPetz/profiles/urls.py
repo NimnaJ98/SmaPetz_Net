@@ -10,6 +10,6 @@ app_name = 'profiles'
 
 urlpatterns = [
     path('test/', profile_test_view, name='profile-test'),
-    path('user/', UserProfileView.as_view(), name='user-profile-json'),
-    path('user-json/', UserProfileData.as_view(), name='user-profile-view'),
+    path('user/', UserProfileView.as_view(), name='user-profile-view'),
+    path('user-json/', UserProfileData.as_view(), name='user-profile-json'),
 ]
