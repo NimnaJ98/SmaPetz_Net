@@ -5,9 +5,8 @@ from .models import Profile, Pet, Veterinarian, Store, Pet_Lover
 
 
 @admin.register(Pet)
-class FonteAdmin(admin.ModelAdmin):
-     readonly_fields = ['usertype1']
-     
+class PetAdmin(admin.ModelAdmin):
+     readonly_fields = ['usertype']
      if Pet.pet_type == "FISH":
           readonly_fields = ['reptile_type','bird_type','amphibian_type','mammal_type']
      elif Pet.pet_type == "REPTILE":
@@ -22,14 +21,14 @@ class FonteAdmin(admin.ModelAdmin):
      
 
 @admin.register(Veterinarian)
-class FonteAdmin(admin.ModelAdmin):
-     readonly_fields = ['usertype2']
+class VeterinarianAdmin(admin.ModelAdmin):
+     readonly_fields = ['usertype']
 
 @admin.register(Store)
-class FonteAdmin(admin.ModelAdmin):
-     readonly_fields = ['usertype3']
+class StoreAdmin(admin.ModelAdmin):
+     readonly_fields = ['usertype']
 
 @admin.register(Pet_Lover)
-class FonteAdmin(admin.ModelAdmin):
-     readonly_fields = ['usertype4']
+class PetLoverAdmin(admin.ModelAdmin):
+     readonly_fields = ['usertype']
 
