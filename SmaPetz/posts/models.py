@@ -1,11 +1,13 @@
 from django.db import models
 from users.models import User
+from .validators import fileSize
 
 # Create your models here.
 
 
 class Post(models.Model):
     picture = models.ImageField(upload_to='images', blank= True)
+    video =  models.FileField(upload_to='videos', blank= True, validators=[fileSize])
     caption = models.TextField()
     liked_by = models.ManyToManyField(User, default=None, blank=True, related_name='likes')
     tags = models.CharField(max_length=100, blank=True)
