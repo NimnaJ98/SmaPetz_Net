@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Profile, Pet, Veterinarian, Store, Pet_Lover
+from .models import Profile, Pet, Veterinarian, Store, Pet_Lover, FriendRequest
 
 # Register your models here.
 
@@ -32,3 +32,4 @@ class StoreAdmin(admin.ModelAdmin):
 class PetLoverAdmin(admin.ModelAdmin):
      readonly_fields = ['usertype']
 
+admin.site.register(FriendRequest)
