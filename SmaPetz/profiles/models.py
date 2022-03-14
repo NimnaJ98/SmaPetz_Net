@@ -6,8 +6,113 @@ from users.models import User
 from phonenumber_field.modelfields import PhoneNumberField
 import random
 
-# abstract profile model
+# profile manager
+class ProfileManager(models.Manager):
+    #get posts
+    def get_user_posts(request):
+        current_user = request.user
+        return current_user.post_set.all()
+    
+    #get no of posts
+    @property
+    def num_posts(request):
+        current_user = request.user
+        return current_user.post_set.all().count()
+    
+    #get the profiles user is following
+    def get_following(self):
+        return self.following.all()
 
+    def get_following_list(self):
+        follower_list = [p for p in self.get_following()]
+        return follower_list
+    
+    #get the following count
+    @property
+    def get_following_count(self):
+        return self.get_following().count()
+
+    #get followers of the user
+    def get_followers(self):
+        qs1 = Pet.objects.all()
+        qs2 = Veterinarian.objects.all()
+        qs3 = Store.objects.all()
+        qs4 = Pet_Lover.objects.all()
+        followers_list = []
+        for pet in qs1:
+            if self.user in pet.get_following():
+                followers_list.append(pet)
+        for vet in qs2:
+            if self.user in vet.get_following():
+                followers_list.append(vet)
+        for store in qs3:
+            if self.user in store.get_following():
+                followers_list.append(store)
+        for petlover in qs4:
+            if self.user in petlover.get_following():
+                followers_list.append(petlover)
+        return followers_list
+    
+    @property
+    def get_followers_count(self):
+        return len(self.get_followers())
+
+    #to get the posts of each user & their followers
+    def feed_posts(self):
+        userPosts = self.get_user_posts()
+        following =self.get_following_list()
+        posts =[]
+        qs = None
+        for f in following:
+            followingPosts =  f.post_set.all()
+            posts.append(followingPosts)
+        posts.append(userPosts)
+        if len(posts) > 0:
+            qs = sorted(chain(*posts), reverse=True, key=lambda obj:obj.created)
+        return qs
+
+    #to get follow suggestions
+    def get_Petfollow_suggestions(self):
+        if self.user.type == "PET":
+            pets = Pet.objects.all().exclude(user = self.user)
+        else:
+            pets = Pet.objects.all()
+        followers_list = [p for p in self.get_following()]
+        availablePets = [p.user for p in pets if p.user not in followers_list]
+        random.shuffle(availablePets)
+        return availablePets[:3]
+
+    def get_Vetfollow_suggestions(self):
+        if self.user.type == "VET":
+            vets = Veterinarian.objects.all().exclude(user = self.user)
+        else:
+            vets = Veterinarian.objects.all()
+        followers_list = [p for p in self.get_following()]
+        availableVets = [p.user for p in vets if p.user not in followers_list]
+        random.shuffle(availableVets)
+        return availableVets[:3]
+
+    def get_Storefollow_suggestions(self):
+        if self.user.type == "STORE":
+            stores = Store.objects.all().exclude(user = self.user)
+        else:
+            stores = Store.objects.all()        
+        followers_list = [p for p in self.get_following()]
+        availableStores = [p.user for p in stores if p.user not in followers_list]
+        random.shuffle(availableStores)
+        return availableStores[:3]
+
+    def get_PetLoverfollow_suggestions(self):
+        if self.user.type == "STORE":
+            petLovers = Pet_Lover.objects.all().exclude(user = self.user)
+        else:
+            petLovers = Pet_Lover.objects.all()
+        followers_list = [p for p in self.get_following()]
+        availablePetLovers = [p.user for p in petLovers if p.user not in followers_list]
+        random.shuffle(availablePetLovers)
+        return availablePetLovers[:3]
+
+# abstract profile model
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user')
     background = models.ImageField(upload_to='backgrounds', default='background.png')
@@ -17,12 +122,13 @@ class Profile(models.Model):
     number = PhoneNumberField(unique = True, null = True, blank = True)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
+    objects = ProfileManager()
 
     class Meta:
         abstract = True
     #abstract class will not have its own table, instead child classes will have their own tables
 
-class Pet(Profile):
+class Pet(Profile, ProfileManager):
     
     class petTypes(models.TextChoices):
         FISH = "FISH", "Fish"
@@ -109,12 +215,13 @@ class Pet(Profile):
     mammal_type = models.CharField(max_length=50, choices=mammalTypes.choices, blank=True)
     
     breed = models.TextField(max_length=50, blank=True)
+    
 
     def __str__(self):
         return str(self.user)
 
 
-class Veterinarian(Profile):
+class Veterinarian(Profile, ProfileManager):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='vet') 
     usertype = models.TextField(default="Veterinarian", blank = True)
     following = models.ManyToManyField(User, related_name='vet_following', blank=True)
@@ -125,7 +232,7 @@ class Veterinarian(Profile):
         return str(self.user)
     
 
-class Store(Profile):
+class Store(Profile, ProfileManager):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='store')
     class storeTypes(models.TextChoices):
         PETSTORE = "PETSTORE", "Pet Store"
@@ -140,7 +247,7 @@ class Store(Profile):
         return str(self.user)
 
 
-class Pet_Lover(Profile):
+class Pet_Lover(Profile, ProfileManager):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='petLover')
     following = models.ManyToManyField(User, related_name='petLover_following', blank=True)
     usertype = models.TextField(default="Pet Lover", blank=True)  
