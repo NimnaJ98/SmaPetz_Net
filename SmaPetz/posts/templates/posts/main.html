@@ -1,4 +1,10 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block scripts %}    
+    <link rel="stylesheet" href={% static 'posts/post.css' %}>
+    <script src={% static 'posts/post.js' %} defer></script>
+{% endblock scripts %}
 
 {% block title %}
     home
@@ -9,7 +15,7 @@
         {{hello}}  
     </div> 
 
-    <!--display posts-->
+    <!--display posts-->  
     <div id ="posts">
         {% for obj in qs %}
             {{obj.caption}} <br>

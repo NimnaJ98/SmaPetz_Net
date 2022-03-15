@@ -22,6 +22,9 @@
     <link rel="stylesheet" href={% static 'style.css' %}>
     <script src={% static 'main.js' %} defer></script>
 
+    <!-- font awesome css-->
+    <script src="https://kit.fontawesome.com/27743883ae.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&family=Roboto+Slab:wght@300&display=swap" rel="stylesheet">
     {% block scripts %}{% endblock scripts %}
 
     <title>Pet Network | {% block title %}{% endblock title %}</title>
@@ -29,6 +32,7 @@
 
   <body>
     <!--Navbar-->
+    {% include 'navbar.html' %}
 
     <div class="container mt-3">
         {% block content %}
