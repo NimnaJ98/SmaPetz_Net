@@ -4,10 +4,7 @@ from users.models import User
 from django.views.generic import TemplateView, View
 from django.http import JsonResponse
 
-
-
 # Create your views here.
-
 
 def profile_test_view(request):
     if request.user.type == "PET":
