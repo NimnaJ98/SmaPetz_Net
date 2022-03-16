@@ -3,13 +3,14 @@ body{
 }
 .navbar {
     background-color: #ffffff !important;
-    -webkit-box-shadow: 0 8px 6px -6px #999;
-    -moz-box-shadow: 0 8px 6px -6px #999;
-    box-shadow: 0 8px 6px -6px #999;
+    -webkit-box-shadow: 0 6px 6px -6px #999;
+    -moz-box-shadow: 0 6px 6px -6px #999;
+    box-shadow: 0 3px 3px -6px #999;
 }
 .nav-link{
     margin: 3px;
-    color:#e56554 !important;
+    color:#eb6168 !important;
+
 }
 .nav-item :hover{
     color:#f8bf7a !important;
@@ -17,25 +18,18 @@ body{
 li.nav-item{
     margin-left: 30px;
 }
-
-form.btn-outline{
-    color: #e56554 !important;
+a.nav-link{
+    font-weight: bold;
 }
-.has-search .form-control {
+.has-search {
     padding-left: 50px;
     align-items: center;
 }
 
-.has-search .form-control-feedback {
-    position: absolute;
-    z-index: 2;
-    display: block;
-    width: 2.375rem;
-    height: 2.375rem;
-    line-height: 2.375rem;
-    text-align: center;
-    color: #aaa;
+.nav-form{
+    color: #221c1c !important;
 }
+
 .navbar-brand{
     color: #221c1c !important;
 }
