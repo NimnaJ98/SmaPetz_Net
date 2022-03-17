@@ -15,6 +15,7 @@
       <li class="nav-item ">
         <a class="nav-link" href="#">About </a>
       </li>
+      {% if request.user.is_authenticated %}
       <li class="nav-item active">
           <a class="nav-link" href="#">Feed</a>
       </li>
@@ -32,15 +33,27 @@
       <li class="nav-item">
           <a class="nav-link" href="#">{{request.user.name}}</a>
       </li>
+      {% endif %}
       <li class="nav-item">
           <a class="nav-link" href="#">Store</a>
       </li>
       <li class="nav-item">
           <a class="nav-link" href="#">Veterinarian</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#"><i class="fas fa-search" id="search-icon"></i></a>
-    </li>
+      <div class ="navbar-end">
+        <li class="nav-item">
+          <a class="nav-link" href="#"><i class="fas fa-search" id="search-icon"></i></a>
+        </li>
+        {% if request.user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="#"><i class="fa-solid fa-power-off" id="log-out"></i></i></a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="#"><i class="icon fa fa-catpower-off" id ="log-in"></i></i></a>
+        </li>
+        {% endif %}
+    </div>
     </ul>
     
   </div>

@@ -89,6 +89,18 @@ body{
     cursor: pointer;
     background-color: #fff !important;
 }
+
+#log-out{
+    font-size: 0.9rem;
+    margin-top: 3px;
+    transition: color 0.3s ease-out;
+    background-color: #fff !important;
+}
+#log-out:hover{
+    color: #f1896a !important;
+    cursor: pointer;
+    background-color: #fff !important;
+}
 .dropdown-menu{
     position: relative;
     background-color: #fff !important;
