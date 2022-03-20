@@ -11,8 +11,6 @@
 .not-visible{
     display: none;
 }
-
-
 body{
     background: #fafafa !important;
     font-family: 'Roboto', sans-serif;
@@ -47,7 +45,6 @@ body{
     color: #000 !important;
     background-color: #fff !important;
     padding-left: 25px;
-
 }
 #navbarSupportedContent{
 	position: relative;
@@ -55,7 +52,6 @@ body{
 #navbarSupportedContent ul{
 	padding: 0px;
 	margin: 0px;
-    align-items: center;
 }
 #navbarSupportedContent ul li a i{
 	margin-right: 10px;
@@ -63,14 +59,9 @@ body{
 .navbar-collapse{
     background-color: #fff !important;
 } 
-
 .nav-item a{
     background-color: #fff !important;
 }  
-#navbarSupportedContent li {
-	list-style-type: none;
-	float: left;
-}
 #navbarSupportedContent ul li a{
 	color: #000;
     text-decoration: none;
@@ -96,7 +87,6 @@ body{
     transition: color 0.3s ease-out;
     background-color: #fff !important;
 }
-
 #search-icon:hover {
     color: #f1896a !important;
     cursor: pointer;
@@ -138,5 +128,14 @@ body{
     margin: 0;
     color: #f1896a !important;
 }
-
-    
+#log-out{
+    font-size: 0.9rem;
+    margin-top: 3px;
+    transition: color 0.3s ease-out;
+    background-color: #fff !important;
+}
+#log-out:hover{
+    color: #f1896a !important;
+    cursor: pointer;
+    background-color: #fff !important;
+}

@@ -19,13 +19,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/4.1.0/cropper.min.css">
 
     <!-- custom css & js-->
-    <link rel="stylesheet" href={% static 'style.css' %}>
-    <link rel="stylesheet" href={% static 'profiles/profile.css' %}>
-    <link rel="stylesheet" href={% static 'posts/post.css' %}>
-
+    <link rel="stylesheet" type="text/css" href={% static 'style.css' %}>
+    <link rel="stylesheet" type="text/css" href={% static 'profiles/profile.css' %}>
+    <link rel="stylesheet" type="text/css" href={% static 'posts/post.css' %}>
+    
     <script src={% static 'main.js' %} defer></script>
     <script src={% static 'profiles/profile.js' %} defer></script>
     <script src={% static 'posts/post.js' %} defer></script>
+    {% block extrahead %}{% endblock %}
+
 
     <!-- font awesome css-->
     <script src="https://kit.fontawesome.com/27743883ae.js" crossorigin="anonymous"></script>

@@ -1,66 +1,64 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block extrahead %}
+    <link rel="stylesheet" href={% static 'profiles/profile.css' %}>
+{% endblock extrahead %}
+
 {% block title %}
     pet profile
 {% endblock title %}
 
 {% block content %}
-<p>
-    <b>My Posts</b>: 
-    {{profile.get_user_posts}}
-</p>
+<!-- Button trigger modal -->
+{% if confirm %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    Your Profile has been Updated
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+</div>
 
-<p>
-    <b>Number of Posts</b>: 
-    {{profile.num_posts}}
-</p>
+{% endif %}
 
-<p>
-    <b>Following Profiles</b>: 
-    {{profile.get_following}}
-</p>
+<button type="button" class="btn btnModal" data-toggle="modal" data-target="#exampleModal">
+    Update Profile
+</button>
 
-<p>
-    <b>Following Profiles List</b>: 
-    {{profile.get_following_list}}
-</p>
-<p>
-    <b>Following Count</b>: 
-    {{profile.get_following_count}}
-</p>
-<p>
-    <b>Followers List</b>: 
-    {{profile.get_followers}}
-</p>
-<p>
-    <b>Followers Count</b>: 
-    {{profile.get_followers_count}}
-</p>
-<p>
-    <b>Feed Posts List</b>: 
-    {{profile.feed_posts}}
-</p>
 
-<p>
-    <b>Pet Follow Suggestions</b>: 
-    {{profile.get_Petfollow_suggestions}}
-</p>
-    
-<p>
-    <b>Veterinarian Follow Suggestions</b>: 
-    {{profile.get_Vetfollow_suggestions}}
-</p>
+<!-- Update modal -->  
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+              Update Your Profile
+            </h5>
+        </div>
+        <div class="modal-body">
+            <div class ="description">
+                <div class ="image content">
+                    <img src = {{profile.avatar.url}}>
+                </div>
+            
+                <div class ="header">
+                    Provide some additional info :
+                </div>
+                <form action="" method="POST" class="form-group" encrypt ="multipart/form-data">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+      </div>
+    </div>
+</div>
 
-<p>
-    <b>Store Follow Suggestions</b>: 
-    {{profile.get_Storefollow_suggestions}}
-</p>
-
-<p>
-    <b>PetLover Follow Suggestions</b>: 
-    {{profile.get_PetLoverfollow_suggestions}}
-</p>
 {% endblock content %}
 
 
