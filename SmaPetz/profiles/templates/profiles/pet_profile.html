@@ -10,6 +10,7 @@
 {% endblock title %}
 
 {% block content %}
+
 <!-- Button trigger modal -->
 {% if confirm %}
 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -18,46 +19,76 @@
       <span aria-hidden="true">&times;</span>
     </button>
 </div>
-
 {% endif %}
 
+<!-- Update profile button -->
 <button type="button" class="btn btnModal" data-toggle="modal" data-target="#exampleModal">
     Update Profile
 </button>
 
 
 <!-- Update modal -->  
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade update" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">
-              Update Your Profile
-            </h5>
+          <h5 class="modal-title" id="exampleModalLabel">Update Your Profile</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
         <div class="modal-body">
-            <div class ="description">
-                <div class ="image content">
-                    <img src = {{profile.avatar.url}}>
-                </div>
-            
-                <div class ="header">
-                    Provide some additional info :
-                </div>
-                <form action="" method="POST" class="form-group" encrypt ="multipart/form-data">
-                    {% csrf_token %}
-                    {{form.as_p}}
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn">Update</button>
-                    </div>
-                </form>
+            <form action="" method="POST" class="form-group" encrypt ="multipart/form-data">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <td rowspan="2"><div class ="image content"><img src = {{profile.avatar.url}}></div></td>
+                    <td>
+                        <div class ="description">Bio :</div>
+                        <div class="col-xs-4">{{form.bio}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class ="description">Address :</div>
+                        <div class="col-xs-4">{{form.address}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class ="description"></div>
+                        <div class="col-xs-4">{{form.avatar}}</div>
+                    </td>
+                    <td>
+                        <div class ="description">Telephone Number :</div>
+                        <div class="col-xs-4">{{form.number}}</div>
+                    </td>
+                </tr>
+                <p>
+                <tr>
+                    <td rowspan="2"> </td>
+                    <td>
+                        <div class ="description">Select Pet Type :</div>
+                        <div class="col-xs-4">{{form.pet_type}}</div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        <div class ="description">Breed :</div>
+                        <div class="col-xs-4">{{form.breed}}</div>
+                    </td>
+                </tr>
+            </table>
             </div>
-        </div>
-        
+            <div class="modal-footer">
+                <button type="button" class="btn btnModal" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btnModal">Save changes</button>
+            </div>
+            </form>
       </div>
     </div>
-</div>
+  </div>
 
 {% endblock content %}
 
