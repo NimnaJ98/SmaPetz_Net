@@ -10,8 +10,9 @@ from .forms import PetModelForm
 
 def profile_test_view(request):
     if request.user.type == "PET":
+        file_data = request.FILES or None
         profile = Pet.objects.get(user=request.user)
-        form = PetModelForm(request.POST or None, request.FILES or None, instance=profile)
+        form = PetModelForm(request.POST or None,file_data, instance=profile)
         confirm = False
 
         if request.method == 'POST':

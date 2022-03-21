@@ -27,3 +27,8 @@
 .modal-dialog{
     border-radius: 25px;
 }
+.container{
+    padding-right: 15px;
+    margin-right: 10px;
+}
+

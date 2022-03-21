@@ -6,7 +6,8 @@ class PetModelForm(forms.ModelForm):
         model = Pet
         fields = {'avatar', 'bio', 'address', 'number','pet_type', 'breed', 'fish_type', 'reptile_type', 'bird_type', 'amphibian_type', 'mammal_type'}
         widgets = {
-          'bio': forms.Textarea(attrs={'rows':2}),
-          'address': forms.Textarea(attrs={'rows':3}),
-          'breed': forms.Textarea(attrs={'rows':1}),
+          'bio': forms.Textarea(attrs={'rows':2, 'class':'form-control'}),
+          'address': forms.Textarea(attrs={'rows':2, 'class':'form-control'}),
+          'breed': forms.Textarea(attrs={'rows':1, 'class':'form-control'}),
+          'number': forms.Textarea(attrs={'rows':1, 'class':'form-control'}),
         }
