@@ -12,7 +12,7 @@ class Post(models.Model):
     caption = models.TextField()
     liked_by = models.ManyToManyField(User, default=None, blank=True, related_name='likes')
     tags = models.CharField(max_length=100, blank=True)
-    author = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    author = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='author')
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
@@ -28,8 +28,30 @@ class Post(models.Model):
     def likes_count(self):
         return self.liked_by.all().count()
 
+    #get the number of comment in a post
     def num_comment(self):
         return self.comment_set.all().count()
+
+    #get the number of reactions in a post
+    def num_reaction(self):
+        return self.reaction_set.all().count()
+    
+    #get the reactions in a post
+    def reaction_value(self):
+        posts = self.author.all()
+        love = angry = surprise = sad = sick = 0
+        for reaction in posts:
+            if reaction.value == 'Love':
+                love += 1
+            elif reaction.value == 'Angry':
+                angry += 1
+            elif reaction.value == 'Surprise':
+                surprise += 1
+            elif reaction.value == 'Sad':
+                sad += 1
+            elif reaction.value == 'Sick':
+                sick += 1
+        return {'Love': love, 'Angry': angry, 'Surprise': surprise, 'Sad': sad, 'Sick':sick}
 
     class Meta:
         ordering =('-created',)
