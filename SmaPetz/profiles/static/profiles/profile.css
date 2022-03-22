@@ -31,4 +31,27 @@
     padding-right: 15px;
     margin-right: 10px;
 }
+.bootstrap-select{
+    border-width: 3px;
+    border-color: #b4d7fd !important;
+    border-radius: 2px;
+}
 
+.card-body img{
+    height: 200px;
+    width: 200px;
+}
+.row a{
+    margin-right: 10px;
+    align-items: center;
+    color: #000 !important;
+    font-size: medium;
+}
+.line{
+    border:none;
+	height: 50px;
+	margin-top: 0;
+	border-bottom: 1px solid #999;
+	box-shadow: 0 20px 20px -20px #333;
+  margin: -50px auto 10px;
+}

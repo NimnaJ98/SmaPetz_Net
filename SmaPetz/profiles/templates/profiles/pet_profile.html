@@ -22,11 +22,36 @@
     </button>
 </div>
 {% endif %}
+<div class="card-lg mr-5">
+  <div class="card-body">
+    <div class = "row">
+      <div class="col-sm-4">
+        <img class="img-fluid mb-3" alt="Responsive image" src={{profile.avatar.url}}>
+      </div>
+      <div class="col-sm-8">
+        <div class ="userDetail ml-4">
+        {{request.user.name}}
+        &nbsp
+        <!-- Update profile button -->
+        <button type="button" class="btn btnModal" data-toggle="modal" data-target="#exampleModal">
+          Update Profile
+        </button>
+      </div>
+        <div class ="titles mt-4">
+          <a href="#" class="badge">{{profile.num_posts}} Posts</a>
+          <a href="#" class="badge">{{profile.get_following_count}} Following</a>
+          <a href="#" class="badge">{{profile.get_followers_count}} Followers</a>
+        </div>
+        <div class ="userDetail mt-4">
+          {{profile.bio}} <br>
+          A {{profile.breed}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr class="line">
+</div>
 
-<!-- Update profile button -->
-<button type="button" class="btn btnModal" data-toggle="modal" data-target="#exampleModal">
-    Update Profile
-</button>
 
 
 <!-- Update modal -->  
@@ -52,6 +77,7 @@
                   <div class ="description mb-2">Address : {{form.address}}</div>
                   <div class ="description">Telephone Number : {{form.number}}</div>
                   <div class ="description mt-3" id='chooseType'>Pet Type : {{form.pet_type}}</div>
+                  <div class ="description">Breed : {{form.breed}}</div>
                 </div>
               </div>
               <div class="row">

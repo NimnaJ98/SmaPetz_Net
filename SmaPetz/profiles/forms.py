@@ -10,4 +10,10 @@ class PetModelForm(forms.ModelForm):
           'address': forms.Textarea(attrs={'rows':2, 'class':'form-control'}),
           'breed': forms.Textarea(attrs={'rows':1, 'class':'form-control'}),
           'number': forms.Textarea(attrs={'rows':1, 'class':'form-control'}),
+          'pet_type': forms.Select(attrs={'class': 'bootstrap-select'}),
+          'fish_type': forms.Select(attrs={'class': 'bootstrap-select'}),
+          'reptile_type': forms.Select(attrs={'class': 'bootstrap-select'}),
+          'bird_type': forms.Select(attrs={'class': 'bootstrap-select'}),
+          'amphibian_type': forms.Select(attrs={'class': 'bootstrap-select'}),
+          'mammal_type': forms.Select(attrs={'class': 'bootstrap-select'}),
         }
