@@ -12,7 +12,7 @@ class Post(models.Model):
     caption = models.TextField()
     liked_by = models.ManyToManyField(User, default=None, blank=True, related_name='likes')
     tags = models.CharField(max_length=100, blank=True)
-    author = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='author')
+    author = models.ForeignKey(to=User, on_delete=models.CASCADE)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
