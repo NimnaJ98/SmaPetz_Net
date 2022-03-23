@@ -57,20 +57,6 @@ class ProfileManager(models.Manager):
     def get_followers_count(self):
         return len(self.get_followers())
 
-    #to get the posts of each user & their followers
-    def feed_posts(self):
-        userPosts = self.get_user_posts()
-        following =self.get_following_list()
-        posts =[]
-        qs = None
-        for f in following:
-            followingPosts =  f.post_set.all()
-            posts.append(followingPosts)
-        posts.append(userPosts)
-        if len(posts) > 0:
-            qs = sorted(chain(*posts), reverse=True, key=lambda obj:obj.created)
-        return qs
-
     #to get follow suggestions
     def get_Petfollow_suggestions(self):
         if self.user.type == "PET":
@@ -111,6 +97,36 @@ class ProfileManager(models.Manager):
         availablePetLovers = [p.user for p in petLovers if p.user not in followers_list]
         random.shuffle(availablePetLovers)
         return availablePetLovers[:3]
+
+    #to get the posts of each user & their followers
+    def feed_posts(self):
+        userPosts = self.get_user_posts()
+        following =self.get_following_list()
+        petsuggestions = self.get_Petfollow_suggestions()
+        vetsuggestions = self.get_Vetfollow_suggestions()
+        storesuggestions = self.get_Storefollow_suggestions()
+        petLoversuggestions = self.get_PetLoverfollow_suggestions()
+        posts =[]
+        qs = None
+        for f in following:
+            followingPosts =  f.post_set.all()
+            posts.append(followingPosts)
+        for p in petsuggestions:
+            petPosts = p.post_set.all()
+            posts.append(petPosts)
+        for v in vetsuggestions:
+            vetPosts = v.post_set.all()
+            posts.append(vetPosts)
+        for s in storesuggestions:
+            storePosts = s.post_set.all()
+            posts.append(storePosts)
+        for l in petLoversuggestions:
+            petLoverPosts = l.post_set.all()
+            posts.append(petLoverPosts)
+        posts.append(userPosts)
+        if len(posts) > 0:
+            qs = sorted(chain(*posts), reverse=True, key=lambda obj:obj.created)
+        return qs
 
 # abstract profile model
 class Profile(models.Model):

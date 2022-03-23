@@ -11,22 +11,30 @@
 {% endblock title %}
 
 {% block content %}
-    <div id ="test">
+    {% comment %} <div id ="test">
         {{hello}}  
-    </div> 
+    </div>  {% endcomment %}
 
     <!--display posts-->  
-    <div id ="posts">
-        {% for obj in qs %}
-            {{obj.caption}} <br>
-        {% endfor %} 
+<div class="container">
+    <div class="row">
+        <div class="col-8">
+                {% for obj in feed %}
+                    {% if obj in written %}
+                        <img src={{post.picture.url}} class="card-img-top" alt="...">
+                    {% endif %}
+                    <div class="card">                            
+                        <div class="card-body">{{obj.caption}}</div>
+                        <div class="card-body"><button class = "Like">Lile</button></div>
+                    </div>
+                {% endfor %}            
+        </div>
+        <div class="col-4">
+            {{profile.feed_posts}} <br>
+            {{written}}
+            {{profile.get_Petfollow_suggestions}}
+        </div>
     </div>
-    <br>
-    <div id ="posts2">
-        
-    </div>
-    <div id ="spinner-box">
-        <div class="spinner-border" role="status"></div> 
-    </div> 
+</div>
 {% endblock content %}
     
