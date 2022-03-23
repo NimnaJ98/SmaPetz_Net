@@ -1,10 +1,10 @@
 from django.urls import path
-from .views import home_view
+from .views import home_view, reactions
 
 app_name = 'posts'
 
 urlpatterns = [
     path('', home_view, name='home-view'),
-
+    path('reacted/', reactions, name='like-post-view'),
 
 ]

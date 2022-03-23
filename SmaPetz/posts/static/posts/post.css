@@ -1,0 +1,18 @@
+.btnPost{
+    background-color: blue !important;
+}
+
+.col-8 div{
+    background-color: #fff !important;
+    border-radius: 25px !important;
+    margin: 10px;
+}
+
+.card-body-reactions{
+    align-items: center;
+    align-self: flex-end;
+}
+.reactions{
+    border-radius: 25px !important;
+    background-color: #fff !important;
+}

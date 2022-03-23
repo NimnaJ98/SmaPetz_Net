@@ -4,6 +4,7 @@
 {% block scripts %}    
     <link rel="stylesheet" href={% static 'posts/post.css' %}>
     <script src={% static 'posts/post.js' %} defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 {% endblock scripts %}
 
 {% block title %}
@@ -19,19 +20,37 @@
 <div class="container">
     <div class="row">
         <div class="col-8">
-                {% for obj in feed %}
-                    {% if obj in written %}
-                        <img src={{post.picture.url}} class="card-img-top" alt="...">
-                    {% endif %}
-                    <div class="card">                            
+            {% for obj in feed %}
+                    <div class="card">  
+                        <div class ="card-title">
+                            <img class="img-fluid mb-3" alt="Responsive image" src={{obj.author.avatar.url}}>
+                            {{obj.author.name}}
+                        </div>
+                        {% if obj in written %}
+                            <img src={{obj.picture.url}} class="card-img-top" alt="...">
+                        {% elif obj in video %}
+                            <video ontrols>
+                                <source src={{obj.video.url}} type="video/mp4"></source>
+                            </video>
+                        {% endif %}                       
                         <div class="card-body">{{obj.caption}}</div>
-                        <div class="card-body"><button class = "Like">Lile</button></div>
+                        <div class="card-body-reactions">
+                            <a href="#"><img src="{% static "images/love.png"  %}" class="reactions" style="height: 40px; width:40px;"></a>
+                            <a href="#"><img src="{% static "images/angry.png"  %}" class="reactions" style="height: 40px; width:40px;"></a>
+                            <a href="#"><img src="{% static "images/surprise.png"  %}" class="reactions" style="height: 40px; width:40px;"></a>
+                            <a href="#"><img src="{% static "images/sad.png"  %}" class="reactions" style="height: 40px; width:40px;"></a>
+                            <a href="#"><img src="{% static "images/sick.png"  %}" class="reactions" style="height: 40px; width:40px;"></a>
+                        </div>
                     </div>
+                    <br>
                 {% endfor %}            
         </div>
         <div class="col-4">
-            {{profile.feed_posts}} <br>
-            {{written}}
+            <form action="" method="POST" class ="form-group" encrypt="multipart/form-data">
+                {% csrf_token %}
+                {{post_form}}
+                <button type='submit' class='btn'>Create Post</button>
+            </form>
             {{profile.get_Petfollow_suggestions}}
         </div>
     </div>
