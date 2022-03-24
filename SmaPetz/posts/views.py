@@ -1,11 +1,9 @@
-from asyncio.windows_events import NULL
 import django
 from django.shortcuts import render, redirect
 from .models import Post, Reaction
 from profiles.models import Pet, Profile, Veterinarian, Store, Pet_Lover, ProfileManager
-from django.forms import modelformset_factory
 from users.models import User
-from .forms  import postModelForm
+from .forms  import commentModelForm, postModelForm
 from django.http import JsonResponse
 from django.core import serializers
 from django.http import HttpResponseRedirect
@@ -25,15 +23,29 @@ def home_view(request):
 
         #post form and comment form
         if request.method == 'POST':
-            post_form = postModelForm(request.POST, request.FILES)
-            
-            if post_form.is_valid():
-                instance = post_form.save(commit=False)
-                instance.author = request.user 
-                instance.save() 
-            return HttpResponseRedirect("/")
+            post_form = postModelForm()
+            comment_form = commentModelForm()
+
+            if 'post_form_submit' in request.POST:
+                post_form = postModelForm(request.POST, request.FILES)
+                if post_form.is_valid():
+                    instance = post_form.save(commit=False)
+                    instance.author = request.user 
+                    instance.save() 
+                return HttpResponseRedirect("/")
+
+            if 'comment_form_submit' in request.POST:
+                comment_form = commentModelForm(request.POST)
+                if comment_form.is_valid():
+                    instance = comment_form.save(commit = False)
+                    instance.user = request.user
+                    instance.post = Post.objects.get(id=request.POST.get('post_id'))
+                    instance.save()
+                return HttpResponseRedirect("/")
         else:
             post_form = postModelForm(request.POST or None)
+            comment_form = commentModelForm(request.POST or None)
+
 
 
         context = {
@@ -44,6 +56,7 @@ def home_view(request):
             'feed':feed,
             'video':video,
             'post_form':post_form,
+            'comment_form':comment_form
     }
     elif request.user.type == "PET_LOVER":
         profile = Veterinarian.objects.get(user=request.user)
