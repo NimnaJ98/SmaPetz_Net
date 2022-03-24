@@ -3,6 +3,14 @@
     cursor: pointer;
     background-color: #f1896a !important;
 }
+.btnUpdate{
+    color: #fff !important;
+    cursor: pointer;
+    background: linear-gradient(-90deg, #EE7752, #ee9d99) !important;
+    width: 150px;
+    border-radius: 50px;
+    margin-left: 25px;
+}
 .alert-success{
     border-color: #f1896a;
     color: #f1896a !important;

@@ -15,5 +15,5 @@ class PetModelForm(forms.ModelForm):
           'reptile_type': forms.Select(attrs={'class': 'bootstrap-select'}),
           'bird_type': forms.Select(attrs={'class': 'bootstrap-select'}),
           'amphibian_type': forms.Select(attrs={'class': 'bootstrap-select'}),
-          'mammal_type': forms.Select(attrs={'class': 'bootstrap-select'}),
+          'mammal_type': forms.Select(attrs={'class': 'bootstrap-select'}), 
         }

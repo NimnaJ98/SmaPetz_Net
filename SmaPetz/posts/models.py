@@ -7,8 +7,8 @@ from django.core.validators import FileExtensionValidator
 
 
 class Post(models.Model):
-    picture = models.ImageField(upload_to='images', validators=[FileExtensionValidator(['png', 'jpg', 'jpeg'])], blank= True)
-    video =  models.FileField(upload_to='videos', blank= True, validators=[fileSize, FileExtensionValidator(['mp4'])])
+    picture = models.ImageField(upload_to='images/', null=True , blank= True)
+    video =  models.FileField(upload_to='videos/', blank= True, validators=[fileSize, FileExtensionValidator(['mp4'])])
     caption = models.TextField()
     liked_by = models.ManyToManyField(User, default=None, blank=True, related_name='likes')
     tags = models.CharField(max_length=100, blank=True)

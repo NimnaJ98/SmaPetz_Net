@@ -46,12 +46,38 @@
                 {% endfor %}            
         </div>
         <div class="col-4">
-            <form action="" method="POST" class ="form-group" encrypt="multipart/form-data">
-                {% csrf_token %}
-                {{post_form}}
-                <button type='submit' class='btn'>Create Post</button>
-            </form>
-            {{profile.get_Petfollow_suggestions}}
+                        <!-- Button trigger modal -->
+            <button type="button" class="btn btnPost" data-toggle="modal" data-target="#exampleModal">
+                Add a Post
+            </button>
+            
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Create a Post</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <form action="" method="POST" class ="form-group" enctype="multipart/form-data">
+                        <div class="modal-body">
+                            {% csrf_token %}
+                            {{post_form.as_p}}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btnModal" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btnModal">Add</button>
+                        </div>
+                    </form>
+                    
+                    </div>
+                </div>
+            </div>
+            <div class ="suggestions">
+                {{profile.get_Petfollow_suggestions}}
+            </div>
         </div>
     </div>
 </div>
