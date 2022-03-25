@@ -12,19 +12,30 @@
 {% endblock title %}
 
 {% block content %}
-    {% comment %} <div id ="test">
-        {{hello}}  
-    </div>  {% endcomment %}
 
     <!--display posts-->  
 <div class="container">
     <div class="row">
         <div class="col-8">
             {% for obj in feed %}
+
                     <div class="card">  
                         <div class ="card-title">
-                            <img class="img-fluid mb-3" alt="Responsive image" src={{obj.author.avatar.url}}>
-                            {{obj.author.name}}
+                            <div class ="card-top flex-contianer">
+                                {% comment %} still should add the avatars for the non user profiles {% endcomment %}
+                                {% ifequal request.user obj.author  %}
+                                    <img class="img-fluid p-2 mr-auto" alt="Responsive image" src={{profile.avatar.url}}>  
+                                {% else %}
+                                {% comment %} not working {% endcomment %}
+                                    <img class="img-fluid p-2 mr-auto" alt="Responsive image" src={{obj.author.avatar.url}>
+                                {% endifequal %}
+                            
+                                <b class="username p-2 mr-auto">{{obj.author.name}} - {{obj.created|timesince}} ago </b>
+                                    {% ifequal request.user obj.author  %} 
+                                        <a href=""><button class="btn btnModal" style="margin-left: 200px;">Update</button></a>
+                                        <a href=""><button class="btn btnModal">Delete</button></a>
+                                    {% endifequal %}    
+                            </div>
                         </div>
                         {% if obj in written %}
                             <img src={{obj.picture.url}} class="card-img-top" alt="...">
@@ -44,13 +55,24 @@
                             <a href="#"><img src="{% static "images/sad.png"  %}" class="reactions" style="height: 40px; width:40px;"></a>
                             <a href="#"><img src="{% static "images/sick.png"  %}" class="reactions" style="height: 40px; width:40px;"></a>
                         </div>
+
+                        <!-- Comments -->
                         <div class ="card-body-comment">
-                            <div>
-                                {% if obj.comment_set.all %}
-                                    {% for c in obj.comment_set.all %}
-                                        <p>{{c.body}}</p>
-                                    {% endfor %}
-                                {% endif %}
+                            <i class="fa-solid fa-comment ml-5"></i>
+                            <span> {{ obj.num_comment}} comments</span>
+                            <div class="extra content">
+                                <button class="btn cmtbutton mb-5" style="margin-bottom:5px !important;">show / hide comments</button>
+                                <div class="comment-box" style="display: none !important;">
+                                    {% if obj.comment_set.all %}
+                                        {% for c in obj.comment_set.all %}
+                                            <div class="segment mb-5" style="margin-bottom:5px !important;">
+                                                <img class="img-fluid p-2 mr-auto" src={{c.user.avatar.url}}>
+                                                <span>{{ c.user }}</span>
+                                                <div class='mt-5'>{{ c.body }}</div>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
                             </div>
                             <form action="" method="POST" class="form-group">
                                 {% csrf_token %}
@@ -59,10 +81,14 @@
                                 <button type="submit" class="btn btnModal" name="comment_form_submit">Comment</button>
                             </form>
                         </div>
+
+                        
                     </div>
                     <br>
                 {% endfor %}            
         </div>
+
+
         <div class="col-4">
                         <!-- Button trigger modal -->
             <button type="button" class="btn btnPost" data-toggle="modal" data-target="#exampleModal">
@@ -95,6 +121,7 @@
             </div>
             <div class ="suggestions">
                 {{profile.get_Petfollow_suggestions}}
+                {{profile.feed_posts_profiles.author}}
             </div>
         </div>
     </div>

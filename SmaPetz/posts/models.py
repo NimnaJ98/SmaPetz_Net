@@ -19,7 +19,6 @@ class Post(models.Model):
     def __str__(self):
         return str(self.caption)
 
-
     #get the users who liked a post
     def get_liked(self):
         return self.liked_by.all()

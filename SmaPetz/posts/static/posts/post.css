@@ -4,6 +4,28 @@
     border-radius: 25px !important;
     margin: 10px;
 }
+.flex-contianer{
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+}
+.flex-contianer img{
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    background-color: #fff !important;
+}
+.username{
+    background-color: #fff !important;
+}
+.flex-contianer button{
+    background: transparent !important;
+    border-color: #ee9d99 !important;
+    border-width: 2px;
+    color: #000 !important;
+    align-self: flex-end !important;
+    
+}
 
 .card-body-reactions{
     align-items: center;
@@ -28,3 +50,7 @@
     margin: 50px;
 }
 
+.card-top-btn{
+    align-self: flex-end !important;
+
+}
