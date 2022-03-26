@@ -17,7 +17,15 @@ class Post(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return str(self.caption)
+        return str(self.author)
+
+    #get the authors
+    def get_author(self):
+        return self.author.all()
+
+    def get_author_list(self):
+        author_list = [a for a in self.get_author()]
+        return author_list
 
     #get the users who liked a post
     def get_liked(self):

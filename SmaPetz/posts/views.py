@@ -16,7 +16,7 @@ def home_view(request):
     qs = Post.objects.all()
     if request.user.type == "PET":
         profile = Pet.objects.get(user=request.user)
-        post =  Post.objects.filter(author = request.user)
+        post =  Post.objects.all()
         feed = Pet.feed_posts(self=request.user.pet)
         written = Post.objects.exclude(picture="")
         video = Post.objects.exclude(video="")
@@ -42,7 +42,7 @@ def home_view(request):
                     instance.user = request.user
                     instance.post = Post.objects.get(id=request.POST.get('post_id'))
                     instance.save()
-                
+                return HttpResponseRedirect("/")
         else:
             post_form = postModelForm(request.POST or None)
             comment_form = commentModelForm(request.POST or None)

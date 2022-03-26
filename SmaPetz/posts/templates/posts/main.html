@@ -12,119 +12,115 @@
 {% endblock title %}
 
 {% block content %}
-
-    <!--display posts-->  
-<div class="container">
+<div class="container pl-pr-2">
     <div class="row">
         <div class="col-8">
             {% for obj in feed %}
-
-                    <div class="card">  
-                        <div class ="card-title">
-                            <div class ="card-top flex-contianer">
-                                {% comment %} still should add the avatars for the non user profiles {% endcomment %}
-                                {% ifequal request.user obj.author  %}
-                                    <img class="img-fluid p-2 mr-auto" alt="Responsive image" src={{profile.avatar.url}}>  
-                                {% else %}
-                                {% comment %} not working {% endcomment %}
-                                    <img class="img-fluid p-2 mr-auto" alt="Responsive image" src={{obj.author.avatar.url}>
-                                {% endifequal %}
-                            
-                                <b class="username p-2 mr-auto">{{obj.author.name}} - {{obj.created|timesince}} ago </b>
-                                    {% ifequal request.user obj.author  %} 
-                                        <a href=""><button class="btn btnModal" style="margin-left: 200px;">Update</button></a>
-                                        <a href=""><button class="btn btnModal">Delete</button></a>
-                                    {% endifequal %}    
-                            </div>
-                        </div>
-                        {% if obj in written %}
-                            <img src={{obj.picture.url}} class="card-img-top" alt="...">
-                        {% elif obj in video %}
-                            <video ontrols>
-                                <source src={{obj.video.url}} type="video/mp4"></source>
-                            </video>
-                        {% endif %}                       
-                        <div class="card-body">
-                            <b>{{obj.caption}}</b><br><br>
-                            {{obj.tags}}
-                        </div>
-                        <div class="card-body-reactions">
-                            <a href="#"><img src="{% static "images/love.png"  %}" class="reactions" style="height: 40px; width:40px;"></a>
-                            <a href="#"><img src="{% static "images/angry.png"  %}" class="reactions" style="height: 40px; width:40px;"></a>
-                            <a href="#"><img src="{% static "images/surprise.png"  %}" class="reactions" style="height: 40px; width:40px;"></a>
-                            <a href="#"><img src="{% static "images/sad.png"  %}" class="reactions" style="height: 40px; width:40px;"></a>
-                            <a href="#"><img src="{% static "images/sick.png"  %}" class="reactions" style="height: 40px; width:40px;"></a>
-                        </div>
-
-                        <!-- Comments -->
-                        <div class ="card-body-comment">
-                            <i class="fa-solid fa-comment ml-5"></i>
-                            <span> {{ obj.num_comment}} comments</span>
-                            <div class="extra content">
-                                <button class="btn cmtbutton mb-5" style="margin-bottom:5px !important;">show / hide comments</button>
-                                <div class="comment-box" style="display: none !important;">
-                                    {% if obj.comment_set.all %}
-                                        {% for c in obj.comment_set.all %}
-                                            <div class="segment mb-5" style="margin-bottom:5px !important;">
-                                                <img class="img-fluid p-2 mr-auto" src={{c.user.avatar.url}}>
-                                                <span>{{ c.user }}</span>
-                                                <div class='mt-5'>{{ c.body }}</div>
-                                            </div>
-                                        {% endfor %}
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <form action="" method="POST" class="form-group">
-                                {% csrf_token %}
-                                {{comment_form.as_p}}
-                                <input type ="hidden" name="post_id" value={{obj.id}}>
-                                <button type="submit" class="btn btnModal" name="comment_form_submit">Comment</button>
-                            </form>
-                        </div>
-
-                        
+            <div class="card">
+                <div class ="card-title clearfix">
+                    {% ifequal request.user obj.author  %}
+                        <img class="img-fluid avatar mr-3" alt="Responsive image" src={{profile.avatar.url}}>  
+                    {% else %}
+                        {% comment %} not working {% endcomment %}
+                        <img class="img-fluid avatar mr-3" alt="Responsive image" src={{obj.author.profile.avatar.url}>
+                    {% endifequal %}
+                    {{obj.author.name}} - {{obj.created|timesince}} ago 
+                    {% ifequal request.user obj.author  %} 
+                        <a href=""><button class="btn btn-title float-right ml-3 mr-4">Delete</button></a>
+                        <a href=""><button class="btn btn-title float-right ml-3">Update</button></a>
+                    {% endifequal %} 
+                </div>
+                {% if obj in written %}
+                    <img src={{obj.picture.url}} class="card-img-top" alt="...">
+                {% elif obj in video %}
+                    <video ontrols>
+                        <source src={{obj.video.url}} type="video/mp4"></source>
+                    </video>
+                {% endif %}
+                <div class="card-body">
+                    <h6 class="card-title-caption">{{obj.caption}}</h5>
+                    <p class="card-text">{{obj.tags}}</p>
+                    <!-- Reactions -->
+                    <div class="card-body-reactions float-right">
+                        <a href="#"><img src="{% static "images/love.png"  %}" class="reactions" style="height: 40px; width:40px;"></a>
+                        <a href="#"><img src="{% static "images/angry.png"  %}" class="reactions" style="height: 40px; width:40px;"></a>
+                        <a href="#"><img src="{% static "images/surprise.png"  %}" class="reactions" style="height: 40px; width:40px;"></a>
+                        <a href="#"><img src="{% static "images/sad.png"  %}" class="reactions" style="height: 40px; width:40px;"></a>
+                        <a href="#"><img src="{% static "images/sick.png"  %}" class="reactions" style="height: 40px; width:40px;"></a>
                     </div>
-                    <br>
-                {% endfor %}            
+                    <!-- Comments -->
+                    <div class ="card-body-comment">
+                        <i class="fa-solid fa-comment ml-5"></i>
+                        <span> {{ obj.num_comment}} comments</span>
+                        <div class="extra content">
+                            <button class="btn cmtbutton mb-5" style="margin-bottom:5px !important;">show / hide comments</button>
+                            <div class="comment-box" style="display: none !important;">
+                                {% if obj.comment_set.all %}
+                                    {% for c in obj.comment_set.all %}
+                                        <div class="segment mb-5" style="margin-bottom:5px !important;">
+                                            <img class="img-fluid p-2 mr-auto" src={{c.user.avatar.url}}>
+                                            <span>{{ c.user }}</span>
+                                            <div class='mt-5'>{{ c.body }}</div>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <form action="" method="POST" class="form-group">
+                            {% csrf_token %}
+                            {{comment_form.as_p}}
+                            <input type ="hidden" name="post_id" value={{obj.id}}>
+                            <button type="submit" class="btn btnModal" name="comment_form_submit">Comment</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
         </div>
 
 
         <div class="col-4">
-                        <!-- Button trigger modal -->
-            <button type="button" class="btn btnPost" data-toggle="modal" data-target="#exampleModal">
+            <!-- Button trigger Post Modal -->
+            <button type="button" class="btn btn-post mt-3" data-toggle="modal" data-target="#exampleModal">
                 Add a Post
             </button>
-            
-            <!-- Modal -->
+
+            <!-- Friend Suggestions -->
+            <div class="card suggestions mt-5">
+                <div class="card-body">
+                    {{profile.get_Petfollow_suggestions}}<br>
+                    {{profile.get_Vetfollow_suggestions}}<br>
+                    {{profile.get_Storefollow_suggestions}}<br>
+                    {{profile.get_PetLoverfollow_suggestions}}<br>
+                    {{post.get_author_list}}
+                </div>
+            </div>
+
+            <!-- Post Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Create a Post</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                            <h5 class="modal-title" id="exampleModalLabel">Create a Post</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
                         <form action="" method="POST" class ="form-group" enctype="multipart/form-data">
-                        <div class="modal-body">
-                            {% csrf_token %}
-                            {{post_form.as_p}}
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btnModal" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btnModal"  name="post_form_submit">Add</button>
-                        </div>
-                    </form>
-                    
+                            <div class="modal-body">
+                                {% csrf_token %}
+                                {{post_form.as_p}}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btnModal" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btnModal"  name="post_form_submit">Add</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-            </div>
-            <div class ="suggestions">
-                {{profile.get_Petfollow_suggestions}}
-                {{profile.feed_posts_profiles.author}}
             </div>
         </div>
     </div>
 </div>
+
 {% endblock content %}
-    
