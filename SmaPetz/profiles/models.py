@@ -133,7 +133,6 @@ class ProfileManager(models.Manager):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user')
     background = models.ImageField(upload_to='backgrounds', default='background.png')
-    avatar = models.ImageField(upload_to='avatars')
     following = models.ManyToManyField(User, related_name='following', blank=True)
     bio = models.TextField(default="no bio...", blank=True, max_length=100)
     address = models.TextField(max_length=100, blank=True)

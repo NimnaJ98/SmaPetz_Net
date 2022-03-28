@@ -1,13 +1,15 @@
+from pyexpat import model
+from django.contrib import messages
 import django
 from django.shortcuts import render, redirect
-from matplotlib.style import use
+from django.urls import reverse_lazy
+from flask import request
 from .models import Post, Reaction
 from profiles.models import Pet, Profile, Veterinarian, Store, Pet_Lover, ProfileManager
 from users.models import User
 from .forms  import commentModelForm, postModelForm
-from django.http import JsonResponse
-from django.core import serializers
 from django.http import HttpResponseRedirect
+from django.views.generic import UpdateView, DeleteView
 
 # Create your views here.
 
@@ -21,6 +23,7 @@ def home_view(request):
         written = Post.objects.exclude(picture="")
         video = Post.objects.exclude(video="")
         followers = Pet.get_following_list(self=request.user.pet)
+        veterinarian = Veterinarian.objects.all()
 
         #post form and comment form
         if request.method == 'POST':
@@ -58,6 +61,7 @@ def home_view(request):
             'video':video,
             'post_form':post_form,
             'comment_form':comment_form,
+            'veterinarian':veterinarian
     }
     elif request.user.type == "PET_LOVER":
         profile = Veterinarian.objects.get(user=request.user)
@@ -99,5 +103,28 @@ def reactions(request):
 
     return redirect('posts:home-view')
 
+class PostDeleteView(DeleteView):
+    model = Post
+    template_name = 'posts/confirm_del.html'
+    success_url = reverse_lazy('posts:home-view')
+
+    def get_object(self, *args, **kwargs):
+        pk = self.kwargs.get('pk')
+        obj = Post.objects.get(pk=pk)
+        if not obj.author == self.request.user:
+            messages.warning(self.request, 'You need to be the author to delete the post!')
+        return obj
 
 
+class PostUpdateView(UpdateView):
+    form_class = postModelForm
+    model = Post
+    template_name = 'posts/update.html'
+    success_url = reverse_lazy('posts:home-view')
+
+    def form_valid(self, form):
+        if form.instance.author == self.request.user:
+            return super().form_valid(form)
+        else:
+            form.add_error(None, "You need to be the author to update the post!")
+            return super().form_invalid(form)

@@ -21,7 +21,7 @@ class Post(models.Model):
 
     #get the authors
     def get_author(self):
-        return self.author.all()
+        return self.author.all().count()
 
     def get_author_list(self):
         author_list = [a for a in self.get_author()]

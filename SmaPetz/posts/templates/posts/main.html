@@ -5,6 +5,7 @@
     <link rel="stylesheet" href={% static 'posts/post.css' %}>
     <script src={% static 'posts/post.js' %} defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    
 {% endblock scripts %}
 
 {% block title %}
@@ -22,12 +23,22 @@
                         <img class="img-fluid avatar mr-3" alt="Responsive image" src={{profile.avatar.url}}>  
                     {% else %}
                         {% comment %} not working {% endcomment %}
-                        <img class="img-fluid avatar mr-3" alt="Responsive image" src={{obj.author.profile.avatar.url}>
+                        <input type ="text" name="post_author" value={{obj.author.type}}>
+                        {% ifequal obj.author.type 'VET' %}
+                            <p>vet</p>
+                            <img class="img-fluid avatar mr-3" alt="Responsive image" src={{obj.veterinarian.avatar.url}}>
+                        {% else %}
+                            {% ifequal obj.author.type 'STORE' %}
+                                <p>store</p>
+                                <img class="img-fluid avatar mr-3" alt="Responsive image" src={{obj.author.avatar.url}>
+                            {% endifequal %}
+                        {% endifequal %}
+                        
                     {% endifequal %}
                     {{obj.author.name}} - {{obj.created|timesince}} ago 
                     {% ifequal request.user obj.author  %} 
-                        <a href=""><button class="btn btn-title float-right ml-3 mr-4">Delete</button></a>
-                        <a href=""><button class="btn btn-title float-right ml-3">Update</button></a>
+                        <a href="{% url 'posts:post-delete' obj.pk %}"><button class="btn btn-title float-right ml-3 mr-4">Delete</button></a>
+                        <a href="{% url 'posts:post-update' obj.pk %}"><button class="btn btn-title float-right ml-3">Update</button></a>
                     {% endifequal %} 
                 </div>
                 {% if obj in written %}
@@ -58,7 +69,7 @@
                                 {% if obj.comment_set.all %}
                                     {% for c in obj.comment_set.all %}
                                         <div class="segment mb-5" style="margin-bottom:5px !important;">
-                                            <img class="img-fluid p-2 mr-auto" src={{c.user.avatar.url}}>
+                                            <img class="img-fluid cmtavatar p-2" src={{c.user.avatar.url}}>
                                             <span>{{ c.user }}</span>
                                             <div class='mt-5'>{{ c.body }}</div>
                                         </div>
@@ -91,8 +102,8 @@
                     {{profile.get_Petfollow_suggestions}}<br>
                     {{profile.get_Vetfollow_suggestions}}<br>
                     {{profile.get_Storefollow_suggestions}}<br>
-                    {{profile.get_PetLoverfollow_suggestions}}<br>
-                    {{post.get_author_list}}
+                    {{profile.get_PetLoverfollow_suggestions}}<br><br>
+
                 </div>
             </div>
 

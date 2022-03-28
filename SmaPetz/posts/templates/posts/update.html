@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}
+update post
+{% endblock title %}
+
+{% block content %}
+<div class="modal-update">
+        <h3 class="modal-title">Update Post</h3>
+        <hr class="mb-4">
+        <form action="" method="post" class ="form-group" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button type="submit" class="btn btnModal mt-3">Update</button>
+        </form>
+</div>
+{% endblock content %}
+

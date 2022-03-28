@@ -33,3 +33,16 @@
 .reactions{
     background-color: #fff !important;
 }
+.segment img{
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    background-color: #fff !important;
+    margin: 3px !important;
+}
+.modal-update{
+    border-radius: 15px;
+    background: #fff !important;
+    width: fit-content;
+    align-self: center;
+}
