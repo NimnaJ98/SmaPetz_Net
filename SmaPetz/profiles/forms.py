@@ -17,3 +17,35 @@ class PetModelForm(forms.ModelForm):
           'amphibian_type': forms.Select(attrs={'class': 'bootstrap-select'}),
           'mammal_type': forms.Select(attrs={'class': 'bootstrap-select'}), 
         }
+
+class VeterinarianModelForm(forms.ModelForm):
+    class Meta:
+        model = Veterinarian
+        fields = {'avatar', 'bio', 'address', 'number','education'}
+        widgets = {
+          'bio': forms.Textarea(attrs={'rows':2, 'class':'form-control'}),
+          'address': forms.Textarea(attrs={'rows':2, 'class':'form-control'}),
+          'education': forms.Textarea(attrs={'rows':2, 'class':'form-control'}),
+          'number': forms.Textarea(attrs={'rows':1, 'class':'form-control'}),
+        }
+
+class StoreModelForm(forms.ModelForm):
+    class Meta:
+        model = Store
+        fields = {'avatar', 'bio', 'address', 'number','store_type'}
+        widgets = {
+          'bio': forms.Textarea(attrs={'rows':2, 'class':'form-control'}),
+          'address': forms.Textarea(attrs={'rows':2, 'class':'form-control'}),
+          'number': forms.Textarea(attrs={'rows':1, 'class':'form-control'}),
+          'store_type': forms.Select(attrs={'class': 'bootstrap-select'}),
+        }
+
+class PetLoverModelForm(forms.ModelForm):
+    class Meta:
+        model = Pet_Lover
+        fields = {'avatar', 'bio', 'address', 'number'}
+        widgets = {
+          'bio': forms.Textarea(attrs={'rows':2, 'class':'form-control'}),
+          'address': forms.Textarea(attrs={'rows':2, 'class':'form-control'}),
+          'number': forms.Textarea(attrs={'rows':1, 'class':'form-control'}),
+        }

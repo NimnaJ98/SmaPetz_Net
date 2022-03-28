@@ -1,11 +1,12 @@
 from ast import Lambda
 from itertools import chain
 from django.db import models
-from matplotlib.style import available
+from django.dispatch import receiver
 from users.models import User
 from posts.models import Post
 from phonenumber_field.modelfields import PhoneNumberField
 import random
+from django.db.models import Q
 
 # profile manager
 class ProfileManager(models.Manager):
@@ -98,6 +99,45 @@ class ProfileManager(models.Manager):
         availablePetLovers = [p.user for p in petLovers if p.user not in followers_list]
         random.shuffle(availablePetLovers)
         return availablePetLovers[:3]
+
+    def get_profiles_to_request(self, sender):
+        pets = Pet.objects.all().exclude(user=sender)
+        vets = Veterinarian.objects.all().exclude(user=sender)
+        stores = Store.objects.all().exclude(user=sender)
+        pet_lovers = Pet_Lover.objects.all().exclude(user=sender)
+        if self.user.type == "PET":
+            profile = Pet.objects.get(user=sender)
+        elif self.user.type == "VET":
+            profile = Veterinarian.objects.all(user=sender)
+        elif self.user.type == "STORE":
+            profile = Store.objects.all(user=sender)
+        elif self.user.type == "PET_LOVER":
+            profile = Pet_Lover.objects.all(user=sender)
+        
+        qs = FriendRequest.objects.filter(Q(sender=profile) | Q(receiver=profile))
+        print(qs)
+        accepted = []
+        for friend in qs:
+            if friend.status == 'accepted':
+                accepted.append(friend.receiver)
+                accepted.append(friend.sender)
+        print(accepted)
+
+        availablePets = [profile for profile in pets if profile not in accepted]
+        availableVets = [profile for profile in vets if profile not in accepted]
+        availableStores = [profile for profile in stores if profile not in accepted]
+        availableLovers = [profile for profile in pet_lovers if profile not in accepted]
+
+        return availablePets, availableVets, availableStores, availableLovers
+
+    def get_all_profiles(self, me):
+        pets = Pet.objects.all().exclude(user=me)
+        vets = Veterinarian.objects.all().exclude(user=me)
+        stores = Store.objects.all().exclude(user=me)
+        pet_lovers = Pet_Lover.objects.all().exclude(user=me)
+
+        return pets, vets, stores,pet_lovers
+
 
     #to get the posts of each user & their followers
     def feed_posts(self):
