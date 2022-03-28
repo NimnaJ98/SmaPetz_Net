@@ -278,6 +278,12 @@ STATUS_CHOICES = (
     ('send', 'send'),
     ('accepted', 'accepted')
 )
+
+class FriendRequestManager(models.Manager):
+    def invitationsReceived(self, receiver):
+        qs = FriendRequest.objects.filter(receiver=receiver, status='send')
+        return qs
+
 # FriendRequest model
 class FriendRequest(models.Model):
     sender = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='sender')
@@ -285,6 +291,8 @@ class FriendRequest(models.Model):
     status = models.CharField(max_length=8, choices=STATUS_CHOICES)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
+
+    objects = FriendRequestManager()
 
     def __str__(self):
         return f"{self.sender}-{self.receiver}-{self.status}"

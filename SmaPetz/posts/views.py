@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from flask import request
 from .models import Post, Reaction
-from profiles.models import Pet, Profile, Veterinarian, Store, Pet_Lover, ProfileManager
+from profiles.models import Pet, Profile, Veterinarian, Store, Pet_Lover
 from users.models import User
 from .forms  import commentModelForm, postModelForm
 from django.http import HttpResponseRedirect
@@ -128,3 +128,5 @@ class PostUpdateView(UpdateView):
         else:
             form.add_error(None, "You need to be the author to update the post!")
             return super().form_invalid(form)
+
+
