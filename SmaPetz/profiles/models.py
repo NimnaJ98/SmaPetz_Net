@@ -100,43 +100,68 @@ class ProfileManager(models.Manager):
         random.shuffle(availablePetLovers)
         return availablePetLovers[:3]
 
+    def get_profiles(self):
+        pets = Pet.objects.all()
+        vets = Veterinarian.objects.all()
+        stores = Store.objects.all()
+        lovers = Pet_Lover.objects.all()
+
+        return pets, vets, stores, lovers
+
     def get_profiles_to_request(self, sender):
-        pets = Pet.objects.all().exclude(user=sender)
-        vets = Veterinarian.objects.all().exclude(user=sender)
-        stores = Store.objects.all().exclude(user=sender)
-        pet_lovers = Pet_Lover.objects.all().exclude(user=sender)
+        user = self.user
+        profiles=[]
         if self.user.type == "PET":
+            pets = Pet.objects.all().exclude(user=sender)
+            vets = Veterinarian.objects.all()
+            stores = Store.objects.all()
+            lovers = Pet_Lover.objects.all()
             profile = Pet.objects.get(user=sender)
         elif self.user.type == "VET":
+            vets = Veterinarian.objects.all().exclude(user=sender)
+            pets = Pet.objects.all()
+            stores = Store.objects.all()
+            lovers = Pet_Lover.objects.all()
             profile = Veterinarian.objects.all(user=sender)
         elif self.user.type == "STORE":
+            stores = Store.objects.all().exclude(user=sender)
+            vets = Veterinarian.objects.all()
+            pets = Pet.objects.all()
+            lovers = Pet_Lover.objects.all()
             profile = Store.objects.all(user=sender)
         elif self.user.type == "PET_LOVER":
+            lovers = Pet_Lover.objects.all().exclude(user=sender)
+            vets = Veterinarian.objects.all()
+            stores = Store.objects.all()
+            pets = Pet.objects.all()
             profile = Pet_Lover.objects.all(user=sender)
-        
+        profiles.append(pets)
+        profiles.append(vets)
+        profiles.append(stores)
+        profiles.append(lovers)
         qs = FriendRequest.objects.filter(Q(sender=profile) | Q(receiver=profile))
         print(qs)
-        accepted = []
+
+        accepted = set([])
         for friend in qs:
             if friend.status == 'accepted':
-                accepted.append(friend.receiver)
-                accepted.append(friend.sender)
+                accepted.add(friend.receiver)
+                accepted.add(friend.sender)
         print(accepted)
 
-        availablePets = [profile for profile in pets if profile not in accepted]
-        availableVets = [profile for profile in vets if profile not in accepted]
-        availableStores = [profile for profile in stores if profile not in accepted]
-        availableLovers = [profile for profile in pet_lovers if profile not in accepted]
+        available = [profile for profile in profiles if profile not in accepted]
 
-        return availablePets, availableVets, availableStores, availableLovers
+        return available
 
     def get_all_profiles(self, me):
+        profiles = []
         pets = Pet.objects.all().exclude(user=me)
         vets = Veterinarian.objects.all().exclude(user=me)
         stores = Store.objects.all().exclude(user=me)
         pet_lovers = Pet_Lover.objects.all().exclude(user=me)
 
-        return pets, vets, stores,pet_lovers
+        profiles = [pets, vets, stores, pet_lovers]
+        return profiles
 
 
     #to get the posts of each user & their followers
@@ -169,10 +194,24 @@ class ProfileManager(models.Manager):
             qs = sorted(chain(*posts), reverse=True, key=lambda obj:obj.created)
         return qs
 
+    def get_author_profile(self):
+        post = Post.objects.all()
+        for p in post:
+            if self.user.type == "PET":
+                profile = Pet.objects.get(user = p.author)
+            elif self.user.type == "VET":
+                profile = Veterinarian.objects.get(user = p.author)
+            elif self.user.type == "STORE":
+                profile = Store.objects.get(user = p.author)
+            elif self.user.type == "PET_LOVER":
+                profile = Pet_Lover.objects.get(user = p.author)
+        return profile
+
 # abstract profile model
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user')
     background = models.ImageField(upload_to='backgrounds', default='background.png')
+    avatar = models.ImageField(upload_to='avatars')
     following = models.ManyToManyField(User, related_name='following', blank=True)
     bio = models.TextField(default="no bio...", blank=True, max_length=100)
     address = models.TextField(max_length=100, blank=True)

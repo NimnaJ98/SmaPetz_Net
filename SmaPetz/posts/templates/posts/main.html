@@ -23,17 +23,8 @@
                         <img class="img-fluid avatar mr-3" alt="Responsive image" src={{profile.avatar.url}}>  
                     {% else %}
                         {% comment %} not working {% endcomment %}
-                        <input type ="text" name="post_author" value={{obj.author.type}}>
-                        {% ifequal obj.author.type 'VET' %}
-                            <p>vet</p>
-                            <img class="img-fluid avatar mr-3" alt="Responsive image" src={{obj.veterinarian.avatar.url}}>
-                        {% else %}
-                            {% ifequal obj.author.type 'STORE' %}
-                                <p>store</p>
-                                <img class="img-fluid avatar mr-3" alt="Responsive image" src={{obj.author.avatar.url}>
-                            {% endifequal %}
-                        {% endifequal %}
-                        
+                        <img class="img-fluid avatar mr-3" alt="Responsive image" src={{profiles.avatar.url}}>
+    
                     {% endifequal %}
                     {{obj.author.name}} - {{obj.created|timesince}} ago 
                     {% ifequal request.user obj.author  %} 

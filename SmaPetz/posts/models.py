@@ -1,3 +1,4 @@
+from urllib import request
 from django.db import models
 from users.models import User
 from .validators import fileSize
@@ -22,11 +23,7 @@ class Post(models.Model):
     #get the authors
     def get_author(self):
         return self.author.all().count()
-
-    def get_author_list(self):
-        author_list = [a for a in self.get_author()]
-        return author_list
-
+        
     #get the users who liked a post
     def get_liked(self):
         return self.liked_by.all()

@@ -3,7 +3,6 @@ from django.contrib import messages
 import django
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from flask import request
 from .models import Post, Reaction
 from profiles.models import Pet, Profile, Veterinarian, Store, Pet_Lover
 from users.models import User
@@ -15,75 +14,63 @@ from django.views.generic import UpdateView, DeleteView
 
 def home_view(request):
     #query set to grab all the posts
-    qs = Post.objects.all()
+    post =  Post.objects.all()
     if request.user.type == "PET":
         profile = Pet.objects.get(user=request.user)
-        post =  Post.objects.all()
         feed = Pet.feed_posts(self=request.user.pet)
-        written = Post.objects.exclude(picture="")
-        video = Post.objects.exclude(video="")
-        followers = Pet.get_following_list(self=request.user.pet)
-        veterinarian = Veterinarian.objects.all()
-
-        #post form and comment form
-        if request.method == 'POST':
-            post_form = postModelForm()
-            comment_form = commentModelForm()
-
-            if 'post_form_submit' in request.POST:
-                post_form = postModelForm(request.POST, request.FILES)
-                if post_form.is_valid():
-                    instance = post_form.save(commit=False)
-                    instance.author = request.user 
-                    instance.save() 
-                return HttpResponseRedirect("/")
-
-            if 'comment_form_submit' in request.POST:
-                comment_form = commentModelForm(request.POST)
-                if comment_form.is_valid():
-                    instance = comment_form.save(commit = False)
-                    instance.user = request.user
-                    instance.post = Post.objects.get(id=request.POST.get('post_id'))
-                    instance.save()
-                return HttpResponseRedirect("/")
-        else:
-            post_form = postModelForm(request.POST or None)
-            comment_form = commentModelForm(request.POST or None)
-
-
-
-        context = {
-            'qs': qs,
-            'profile': profile,
-            'post':post,
-            'written':written,
-            'feed':feed,
-            'video':video,
-            'post_form':post_form,
-            'comment_form':comment_form,
-            'veterinarian':veterinarian
-    }
-    elif request.user.type == "PET_LOVER":
+    elif request.user.type == "VET":
         profile = Veterinarian.objects.get(user=request.user)
-
-        context = {
-            'qs': qs,
-            'profile': profile
-    }
+        feed = Veterinarian.feed_posts(self=request.user.vet)
     elif request.user.type == "STORE":
         profile = Store.objects.get(user=request.user)
-
-        context = {
-            'qs': qs, 
-            'profile': profile
-    }
+        feed = Store.feed_posts(self=request.user.store)
     elif request.user.type == "PET_LOVER":
         profile = Pet_Lover.objects.get(user=request.user)
+        feed = Pet_Lover.feed_posts(self=request.user.petLover)
 
-        context = {
-            'qs': qs, 
-            'profile': profile
+    profiles = profile.get_all_profiles(me =request.user)
+    written = Post.objects.exclude(picture="")
+    video = Post.objects.exclude(video="")
+
+    #post form and comment form
+    if request.method == 'POST':
+        post_form = postModelForm()
+        comment_form = commentModelForm()
+
+        if 'post_form_submit' in request.POST:
+            post_form = postModelForm(request.POST, request.FILES)
+            if post_form.is_valid():
+                instance = post_form.save(commit=False)
+                instance.author = request.user 
+                instance.save() 
+            return HttpResponseRedirect("/")
+
+        if 'comment_form_submit' in request.POST:
+            comment_form = commentModelForm(request.POST)
+            if comment_form.is_valid():
+                instance = comment_form.save(commit = False)
+                instance.user = request.user
+                instance.post = Post.objects.get(id=request.POST.get('post_id'))
+                instance.save()
+            return HttpResponseRedirect("/")
+    else:
+        post_form = postModelForm(request.POST or None)
+        comment_form = commentModelForm(request.POST or None)
+
+
+
+    context = {
+        'profile': profile,
+        'post':post,
+        'written':written,
+        'feed':feed,
+        'video':video,
+        'post_form':post_form,
+        'comment_form':comment_form,
+        'profiles':profiles
+        
     }
+
     return render(request, 'posts/main.html', context)
 
 
