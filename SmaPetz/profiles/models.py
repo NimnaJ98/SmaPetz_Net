@@ -1,10 +1,8 @@
-from ast import Lambda
-from itertools import chain
+from cProfile import Profile
 from django.db import models
-from django.dispatch import receiver
 from users.models import User
-from posts.models import Post
 from phonenumber_field.modelfields import PhoneNumberField
+from itertools import chain
 import random
 from django.db.models import Q
 
@@ -14,7 +12,6 @@ class ProfileManager(models.Manager):
     def get_user_posts(request):
         current_user = request.user
         return current_user.post_set.all()
-    
     #get no of posts
     @property
     def num_posts(request):
@@ -36,193 +33,57 @@ class ProfileManager(models.Manager):
 
     #get followers of the user
     def get_followers(self):
-        qs1 = Pet.objects.all()
-        qs2 = Veterinarian.objects.all()
-        qs3 = Store.objects.all()
-        qs4 = Pet_Lover.objects.all()
+        qs = Profile.objects.all()
         followers_list = []
-        for pet in qs1:
-            if self.user in pet.get_following():
-                followers_list.append(pet)
-        for vet in qs2:
-            if self.user in vet.get_following():
-                followers_list.append(vet)
-        for store in qs3:
-            if self.user in store.get_following():
-                followers_list.append(store)
-        for petlover in qs4:
-            if self.user in petlover.get_following():
-                followers_list.append(petlover)
+        for follower in qs:
+            if self.user in follower.get_following():
+                followers_list.append(follower)
         return followers_list
     
     @property
     def get_followers_count(self):
         return len(self.get_followers())
-
+    
     #to get follow suggestions
-    def get_Petfollow_suggestions(self):
-        if self.user.type == "PET":
-            pets = Pet.objects.all().exclude(user = self.user)
-        else:
-            pets = Pet.objects.all()
+    def get_Follow_suggestions(self):
+        profile = Profile.objects.all().exclude(user = self.user)
         followers_list = [p for p in self.get_following()]
-        availablePets = [p.user for p in pets if p.user not in followers_list]
-        random.shuffle(availablePets)
-        return availablePets[:3]
-
-    def get_Vetfollow_suggestions(self):
-        if self.user.type == "VET":
-            vets = Veterinarian.objects.all().exclude(user = self.user)
-        else:
-            vets = Veterinarian.objects.all()
-        followers_list = [p for p in self.get_following()]
-        availableVets = [p.user for p in vets if p.user not in followers_list]
-        random.shuffle(availableVets)
-        return availableVets[:3]
-
-    def get_Storefollow_suggestions(self):
-        if self.user.type == "STORE":
-            stores = Store.objects.all().exclude(user = self.user)
-        else:
-            stores = Store.objects.all()        
-        followers_list = [p for p in self.get_following()]
-        availableStores = [p.user for p in stores if p.user not in followers_list]
-        random.shuffle(availableStores)
-        return availableStores[:3]
-
-    def get_PetLoverfollow_suggestions(self):
-        if self.user.type == "STORE":
-            petLovers = Pet_Lover.objects.all().exclude(user = self.user)
-        else:
-            petLovers = Pet_Lover.objects.all()
-        followers_list = [p for p in self.get_following()]
-        availablePetLovers = [p.user for p in petLovers if p.user not in followers_list]
-        random.shuffle(availablePetLovers)
-        return availablePetLovers[:3]
-
-    def get_profiles(self):
-        pets = Pet.objects.all()
-        vets = Veterinarian.objects.all()
-        stores = Store.objects.all()
-        lovers = Pet_Lover.objects.all()
-
-        return pets, vets, stores, lovers
-
-    def get_profiles_to_request(self, sender):
-        user = self.user
-        profiles=[]
-        if self.user.type == "PET":
-            pets = Pet.objects.all().exclude(user=sender)
-            vets = Veterinarian.objects.all()
-            stores = Store.objects.all()
-            lovers = Pet_Lover.objects.all()
-            profile = Pet.objects.get(user=sender)
-        elif self.user.type == "VET":
-            vets = Veterinarian.objects.all().exclude(user=sender)
-            pets = Pet.objects.all()
-            stores = Store.objects.all()
-            lovers = Pet_Lover.objects.all()
-            profile = Veterinarian.objects.all(user=sender)
-        elif self.user.type == "STORE":
-            stores = Store.objects.all().exclude(user=sender)
-            vets = Veterinarian.objects.all()
-            pets = Pet.objects.all()
-            lovers = Pet_Lover.objects.all()
-            profile = Store.objects.all(user=sender)
-        elif self.user.type == "PET_LOVER":
-            lovers = Pet_Lover.objects.all().exclude(user=sender)
-            vets = Veterinarian.objects.all()
-            stores = Store.objects.all()
-            pets = Pet.objects.all()
-            profile = Pet_Lover.objects.all(user=sender)
-        profiles.append(pets)
-        profiles.append(vets)
-        profiles.append(stores)
-        profiles.append(lovers)
-        qs = FriendRequest.objects.filter(Q(sender=profile) | Q(receiver=profile))
-        print(qs)
-
-        accepted = set([])
-        for friend in qs:
-            if friend.status == 'accepted':
-                accepted.add(friend.receiver)
-                accepted.add(friend.sender)
-        print(accepted)
-
-        available = [profile for profile in profiles if profile not in accepted]
-
-        return available
-
-    def get_all_profiles(self, me):
-        profiles = []
-        pets = Pet.objects.all().exclude(user=me)
-        vets = Veterinarian.objects.all().exclude(user=me)
-        stores = Store.objects.all().exclude(user=me)
-        pet_lovers = Pet_Lover.objects.all().exclude(user=me)
-
-        profiles = [pets, vets, stores, pet_lovers]
-        return profiles
-
-
+        availableUser = [p.user for p in profile if p.user not in followers_list]
+        random.shuffle(availableUser)
+        return availableUser[:5]
+    
     #to get the posts of each user & their followers
     def feed_posts(self):
         userPosts = self.get_user_posts()
         following =self.get_following_list()
-        petsuggestions = self.get_Petfollow_suggestions()
-        vetsuggestions = self.get_Vetfollow_suggestions()
-        storesuggestions = self.get_Storefollow_suggestions()
-        petLoversuggestions = self.get_PetLoverfollow_suggestions()
+        suggestions = self.get_Follow_suggestions()
         posts =[]
         qs = None
         for f in following:
             followingPosts =  f.post_set.all()
-            posts.append(followingPosts)
-        for p in petsuggestions:
-            petPosts = p.post_set.all()
-            posts.append(petPosts)
-        for v in vetsuggestions:
-            vetPosts = v.post_set.all()
-            posts.append(vetPosts)
-        for s in storesuggestions:
-            storePosts = s.post_set.all()
-            posts.append(storePosts)
-        for l in petLoversuggestions:
-            petLoverPosts = l.post_set.all()
-            posts.append(petLoverPosts)
+        posts.append(followingPosts)
+        for p in suggestions:
+            suggestPosts = p.post_set.all()
+            posts.append(suggestPosts)
         posts.append(userPosts)
         if len(posts) > 0:
             qs = sorted(chain(*posts), reverse=True, key=lambda obj:obj.created)
         return qs
 
-    def get_author_profile(self):
-        post = Post.objects.all()
-        for p in post:
-            if self.user.type == "PET":
-                profile = Pet.objects.get(user = p.author)
-            elif self.user.type == "VET":
-                profile = Veterinarian.objects.get(user = p.author)
-            elif self.user.type == "STORE":
-                profile = Store.objects.get(user = p.author)
-            elif self.user.type == "PET_LOVER":
-                profile = Pet_Lover.objects.get(user = p.author)
-        return profile
-
-# abstract profile model
+# base profile model
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user')
-    background = models.ImageField(upload_to='backgrounds', default='background.png')
-    avatar = models.ImageField(upload_to='avatars')
     following = models.ManyToManyField(User, related_name='following', blank=True)
     bio = models.TextField(default="no bio...", blank=True, max_length=100)
     address = models.TextField(max_length=100, blank=True)
     number = PhoneNumberField(unique = True, null = True, blank = True)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
+
     objects = ProfileManager()
 
-    class Meta:
-        abstract = True
-    #abstract class will not have its own table, instead child classes will have their own tables
+    def __str__(self):
+        return str(self.user)
 
 class Pet(Profile, ProfileManager):
     
@@ -298,10 +159,8 @@ class Pet(Profile, ProfileManager):
         FFOXES = "FFOXES" ,' Fennec Foxes'
         OTHER = "OTHER" , 'Other'
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='pet')
-    following = models.ManyToManyField(User, related_name='pet_following', blank=True)
+    pet_id = models.OneToOneField(Profile, on_delete=models.CASCADE, parent_link=True, primary_key=True)
     avatar = models.ImageField(upload_to='avatars', default='pet_avatar.png')
-    usertype = models.TextField(default="Pet", blank = True)
     pet_type = models.CharField(max_length=50, choices=petTypes.choices, blank=True)
 
     fish_type = models.CharField(max_length=50, choices=fishTypes.choices, blank=True)
@@ -316,11 +175,8 @@ class Pet(Profile, ProfileManager):
     def __str__(self):
         return str(self.user)
 
-
 class Veterinarian(Profile, ProfileManager):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='vet') 
-    usertype = models.TextField(default="Veterinarian", blank = True)
-    following = models.ManyToManyField(User, related_name='vet_following', blank=True)
+    vet_id = models.OneToOneField(Profile, on_delete=models.CASCADE, parent_link=True, primary_key=True)
     education = models.TextField(max_length=255, blank=True)
     avatar = models.ImageField(upload_to='avatars', default='vet_avatar.png')
 
@@ -329,14 +185,12 @@ class Veterinarian(Profile, ProfileManager):
     
 
 class Store(Profile, ProfileManager):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='store')
     class storeTypes(models.TextChoices):
         PETSTORE = "PETSTORE", "Pet Store"
         PRODUCTSTORE = "PRODUCTSTORE", "Pet Product Store"
 
+    store_id = models.OneToOneField(Profile, on_delete=models.CASCADE, parent_link=True, primary_key=True)
     avatar = models.ImageField(upload_to='avatars', default='store_avatar.png')
-    usertype = models.TextField(default="Store", blank=True)  
-    following = models.ManyToManyField(User, related_name='store_following', blank=True)
     store_type = models.CharField(max_length=50, choices=storeTypes.choices, blank=False)
     
     def __str__(self):
@@ -344,15 +198,13 @@ class Store(Profile, ProfileManager):
 
 
 class Pet_Lover(Profile, ProfileManager):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='petLover')
-    following = models.ManyToManyField(User, related_name='petLover_following', blank=True)
-    usertype = models.TextField(default="Pet Lover", blank=True)  
+    lover_id = models.OneToOneField(Profile, on_delete=models.CASCADE, parent_link=True, primary_key=True)
     avatar = models.ImageField(upload_to='avatars', default='avatar.png')
 
     def __str__(self):
         return str(self.user)
 
-
+#Friend Requests Model
 STATUS_CHOICES = (
     ('send', 'send'),
     ('accepted', 'accepted')
@@ -365,8 +217,8 @@ class FriendRequestManager(models.Manager):
 
 # FriendRequest model
 class FriendRequest(models.Model):
-    sender = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='sender')
-    receiver = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='receiver')
+    sender = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='sender')
+    receiver = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='receiver')
     status = models.CharField(max_length=8, choices=STATUS_CHOICES)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)

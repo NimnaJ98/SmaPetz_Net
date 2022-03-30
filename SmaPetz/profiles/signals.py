@@ -16,29 +16,15 @@ def post_save_create_profile(sender, instance, created, **kwargs):
         elif instance.type == "PET_LOVER":
             Pet_Lover.objects.create(user=instance) 
 
-@receiver(post_save, sender = FriendRequest)
-def post_save_follow(sender, instance, created, **kwargs):
-    sender_ = instance.sender
-    receiver_ = instance.receiver
 
+
+#whenever a user accepted friends invitation, the user will be included in the friends list.
+@receiver(post_save, sender=FriendRequest)
+def post_save_add_to_friends(sender, instance, created, **kwargs):
+    sender_ =instance.sender
+    receiver_ = instance.receiver
     if instance.status == 'accepted':
-        if sender_.type == "PET":
-            senderProfile = Pet.objects.get(user =sender_)
-        elif sender_.type == "VET":
-            senderProfile = Veterinarian.objects.get(user =sender_)
-        elif sender_.type == "STORE":
-            senderProfile = Store.objects.get(user =sender_)
-        elif sender_.type == "PET_LOVER":
-            senderProfile = Pet_Lover.objects.get(user =sender_)
-        senderProfile.following.add(receiver_)
-        senderProfile.save()
-        if receiver_.type == "PET":
-            receiverProfile = Pet.objects.get(user =receiver_)
-        elif receiver_.type == "VET":
-            receiverProfile = Veterinarian.objects.get(user =receiver_)
-        elif receiver_.type == "STORE":
-            receiverProfile = Store.objects.get(user =receiver_)
-        elif receiver_.type == "PET_LOVER":
-            receiverProfile = Pet_Lover.objects.get(user =receiver_)
-        receiverProfile.following.add(sender_)
-        receiverProfile.save()
+        sender_.following.add(receiver_.user)
+        receiver_.following.add(sender_.user)
+        sender_.save()
+        receiver_.save()
