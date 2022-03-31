@@ -21,8 +21,8 @@
                 <div class ="card-title clearfix">
                     <img class="img-fluid avatar mr-3" alt="Responsive image" src={{obj.author.avatar.url}}>  
                 
-                    {{obj.author.name}} - {{obj.created|timesince}} ago 
-                    {% ifequal request.user obj.author  %} 
+                    {{obj.author.user.name}} - {{obj.created|timesince}} ago 
+                    {% ifequal request.user obj.author.user %} 
                         <a href="{% url 'posts:post-delete' obj.pk %}"><button class="btn btn-title float-right ml-3 mr-4">Delete</button></a>
                         <a href="{% url 'posts:post-update' obj.pk %}"><button class="btn btn-title float-right ml-3">Update</button></a>
                     {% endifequal %} 
@@ -30,7 +30,7 @@
                 {% if obj in written %}
                     <img src={{obj.picture.url}} class="card-img-top" alt="...">
                 {% elif obj in video %}
-                    <video ontrols>
+                    <video controls autoplay muted id="vid">
                         <source src={{obj.video.url}} type="video/mp4"></source>
                     </video>
                 {% endif %}

@@ -46,3 +46,9 @@
     width: fit-content;
     align-self: center;
 }
+.comment-box{
+    background: #fff !important;
+}
+.form-group{
+    background: #fff !important;
+}
