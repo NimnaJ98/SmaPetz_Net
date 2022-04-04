@@ -20,7 +20,7 @@ class Post(models.Model):
     
 #to grab the number of likes
     def num_likes(self):
-        return self.liked.all().count()
+        return self.liked_by.all().count()
 
 #to grab the number of comments
     def num_comments(self):

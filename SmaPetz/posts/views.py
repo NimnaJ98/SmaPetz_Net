@@ -88,7 +88,7 @@ def like_unlike_post(request):
         }
         return JsonResponse(data, safe= False)
     
-    return redirect('posts:main-post-view')
+    return redirect('posts:home-view')
 
 class PostDeleteView(DeleteView):
     model = Post

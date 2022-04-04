@@ -8,65 +8,30 @@ from django.db.models import Q
 
 # profile manager
 class ProfileManager(models.Manager):
-    #get posts
-    def get_user_posts(self):
-        return self.post_set.all()
-    #get no of posts
-    @property
-    def num_posts(self):
-        return self.post_set.all().count()
-    
-    #get the profiles user is following
-    def get_following(self):
-        return self.following.all()
+    def get_all_profiles_to_invite(self, sender):
+        profiles = Profile.objects.all().exclude(user=sender)
+        profile = Profile.objects.get(user=sender)
+        qs = FriendRequest.objects.filter(Q(sender=profile) | Q(receiver=profile))
+        print(qs)
+        print("#########")
 
-    def get_following_list(self):
-        follower_list = [p for p in self.get_following()]
-        return follower_list
-    
-    #get the following count
-    @property
-    def get_following_count(self):
-        return self.get_following().count()
+        accepted= set([])
+        for rel in qs:
+            if rel.status == 'accepted':
+                accepted.add(rel.receiver)
+                accepted.add(rel.sender)
+        print(accepted)
+        print("#########")
 
-    #get followers of the user
-    def get_followers(self):
-        qs = Profile.objects.all()
-        followers_list = []
-        for follower in qs:
-            if self.user in follower.get_following():
-                followers_list.append(follower)
-        return followers_list
-    
-    @property
-    def get_followers_count(self):
-        return len(self.get_followers())
-    
-    #to get follow suggestions
-    def get_Follow_suggestions(self):
-        profile = Profile.objects.all().exclude(user = self.user)
-        followers_list = [p for p in self.get_following()]
-        availableUser = [p.user for p in profile if p.user not in followers_list]
-        random.shuffle(availableUser)
-        return availableUser[:5]
-    
-    #to get the posts of each user & their followers
-    def feed_posts(self):
-        userPosts = self.get_user_posts()
-        following =self.get_following_list()
-        suggestions = self.get_Follow_suggestions()
-        posts =[]
-        qs = None
-        for f in following:
-            followingPosts =  f.post_set.all()
-        posts.append(followingPosts)
-        for p in suggestions:
-            suggestPosts = p.post_set.all()
-            posts.append(suggestPosts)
-        posts.append(userPosts)
-        if len(posts) > 0:
-            qs = sorted(chain(*posts), reverse=True, key=lambda obj:obj.created)
-        return qs
+        available = [profile for profile in profiles if profile not in accepted]
+        print(available)
+        print("#########")
+        return available
+
+
+    def get_all_profiles(self, me):
+        profiles = Profile.objects.all().exclude(user=me)
+        return profiles
 
 # base profile model
 class Profile(models.Model):
@@ -84,19 +49,38 @@ class Profile(models.Model):
     def __str__(self):
         return str(self.user)
 
-    def get_following(self):
-        return self.following.all()
+    #to grab all the friends to show in Profile
+    def get_friends(self):
+        return self.friends.all()
 
-    def get_following_count(self):
-        return self.get_following().count()
-    
-    #to grab all the count of posts to show in petProfile
+    #to grab all the count of friends to show in Profile
+    def get_friends_no(self):
+        return self.friends.all().count()
+
+    #to grab all the count of posts to show in Profile
     def get_post_no(self):
         return self.posts.all().count()
 
-    #to grab all the posts to show in petProfile
+    #to grab all the posts to show in Profile
     def get_all_authors_posts(self):
         return self.posts.all()
+
+    #to grab the no of likes given by the user
+    def get_likes_given_no(self):
+        Likes = self.like_set.all()
+        total_liked = 0
+        for item in Likes:
+            if item.value == 'Like':
+                total_liked += 1
+        return total_liked
+
+    #to grab the no of likes the user was received
+    def get_likes_received_no(self):
+        posts = self.posts.all()
+        total_liked = 0
+        for item in posts:
+            total_liked += item.like_set.all().count()
+        return total_liked
 
 class Pet(Profile):
     
@@ -224,7 +208,7 @@ STATUS_CHOICES = (
 )
 
 class FriendRequestManager(models.Manager):
-    def invitationsReceived(self, receiver):
+    def invitations_received(self, receiver):
         qs = FriendRequest.objects.filter(receiver=receiver, status='send')
         return qs
 

@@ -66,3 +66,24 @@
 .badge{
     color: #000 !important;
 }
+.col-3{
+    align-items: center !important;
+    align-content: center !important;
+}
+.col-3{
+    background-color: #fff !important;
+    border-bottom-left-radius: 50px;
+    border-top-left-radius: 50px;
+}
+.col-9{
+    background-color: #fff !important;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+}
+.btnBorder{
+    border-color: #f1896a!important;
+    border-width: 3px;
+}
+.btnForm{
+    background-color: #fff !important;
+}

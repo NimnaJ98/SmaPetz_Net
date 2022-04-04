@@ -38,13 +38,30 @@
                 <div class="card-body">
                     <h6 class="card-title-caption">{{obj.caption}}</h5>
                     <p class="card-text">{{obj.tags}}</p>
-                    <!-- Reactions -->
-                    <div class="card-body-reactions float-right">
-                        <a href="#"><img src="{% static "images/love.png"  %}" class="reactions" style="height: 40px; width:40px;"></a>
-                        <a href="#"><img src="{% static "images/angry.png"  %}" class="reactions" style="height: 40px; width:40px;"></a>
-                        <a href="#"><img src="{% static "images/surprise.png"  %}" class="reactions" style="height: 40px; width:40px;"></a>
-                        <a href="#"><img src="{% static "images/sad.png"  %}" class="reactions" style="height: 40px; width:40px;"></a>
-                        <a href="#"><img src="{% static "images/sick.png"  %}" class="reactions" style="height: 40px; width:40px;"></a>
+                    <!-- Like -->
+                    <div class="card-body-likes float-right">
+                        <form action="{% url 'posts:like-post-view' %}" method="POST" class="like-form" id="{{obj.id}}">
+                            {% csrf_token %}
+                            <input type="hidden" name="post_id" value={{obj.id}}>
+        
+                                <button type="submit" class="btn like-btn{{obj.id}}" style="background:transparent;">
+                                    <i class="fa-solid fa-heart"></i>
+                                    {% if profile not in obj.liked.all %}
+                                        Like
+                                    {% else %}
+                                        Unlike
+                                    {% endif %}
+                                </button>
+    
+                                <div class="ui grid">
+                                    <div class="column">
+                                        <div class="like-count{{obj.id}}"> {{obj.num_likes}} </div>
+                                    </div>
+                                    <div class="column">
+                                        Likes
+                                    </div>
+                                </div> 
+                        </form>
                     </div>
                     <!-- Comments -->
                     <div class ="card-body-comment">
@@ -114,6 +131,14 @@
                                 <button type="button" class="btn btnModal" data-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btnModal"  name="post_form_submit">Add</button>
                             </div>
+                            {% if post_added %}
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    Post Added
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            {% endif %}
                         </form>
                     </div>
                 </div>

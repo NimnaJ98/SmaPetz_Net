@@ -1,6 +1,6 @@
 from users.models import User
 from .models import Profile, Pet, Veterinarian, Store, Pet_Lover, FriendRequest
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
 
 
@@ -28,3 +28,13 @@ def post_save_add_to_friends(sender, instance, created, **kwargs):
         receiver_.following.add(sender_.user)
         sender_.save()
         receiver_.save()
+
+#Remove a friend from the friends list
+@receiver(pre_delete, sender=FriendRequest)
+def pre_delete_remove_friend(sender, instance, **kwargs):
+    sender = instance.sender
+    receiver = instance.receiver
+    sender.friends.remove(receiver.user)
+    receiver.friends.remove(sender.user)
+    sender.save()
+    receiver.save()
