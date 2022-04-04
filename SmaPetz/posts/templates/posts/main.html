@@ -18,7 +18,7 @@
         <div class="col-8">
             {% for obj in post %}
             <div class="card">
-                <div class ="card-title clearfix">
+                <div class ="card-title clearfix ml-4 mt-4">
                     <img class="img-fluid avatar mr-3" alt="Responsive image" src={{obj.author.profilePic.url}}>
 
                     {{obj.author.user.name}} - {{obj.created|timesince}} ago

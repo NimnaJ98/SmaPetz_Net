@@ -2,12 +2,13 @@ from django.contrib import messages
 import django
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from .models import Post
+from .models import Post, Like
 from profiles.models import Pet, Profile, Veterinarian, Store, Pet_Lover
 from django.shortcuts import render
 from .forms  import commentModelForm, postModelForm
 from django.http import HttpResponseRedirect
 from django.views.generic import UpdateView, DeleteView
+from django.http import JsonResponse
 
 
 # Create your views here.
@@ -23,8 +24,6 @@ def home_view(request):
     post_form = postModelForm()
     comment_form = commentModelForm()
     post_added = False
-
-    profile = Profile.objects.get(user=request.user)
 
     if 'post_form_submit' in request.POST:
         print(request.POST)
@@ -53,9 +52,44 @@ def home_view(request):
         'video':video,
         'post_form':post_form,
         'comment_form':comment_form,
+        'post_added': post_added,
     }
 
     return render(request, 'posts/main.html', context)
+
+def like_unlike_post(request):
+    user = request.user
+    if request.method == 'POST':
+        post_id = request.POST.get('post_id')
+        post_obj = Post.objects.get(id = post_id)
+        profile = Profile.objects.get(user = user)
+
+        if profile in post_obj.liked.all():
+            post_obj.liked.remove(profile)
+        else:
+            post_obj.liked.add(profile)
+
+        like, created = Like.objects.get_or_create(user = profile, post_id = post_id)
+
+        if not created:
+            if like.value == 'Like':
+                like.value = 'Unlike'
+            else:
+                like.value = 'Like'
+        else:
+            like.value = 'Like'
+
+            post_obj.save()
+            like.save()
+
+        data ={
+            'value': like.value,
+            'likes': post_obj.liked.all().count()
+        }
+        return JsonResponse(data, safe= False)
+    
+    return redirect('posts:main-post-view')
+
 class PostDeleteView(DeleteView):
     model = Post
     template_name = 'posts/confirm_del.html'
