@@ -18,10 +18,6 @@ class Post(models.Model):
     def __str__(self):
         return str(self.author)
     
-#to create the ordering of the posts by time
-    class Meta:
-        ordering = ('-created',)
-
 #to grab the number of likes
     def num_likes(self):
         return self.liked.all().count()
@@ -29,6 +25,11 @@ class Post(models.Model):
 #to grab the number of comments
     def num_comments(self):
         return self.comment_set.all().count()
+
+
+#to create the ordering of the posts by time
+    class Meta:
+        ordering = ('-created',)
 
 
 #Comment Model 
@@ -44,3 +45,19 @@ class Comment(models.Model):
         return str(self.pk)
 
 #Reaction Model
+LIKE_CHOICES = (
+    
+    ('Like', 'Like'),
+    ('Unlike', 'Unlike'),
+)
+
+class Like(models.Model):
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    value = models.CharField(choices=LIKE_CHOICES, max_length=8)
+    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+
+    def __str__(self):
+        return f"{self.user}-{self.post}-{self.value}"

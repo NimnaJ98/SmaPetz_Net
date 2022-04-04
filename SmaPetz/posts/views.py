@@ -14,7 +14,7 @@ from django.views.generic import UpdateView, DeleteView
 def home_view(request):
     #query set to grab all the posts
     post =  Post.objects.all()
-    profile = Profile.objects.get(user=request.user)
+    profile = Profile.objects.get(user=request.user)    
     written = Post.objects.exclude(picture="")
     video = Post.objects.exclude(video="")
 
@@ -53,7 +53,6 @@ def home_view(request):
         'video':video,
         'post_form':post_form,
         'comment_form':comment_form,
-        
     }
 
     return render(request, 'posts/main.html', context)

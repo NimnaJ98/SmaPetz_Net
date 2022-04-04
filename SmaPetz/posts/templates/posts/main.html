@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block scripts %}    
+{% block scripts %}
     <link rel="stylesheet" href={% static 'posts/post.css' %}>
     <script src={% static 'posts/post.js' %} defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    
+
 {% endblock scripts %}
 
 {% block title %}
@@ -19,13 +19,14 @@
             {% for obj in post %}
             <div class="card">
                 <div class ="card-title clearfix">
-                    <img class="img-fluid avatar mr-3" alt="Responsive image" src={{obj.author.avatar.url}}>  
-                
-                    {{obj.author.user.name}} - {{obj.created|timesince}} ago 
-                    {% ifequal request.user obj.author.user %} 
+                    <img class="img-fluid avatar mr-3" alt="Responsive image" src={{obj.author.profilePic.url}}>
+
+                    {{obj.author.user.name}} - {{obj.created|timesince}} ago
+             
+                    {% if request.user == obj.author.user %}
                         <a href="{% url 'posts:post-delete' obj.pk %}"><button class="btn btn-title float-right ml-3 mr-4">Delete</button></a>
                         <a href="{% url 'posts:post-update' obj.pk %}"><button class="btn btn-title float-right ml-3">Update</button></a>
-                    {% endifequal %} 
+                    {% endif %}
                 </div>
                 {% if obj in written %}
                     <img src={{obj.picture.url}} class="card-img-top" alt="...">
@@ -55,9 +56,10 @@
                                 {% if obj.comment_set.all %}
                                     {% for c in obj.comment_set.all %}
                                         <div class="segment mb-5" style="margin-bottom:5px !important;">
-                                            <img class="img-fluid cmtavatar p-2" src={{c.user.avatar.url}}>
-                                            <span>{{ c.user }}</span>
-                                            <div class='mt-5'>{{ c.body }}</div>
+                                            <img class="img-fluid cmtavatar p-2" src={{c.user.profilePic.url}}>
+                                            <span>{{c.user}}</span>
+                                            <div class='mt-2'>{{ c.body }}</div>
+                                            <hr>
                                         </div>
                                     {% endfor %}
                                 {% endif %}
@@ -119,5 +121,6 @@
         </div>
     </div>
 </div>
+
 
 {% endblock content %}

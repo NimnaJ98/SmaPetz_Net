@@ -11,5 +11,4 @@ urlpatterns = [
     path('profile/', profile_test_view, name='profile-test'),
     path('requests/', received_requests_view, name='user-requests'),
     
-
 ]

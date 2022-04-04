@@ -9,14 +9,12 @@ from django.db.models import Q
 # profile manager
 class ProfileManager(models.Manager):
     #get posts
-    def get_user_posts(request):
-        current_user = request.user
-        return current_user.post_set.all()
+    def get_user_posts(self):
+        return self.post_set.all()
     #get no of posts
     @property
-    def num_posts(request):
-        current_user = request.user
-        return current_user.post_set.all().count()
+    def num_posts(self):
+        return self.post_set.all().count()
     
     #get the profiles user is following
     def get_following(self):
@@ -74,6 +72,7 @@ class ProfileManager(models.Manager):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user')
     following = models.ManyToManyField(User, related_name='following', blank=True)
+    profilePic = models.ImageField(upload_to='avatars', default='pet_avatar.png')
     bio = models.TextField(default="no bio...", blank=True, max_length=100)
     address = models.TextField(max_length=100, blank=True)
     number = PhoneNumberField(unique = True, null = True, blank = True)
@@ -85,7 +84,21 @@ class Profile(models.Model):
     def __str__(self):
         return str(self.user)
 
-class Pet(Profile, ProfileManager):
+    def get_following(self):
+        return self.following.all()
+
+    def get_following_count(self):
+        return self.get_following().count()
+    
+    #to grab all the count of posts to show in petProfile
+    def get_post_no(self):
+        return self.posts.all().count()
+
+    #to grab all the posts to show in petProfile
+    def get_all_authors_posts(self):
+        return self.posts.all()
+
+class Pet(Profile):
     
     class petTypes(models.TextChoices):
         FISH = "FISH", "Fish"
@@ -171,11 +184,11 @@ class Pet(Profile, ProfileManager):
     
     breed = models.TextField(max_length=50, blank=True)
     
-
+    objects = ProfileManager()
     def __str__(self):
         return str(self.user)
 
-class Veterinarian(Profile, ProfileManager):
+class Veterinarian(Profile):
     vet_id = models.OneToOneField(Profile, on_delete=models.CASCADE, parent_link=True, primary_key=True)
     education = models.TextField(max_length=255, blank=True)
     avatar = models.ImageField(upload_to='avatars', default='vet_avatar.png')
@@ -184,7 +197,7 @@ class Veterinarian(Profile, ProfileManager):
         return str(self.user)
     
 
-class Store(Profile, ProfileManager):
+class Store(Profile):
     class storeTypes(models.TextChoices):
         PETSTORE = "PETSTORE", "Pet Store"
         PRODUCTSTORE = "PRODUCTSTORE", "Pet Product Store"
@@ -197,7 +210,7 @@ class Store(Profile, ProfileManager):
         return str(self.user)
 
 
-class Pet_Lover(Profile, ProfileManager):
+class Pet_Lover(Profile):
     lover_id = models.OneToOneField(Profile, on_delete=models.CASCADE, parent_link=True, primary_key=True)
     avatar = models.ImageField(upload_to='avatars', default='avatar.png')
 

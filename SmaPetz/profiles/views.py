@@ -5,15 +5,18 @@ from django.views.generic import TemplateView, View
 from django.http import JsonResponse
 from .forms import PetLoverModelForm, PetModelForm, StoreModelForm, VeterinarianModelForm
 from django.views.generic import ListView
+from posts.models import Post
 
 # Create your views here.
 
 def profile_test_view(request):
-    file_data = request.FILES or None
+    
     confirm = False
     if request.user.type == "PET":
-        profile = Pet.objects.get(user=request.user)
-        form = PetModelForm(request.POST or None,file_data, instance=profile)
+        profile = Profile.objects.get(user=request.user)
+       
+        pet = Pet.objects.get(user=request.user)
+        form = PetModelForm(request.POST or None,request.FILES or None, instance=profile)
 
         if request.method == 'POST':
             if form.is_valid():
@@ -24,12 +27,13 @@ def profile_test_view(request):
             'profile': profile,
             'form':form,
             'confirm':confirm,
+            'pet':pet
         }
         return render(request, 'profiles/pet_profile.html', context)
 
     elif request.user.type == "VET":
         profile = Veterinarian.objects.get(user=request.user)
-        form = VeterinarianModelForm(request.POST or None,file_data, instance=profile)
+        form = VeterinarianModelForm(request.POST or None,request.FILES or None, instance=profile)
 
         context = {
             'profile': profile,
@@ -40,7 +44,7 @@ def profile_test_view(request):
 
     elif request.user.type == "STORE":
         profile = Store.objects.get(user=request.user)
-        form = StoreModelForm(request.POST or None,file_data, instance=profile)
+        form = StoreModelForm(request.POST or None,request.FILES or None, instance=profile)
 
         context = {
             'profile': profile,
@@ -51,7 +55,7 @@ def profile_test_view(request):
 
     elif request.user.type == "PET_LOVER":
         profile = Pet_Lover.objects.get(user=request.user)
-        form = PetLoverModelForm(request.POST or None,file_data, instance=profile)
+        form = PetLoverModelForm(request.POST or None,request.FILES or None, instance=profile)
 
         context = {
             'profile': profile,
