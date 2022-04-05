@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}
+User Registration
+{% endblock title %}
+
+{% block content %}
+    <h1>Register</h1>
+    <div class="container">
+        <form action="" method="POST" class="form-group">
+            {% csrf_token %}
+            {{register_form.as_p}}
+            <button type="submit" class="btn btnModal">Register</button>
+        </form>
+    </div>
+{% endblock content %}
+
