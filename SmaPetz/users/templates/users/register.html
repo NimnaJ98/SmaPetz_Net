@@ -10,6 +10,10 @@ User Registration
             {% csrf_token %}
             {{register_form.as_p}}
             <button type="submit" class="btn btnModal">Register</button>
+
+            {% for error in register_form.errors %}
+                <p>{{error}}</p>
+            {% endfor %}
         </form>
     </div>
 {% endblock content %}

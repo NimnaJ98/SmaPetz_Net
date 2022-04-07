@@ -3,7 +3,9 @@
 
 <nav class="navbar navbar-expand-lg navbar-light navbar-mainbg">
   <a class="navbar-brand" href="#">
-    <img class="nav_logo" src="{% static "images/bg.png" %}" style ="height: 90px; width: 130px" /> 
+    {% if request.user.is_authenticated %}
+      <img class="nav_logo" src="{% static "images/bg.png" %}" style ="height: 90px; width: 130px" /> 
+    {% endif %}
     SmaPetz
   </a>
   <button class="navbar-toggler mr-2" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
