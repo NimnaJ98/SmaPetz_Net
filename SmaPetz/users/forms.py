@@ -8,10 +8,14 @@ class UserRegistrationForm(UserCreationForm):
         model = User
         fields = ('email', 'name', 'type', 'password1', 'password2')
         widgets = {
-            'email': forms.EmailInput(attrs={'class':'form-control register'}),
-            'name': forms.TextInput(attrs={'class':'form-control register'}),
-            'password1':forms.PasswordInput(attrs={'class':'form-control pwd'})
-        }
+            'email': forms.EmailInput(attrs={'class':'form-control custom-class'}),
+            'name': forms.TextInput(attrs={'class':'form-control custom-class'}),
+       }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['type'].widget.attrs.update({'class': 'custom-class'})
+        self.fields['password1'].widget.attrs.update({'class': 'custom-class'})
+        self.fields['password2'].widget.attrs.update({'class': 'custom-class'})
 
 class UserLoginForm(forms.ModelForm):
     password = forms.CharField(label="password", widget=forms.PasswordInput(attrs={'class':'form-control register'}))

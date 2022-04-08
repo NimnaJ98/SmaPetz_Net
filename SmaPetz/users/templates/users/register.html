@@ -1,22 +1,52 @@
 {% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
 {% block title %}
 User Registration
 {% endblock title %}
 
 {% block content %}
-    <h1>Register</h1>
-    <div class="container">
-        <form action="" method="POST" class="form-group">
-            {% csrf_token %}
-            {{register_form.as_p}}
+<div class="container justify-content-center">
+    <div class="row">
+		<div class="col-md-5 reg-sec justify-content-center register-block">
+            <div class="form p-5">
+                <form action="" method="POST" class="registerForm">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        {{ register_form.email|as_crispy_field }}
+                    </div>
+                    <div class="form-group custom">
+                        <div class="row">
+                            <div class="col">{{ register_form.name|as_crispy_field }}</div>
+                            <div class="col">{{ register_form.type|as_crispy_field }}</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        {{ register_form.password1|as_crispy_field }}
+                        {{ register_form.password2|as_crispy_field }}
+                    </div>
+
+                    {% for error in register_form.errors %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <small>{{error}}</small>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                    
+                    <div class="form-check">
+                        <button type="submit" class="btn btnModal float-right">Register</button>
+                    </div>
+                </form>
+            </div>
             
-            {% for error in register_form.errors %}
-                <p>{{error}}</p>
-            {% endfor %}
-
-            <button type="submit" class="btn btnModal">Register</button>
-
-        </form>
+        </div>
+        <div class="col-md-6 banner-sec">
+            <img class="d-block img-fluid" src="{% static 'images/bg.png' %}">
+        </div>
     </div>
+</div>
 {% endblock content %}
 

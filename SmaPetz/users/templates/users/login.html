@@ -20,6 +20,7 @@ User Login
                         <label for="exampleInputPassword">Password</label>
                         {{ login_form.password}}
                     </div>
+                    
                     {% if login_form.non_field_errors %}
                         
                         {% for err in login_form.non_field_errors %}
@@ -36,7 +37,7 @@ User Login
                         <label class="form-check-label">
                         <a href="#"><small>Forgot Password?</small></a>
                         </label>
-                        <button type="submit" class="btn btnModal float-right">Submit</button>
+                        <button type="submit" class="btn btnModal float-right">Login</button>
                     </div>
                 </form>
             </div>
