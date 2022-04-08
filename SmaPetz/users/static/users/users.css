@@ -1,6 +1,23 @@
 .register{
     width: fit-content !important;
 }
-.pwd{
-    background: red !important;
+
+.cardBig{
+    background-color: #fff !important;
+    padding: 25px;
+}
+.loginForm{
+    background-color: #fff !important;
+}
+.row{
+    width: fit-content !important;
+    background-color: #fff !important;
+}
+.col-6{
+    content: inherit;
+}
+.bgImg{
+    width: 600px;
+    height: 450px;
+    background-color: #fff !important;
 }

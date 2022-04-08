@@ -7,7 +7,7 @@ from users.models import User
 
 # Create your views here.
 def home_view(request):
-    return render(request, 'users/dashboard.html')
+    return redirect('posts:home-view')
 
 def register(request):
     context = {}
@@ -38,6 +38,9 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 return redirect("dashboard")
+
+        else:
+            context['login_form'] = form
 
     else:
         form = UserLoginForm()

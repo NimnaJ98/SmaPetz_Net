@@ -1,27 +1,35 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}
 User Login
 {% endblock title %}
 
 {% block content %}
     <h1>Login</h1>
-    <div class="container">
-        <form action="" method="POST">
-            {% csrf_token %}
-            {{login_form.as_p}}
-
-            {% for error in login_form.errors %}
-                <p>{{error}}</p>
-            {% endfor %}
-
-            
-            {% if login_form.non_field_errors %}
-                <p>{{login_form.non_field_errors}}</p>
-            {% endif %}
+    <div class="container px-4 py-5 mx-auto">
+        <div class="card cardBig">
+            <div class="row">
+                <div class="col-6 justify-content-center my-auto">
+                    <form action="" method="POST" class="loginForm">
+                        {% csrf_token %}
+                        {{login_form.as_p}}
+                        
+                        {% if login_form.non_field_errors %}
+                            
+                            {% for err in login_form.non_field_errors %}
+                                <p>{{err}}</p>
+                            {% endfor %}
                 
-            <button type="submit" class="btn btnModal">Login</button>
-
-        </form>
+                        {% endif %}
+                            
+                        <button type="submit" class="btn btnModal">Login</button>
+                    </form>
+                </div>
+                <div class="col-6 justify-content-flex-start my-auto">
+                    <img class="bgImg" src="{% static "images/bg.png" %}"/> 
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock content %}
 

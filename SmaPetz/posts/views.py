@@ -9,9 +9,12 @@ from .forms  import commentModelForm, postModelForm
 from django.http import HttpResponseRedirect
 from django.views.generic import UpdateView, DeleteView
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 # Create your views here.
+@login_required
 def home_view(request):
     #query set to grab all the posts
     post =  Post.objects.all()
@@ -57,6 +60,7 @@ def home_view(request):
 
     return render(request, 'posts/main.html', context)
 
+@login_required
 def like_unlike_post(request):
     user = request.user
     if request.method == 'POST':
@@ -90,7 +94,7 @@ def like_unlike_post(request):
     
     return redirect('posts:home-view')
 
-class PostDeleteView(DeleteView):
+class PostDeleteView(LoginRequiredMixin, DeleteView):
     model = Post
     template_name = 'posts/confirm_del.html'
     success_url = reverse_lazy('posts:home-view')
@@ -102,7 +106,7 @@ class PostDeleteView(DeleteView):
             messages.warning(self.request, 'You need to be the author of the post in order to delete it.')
         return obj
 
-class PostUpdateView(UpdateView):
+class PostUpdateView(LoginRequiredMixin, UpdateView):
     form_class = postModelForm
     model = Post
     template_name = 'posts/update.html'

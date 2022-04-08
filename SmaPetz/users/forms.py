@@ -14,11 +14,14 @@ class UserRegistrationForm(UserCreationForm):
         }
 
 class UserLoginForm(forms.ModelForm):
-    password = forms.CharField(label="password", widget=forms.PasswordInput)
+    password = forms.CharField(label="password", widget=forms.PasswordInput(attrs={'class':'form-control register'}))
 
     class Meta:
         model = User
         fields = ('email', 'password')
+        widgets = {
+            'email': forms.EmailInput(attrs={'class':'form-control register'}),
+        }
 
     def clean(self):
         if self.is_valid():
