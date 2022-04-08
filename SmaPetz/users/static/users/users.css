@@ -1,23 +1,35 @@
-.register{
-    width: fit-content !important;
+@import url("//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css");
+.login-block{
+    background: #DE6262 !important;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom, #FFB88C, #DE6262) !important;  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, #FFB88C, #DE6262) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    float:left;
+    width:100%;
+    padding : 50px 0;
+    border-radius: 25px;
+}
+.form{
+    background: #fff !important; 
+    border-width: 5px !important;
+    -webkit-box-shadow: 4px 6px 6px -5px #000;
+    -moz-box-shadow: 4px 6px 6px -5px #000;
+    box-shadow: 4px 4px 4px -5px #000;
+}
+.footer{
+    background: #fff !important; 
+    text-align: center !important;
+    margin: auto;
+    border-width: 5px !important;
+    padding: 20px;
+    -webkit-box-shadow: 4px 6px 6px -5px #000;
+    -moz-box-shadow: 4px 6px 6px -5px #000;
+    box-shadow: 4px 4px 4px -5px #000;
+}
+  
+a small{
+    background: #fff !important; 
 }
 
-.cardBig{
-    background-color: #fff !important;
-    padding: 25px;
-}
-.loginForm{
-    background-color: #fff !important;
-}
-.row{
-    width: fit-content !important;
-    background-color: #fff !important;
-}
-.col-6{
-    content: inherit;
-}
-.bgImg{
-    width: 600px;
-    height: 450px;
-    background-color: #fff !important;
-}
+.banner-sec{background-size:cover; min-height:500px; border-radius: 0 10px 10px 0; padding:0;}
+
+.login-sec{padding: 50px 30px; position:inherit;}

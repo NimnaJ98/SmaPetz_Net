@@ -1,35 +1,58 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block title %}
 User Login
 {% endblock title %}
 
 {% block content %}
-    <h1>Login</h1>
-    <div class="container px-4 py-5 mx-auto">
-        <div class="card cardBig">
-            <div class="row">
-                <div class="col-6 justify-content-center my-auto">
-                    <form action="" method="POST" class="loginForm">
-                        {% csrf_token %}
-                        {{login_form.as_p}}
+<div class="container justify-content-center">
+    <div class="row">
+		<div class="col-md-4 login-sec justify-content-center login-block">
+            <div class="form p-5">
+                <form action="" method="POST" class="loginForm">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Email</label>
+                        {{ login_form.email }}
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword">Password</label>
+                        {{ login_form.password}}
+                    </div>
+                    {% if login_form.non_field_errors %}
                         
-                        {% if login_form.non_field_errors %}
-                            
-                            {% for err in login_form.non_field_errors %}
-                                <p>{{err}}</p>
-                            {% endfor %}
-                
-                        {% endif %}
-                            
-                        <button type="submit" class="btn btnModal">Login</button>
-                    </form>
-                </div>
-                <div class="col-6 justify-content-flex-start my-auto">
-                    <img class="bgImg" src="{% static "images/bg.png" %}"/> 
-                </div>
+                        {% for err in login_form.non_field_errors %}
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <small>{{err}}</small>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endfor %}
+            
+                    {% endif %}
+                    <div class="form-check">
+                        <label class="form-check-label">
+                        <a href="#"><small>Forgot Password?</small></a>
+                        </label>
+                        <button type="submit" class="btn btnModal float-right">Submit</button>
+                    </div>
+                </form>
+            </div>
+            <div class= "footer justify-content-center mt-3">
+                {% comment %} <div class="alert alert-dark" role="alert"> {% endcomment %}
+                    New to SmaPetz?
+                    <i class="fa-solid fa-hand-point-right"></i> &nbsp
+                    <a href="{% url 'register' %}" style="color: #DE6262 !important;">Register</a>   
+                {% comment %} </div> {% endcomment %}
             </div>
         </div>
+        <div class="col-md-8 banner-sec">
+            <img class="d-block img-fluid" src="{% static 'images/bg.png' %}">
+        </div>
     </div>
+</div>
+
 {% endblock content %}
 
