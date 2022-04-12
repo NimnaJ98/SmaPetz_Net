@@ -36,6 +36,9 @@ def home_view(request):
             instance.save()
             post_form = postModelForm()
             post_added = True
+        return redirect('posts:home-view')
+
+
 
     if 'comment_form_submit' in request.POST:
         comment_form = commentModelForm(request.POST)
@@ -45,6 +48,7 @@ def home_view(request):
             instance.post = Post.objects.get(id=request.POST.get('post_id'))
             instance.save()
             comment_form = commentModelForm()
+        return redirect('posts:home-view')
 
 
     context = {
