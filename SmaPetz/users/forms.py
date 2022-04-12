@@ -18,13 +18,13 @@ class UserRegistrationForm(UserCreationForm):
         self.fields['password2'].widget.attrs.update({'class': 'custom-class'})
 
 class UserLoginForm(forms.ModelForm):
-    password = forms.CharField(label="password", widget=forms.PasswordInput(attrs={'class':'form-control register'}))
+    password = forms.CharField(label="password", widget=forms.PasswordInput(attrs={'class':'form-control custom-class'}))
 
     class Meta:
         model = User
         fields = ('email', 'password')
         widgets = {
-            'email': forms.EmailInput(attrs={'class':'form-control register'}),
+            'email': forms.EmailInput(attrs={'class':'form-control custom-class'}),
         }
 
     def clean(self):

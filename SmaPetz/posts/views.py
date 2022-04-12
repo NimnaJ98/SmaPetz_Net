@@ -22,8 +22,7 @@ def home_view(request):
     written = Post.objects.exclude(picture="")
     video = Post.objects.exclude(video="")
 
-    #post form and comment form
-     #Post and Comment Forms
+    #Post and Comment Forms
     post_form = postModelForm()
     comment_form = commentModelForm()
     post_added = False
@@ -68,10 +67,10 @@ def like_unlike_post(request):
         post_obj = Post.objects.get(id = post_id)
         profile = Profile.objects.get(user = user)
 
-        if profile in post_obj.liked.all():
-            post_obj.liked.remove(profile)
+        if profile in post_obj.liked_by.all():
+            post_obj.liked_by.remove(profile)
         else:
-            post_obj.liked.add(profile)
+            post_obj.liked_by.add(profile)
 
         like, created = Like.objects.get_or_create(user = profile, post_id = post_id)
 
@@ -80,19 +79,11 @@ def like_unlike_post(request):
                 like.value = 'Unlike'
             else:
                 like.value = 'Like'
-        else:
-            like.value = 'Like'
 
             post_obj.save()
             like.save()
-
-        data ={
-            'value': like.value,
-            'likes': post_obj.liked.all().count()
-        }
-        return JsonResponse(data, safe= False)
-    
     return redirect('posts:home-view')
+        
 
 class PostDeleteView(LoginRequiredMixin, DeleteView):
     model = Post

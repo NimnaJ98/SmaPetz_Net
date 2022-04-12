@@ -49,3 +49,4 @@ class PetLoverModelForm(forms.ModelForm):
           'address': forms.Textarea(attrs={'rows':2, 'class':'form-control'}),
           'number': forms.Textarea(attrs={'rows':1, 'class':'form-control'}),
         }
+

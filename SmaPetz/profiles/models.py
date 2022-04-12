@@ -49,13 +49,13 @@ class Profile(models.Model):
     def __str__(self):
         return str(self.user)
 
-    #to grab all the friends to show in Profile
-    def get_friends(self):
-        return self.friends.all()
+    #to grab all the following profiles
+    def get_following(self):
+        return self.following.all()
 
     #to grab all the count of friends to show in Profile
-    def get_friends_no(self):
-        return self.friends.all().count()
+    def get_following_no(self):
+        return self.following.all().count()
 
     #to grab all the count of posts to show in Profile
     def get_post_no(self):

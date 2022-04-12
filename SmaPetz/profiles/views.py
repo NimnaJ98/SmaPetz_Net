@@ -14,8 +14,8 @@ from django.db.models import Q
 def profile_test_view(request):
     
     confirm = False
+    profile = Profile.objects.get(user=request.user)
     if request.user.type == "PET":
-        profile = Profile.objects.get(user=request.user)
        
         pet = Pet.objects.get(user=request.user)
         form = PetModelForm(request.POST or None,request.FILES or None, instance=profile)
@@ -56,13 +56,14 @@ def profile_test_view(request):
         return render(request, 'profiles/store_profile.html', {'profile':profile})
 
     elif request.user.type == "PET_LOVER":
-        profile = Pet_Lover.objects.get(user=request.user)
-        form = PetLoverModelForm(request.POST or None,request.FILES or None, instance=profile)
+        lover = Pet_Lover.objects.get(user=request.user)
+        petLoverform = PetLoverModelForm(request.POST or None,request.FILES or None, instance=profile)
 
         context = {
             'profile': profile,
-            'form':form,
+            'petLoverform':petLoverform,
             'confirm':confirm,
+            'lover':lover
         }
         return render(request, 'profiles/petLover_profile.html', {'profile':profile})
 

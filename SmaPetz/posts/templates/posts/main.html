@@ -40,33 +40,24 @@
                     <p class="card-text">{{obj.tags}}</p>
                     <!-- Like -->
                     <div class="card-body-likes float-right">
-                        <form action="{% url 'posts:like-post-view' %}" method="POST" class="like-form" id="{{obj.id}}">
+                        <form action="{% url 'posts:like-post-view' %}" method="POST">
                             {% csrf_token %}
                             <input type="hidden" name="post_id" value={{obj.id}}>
-        
-                                <button type="submit" class="btn like-btn{{obj.id}}" style="background:transparent;">
-                                    <i class="fa-solid fa-heart"></i>
-                                    {% if profile not in obj.liked.all %}
-                                        Like
-                                    {% else %}
-                                        Unlike
-                                    {% endif %}
-                                </button>
-    
-                                <div class="ui grid">
-                                    <div class="column">
-                                        <div class="like-count{{obj.id}}"> {{obj.num_likes}} </div>
-                                    </div>
-                                    <div class="column">
-                                        Likes
-                                    </div>
-                                </div> 
+                            <button type="submit" class="btn likebtn">
+                                {% if profile not in obj.liked_by.all %}
+                                    <i class="fa-solid fa-heart likeIcon"></i>
+                                {% else %}
+                                    <i class="fa-solid fa-heart-crack likeIcon"></i>
+                                {% endif %}
+                                <i class='numbers'>{{obj.num_likes}}</i>
+                            </button>
+                            
                         </form>
                     </div>
                     <!-- Comments -->
                     <div class ="card-body-comment">
                         <i class="fa-solid fa-comment ml-5"></i>
-                        <span> {{ obj.num_comment}} comments</span>
+                        <span> {{ obj.num_comments}} comments</span>
                         <div class="extra content">
                             <button class="btn cmtbutton mb-5" style="margin-bottom:5px !important;">show / hide comments</button>
                             <div class="comment-box" style="display: none !important;">
