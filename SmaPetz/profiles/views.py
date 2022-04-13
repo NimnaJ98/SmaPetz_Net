@@ -1,4 +1,5 @@
 from re import L
+from unittest import result
 from django.dispatch import receiver
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import Profile, Pet, Pet_Lover, Store, Veterinarian, FriendRequest
@@ -72,10 +73,42 @@ def profile_test_view(request):
 def received_requests_view(request):
     profile = Profile.objects.get(user=request.user)
     qs = FriendRequest.objects.received_requests(profile)
+    results = list(map(lambda x: x.sender, qs))
+    is_empty = False
+    if len(results) ==0:
+        is_empty = True
 
-    context = {'qs':qs}
+    context = {
+        'qs':results,
+        'is_empty':is_empty,
+        }
 
     return render(request, 'profiles/received_requests.html', context)
+
+#accept received requests
+def accept_requests(request):
+    if request.method=="POST":
+        pk = request.POST.get('profile_pk')
+        sender = Profile.objects.get(pk=pk)
+        receiver = Profile.objects.get(user = request.user)
+
+        friendship = get_object_or_404(FriendRequest, sender=sender, receiver=receiver)
+        if friendship.status == 'send':
+            friendship.status = 'accepted'
+            friendship.save()
+
+    return redirect('profiles:received-requests')
+
+#reject received requests
+def reject_requests(request):
+    if request.method=="POST":
+        pk = request.POST.get('profile_pk')
+        sender = Profile.objects.get(pk=pk)
+        receiver = Profile.objects.get(user = request.user)
+
+        friendship = get_object_or_404(FriendRequest, sender=sender, receiver=receiver)
+        friendship.delete()
+    return redirect('profiles:received-requests')
 
 #to display the profiles available to request
 def invite_profiles_list_view(request):
@@ -157,26 +190,3 @@ def remove_from_friends(request):
         return redirect(request.META.get('HTTP_REFERER'))
 
     return redirect('profiles:profile-test')
-
-    
-
-def accept_invitation(request):
-    if request.method=="POST":
-        pk = request.POST.get('profile_pk')
-        sender = Profile.objects.get(pk=pk)
-        receiver = Profile.objects.get(user=request.user)
-        rel = get_object_or_404(FriendRequest, sender=sender, receiver=receiver)
-        if rel.status == 'send':
-            rel.status = 'accepted'
-            rel.save()
-    return redirect('profiles:my-invites-view')
-
-def reject_invitation(request):
-    if request.method=="POST":
-        pk = request.POST.get('profile_pk')
-        sender = Profile.objects.get(pk=pk)
-        receiver = Profile.objects.get(user=request.user)
-        rel = get_object_or_404(FriendRequest, sender=sender, receiver=receiver)
-        rel.delete()
-    return redirect('profiles:my-invites-view')
-

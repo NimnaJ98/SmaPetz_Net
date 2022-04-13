@@ -3,9 +3,60 @@
 {% block title %}Received Friend Requests{% endblock title %}
 
 {% block content %}
-<ul>
-    {% for item in qs %}
-        <li>{{item}}</li>
-    {% endfor %}
-</ul>
+{% if is_empty %}
+    <div class="alert alert-light" role="alert">
+        No invitations here...
+    </div>
+{% endif %}
+
+{% for obj in qs %}
+    <div class="card cardList mb-3 shadow rounded">
+        <div class="grid cardList gridList">
+            <div class="row cardList justify-content-center">
+                <div class="col-3 cardList">
+                    <img class="img-fluid m-2" alt="Responsive image" src={{obj.profilePic.url}}>
+                </div>
+                <div class="col-8 cardListCol">
+                    <h5 class="card-title users_name mt-2">{{obj.user.name}}</h5>
+                    {% if obj.user.type == 'PET' %}
+                        <p class="bg-light">A Pet Profile</p>
+                    {% endif %}
+                    {% if obj.user.type == 'VET' %}
+                        <p class="bg-light">A Veterinarian Profile</p>
+                    {% endif %}
+                    {% if obj.user.type == 'STORE' %}
+                        <p class="bg-light">A Store Profile</p>
+                    {% endif %}
+                    {% if obj.user.type == 'PET_LOVER' %}
+                        <p class="bg-light">A Pet Lover Profile</p>
+                    {% endif %}
+                    <p class="bg-light">{{obj.bio}}</p>
+                </div>
+                <div class="col-1 cardListCol">
+                    <a href="">
+                        <button type="button" class="btn btnModal seeProfile mt-3 mb-3">See Profile</button>
+                    </a>
+                    <form action="{% url 'profiles:accept-request' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="profile_pk" value={{obj.pk}}>
+                        <button type="submit" class="btn btn-success mb-2">
+                            <i class="fa-solid fa-check mr-2"></i>
+                            Accept Request
+                        </button>
+                    </form>
+                    <form action="{% url 'profiles:reject-request' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="profile_pk" value={{obj.pk}}>
+                        <button type="submit" class="btn btn-remove">
+                            <i class="fa-solid fa-xmark mr-2"></i>
+                            Reject Request
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endfor %}
+
 {% endblock content %}

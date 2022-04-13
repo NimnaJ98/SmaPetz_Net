@@ -7,9 +7,8 @@ from .views import (
     ProfileListView,
     send_requests, 
     remove_from_friends,
-
-    accept_invitation,
-    reject_invitation,
+    accept_requests,
+    reject_requests,
 
 )
 
@@ -23,9 +22,9 @@ urlpatterns = [
     path('to-request/', invite_profiles_list_view, name='request-profiles-view'),
     path('send-requests/',send_requests, name='send-request'),
     path('remove-friend/',remove_from_friends, name='remove-friend'),
+    path('received-requests/accept/', accept_requests, name='accept-request'),
+    path('received-requests/reject/', reject_requests, name='reject-request'),
     
     # path('<slug>/', ProfileDetailView.as_view(), name='profile-detail-view'),
-    path('my-invites/accept/', accept_invitation, name='accept-invite'),
-    path('my-invites/reject/', reject_invitation, name='reject-invite'),
     
 ]

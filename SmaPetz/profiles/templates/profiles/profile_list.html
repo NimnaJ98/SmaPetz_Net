@@ -11,12 +11,12 @@
 {% for obj in qs %}
     <div class="card cardList mb-3 shadow rounded">
         <div class="grid cardList gridList">
-            <div class="row cardList">
-                <div class="col-4 cardList">
+            <div class="row cardList justify-content-center">
+                <div class="col-3 cardList">
                     <img class="img-fluid m-2" alt="Responsive image" src={{obj.profilePic.url}}>
                 </div>
                 <div class="col-8 cardListCol">
-                    <h5 class="card-title users_name m-2">{{obj.user.name}}</h5>
+                    <h5 class="card-title users_name mt-2">{{obj.user.name}}</h5>
                     {% if obj.user.type == 'PET' %}
                         <p class="bg-light">A Pet Profile</p>
                     {% endif %}
@@ -30,7 +30,9 @@
                         <p class="bg-light">A Pet Lover Profile</p>
                     {% endif %}
                     <p class="bg-light">{{obj.bio}}</p>
-                    <button type="button" class="btn btnModal m-3">See Profile</button>
+                </div>
+                <div class="col-1 cardListCol">
+                    <button type="button" class="btn btnModal seeProfile mt-3 mb-3">See Profile</button>
                     
                     {% if obj.user not in request_receiver and obj.user not in request_sender %}
                         <form action="{% url 'profiles:send-request' %}" method="POST">
@@ -45,7 +47,7 @@
                     {% endif %}
 
                     {% if obj.user in request_receiver and request.user not in obj.following.all %}
-                        <button class="btn" disabled>
+                        <button class="btn waitingBtn" disabled>
                             <i class="fa-solid fa-paw"></i>
                             Waiting for Approval
                         </button>

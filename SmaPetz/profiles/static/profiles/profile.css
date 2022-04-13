@@ -99,7 +99,7 @@
     border-radius: 100px  !important;
 }
 .cardListCol{
-    width: 100% !important;
+    width: max-content !important;
     background: #fff !important;
     margin-bottom: 15px;
     margin-left: auto !important; 
@@ -115,11 +115,19 @@
     border-color: #EE7752 !important;
     color: #EE7752 !important;
     background: #fff !important;
+    width: 200px !important;
 }
 .btn-success{
     border-color: #000000 !important;
     color: #000000 !important;
     background: #fff !important;
+    width: 200px !important;
+}
+.seeProfile{
+    width: 200px !important;
+}
+.waitingBtn{
+    width: 200px !important;
 }
 form{
     background: #fff !important;
