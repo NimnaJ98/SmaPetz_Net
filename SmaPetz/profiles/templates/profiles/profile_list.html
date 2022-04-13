@@ -17,17 +17,26 @@
                 </div>
                 <div class="col-8 cardListCol">
                     <h5 class="card-title users_name mt-2">{{obj.user.name}}</h5>
+                    % endif %}
                     {% if obj.user.type == 'PET' %}
-                        <p class="bg-light">A Pet Profile</p>
+                        <div class="alert alert-light" role="alert">
+                            A Pet Profile
+                        </div>
                     {% endif %}
                     {% if obj.user.type == 'VET' %}
-                        <p class="bg-light">A Veterinarian Profile</p>
+                        <div class="alert alert-light" role="alert">
+                            A Veterinarian Profile
+                        </div>
                     {% endif %}
                     {% if obj.user.type == 'STORE' %}
-                        <p class="bg-light">A Store Profile</p>
+                        <div class="alert alert-light" role="alert">
+                            A Store Profile
+                        </div>
                     {% endif %}
                     {% if obj.user.type == 'PET_LOVER' %}
-                        <p class="bg-light">A Pet Lover Profile</p>
+                        <div class="alert alert-light" role="alert">
+                            A Pet Lover Profile
+                        </div>
                     {% endif %}
                     <p class="bg-light">{{obj.bio}}</p>
                 </div>
