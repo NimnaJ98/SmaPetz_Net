@@ -31,17 +31,18 @@
                     {% endif %}
                     <p class="bg-light">{{obj.bio}}</p>
                     <button type="button" class="btn btnModal m-3">See Profile</button>
-                
-                    <form action="" method="POST">
-                        {% csrf_token %}
-                        <input type="hidden" name="profile_pk" value={{obj.pk}}>
-                        {% if obj.user not in request_receiver and obj.user not in request_sender %}
-                            <button type="submit" class="btn">
+                    
+                    {% if obj.user not in request_receiver and obj.user not in request_sender %}
+                        <form action="{% url 'profiles:send-request' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="profile_pk" value={{obj.pk}}>
+                            
+                            <button type="submit" class="btn btn-success">
                                 <i class="fa-solid fa-plus"></i>
                                 Add to Friends
                             </button>
-                        {% endif %} 
-                    </form>
+                        </form>
+                    {% endif %}
 
                     {% if obj.user in request_receiver and request.user not in obj.following.all %}
                         <button class="btn" disabled>
@@ -49,17 +50,17 @@
                             Waiting for Approval
                         </button>
                     {% endif %}
-
-                    <form action="" method="POST">
-                        {% csrf_token %}
-                        <input type="hidden" name="profile_pk" value={{obj.pk}}>
-                        {% if request.user in obj.following.all %}
-                            <button type="submit" class="btn">
+                    
+                    {% if request.user in obj.following.all %}
+                        <form action="{% url 'profiles:remove-friend' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="profile_pk" value={{obj.pk}}>
+                            <button type="submit" class="btn btn-remove">
                                 <i class="fa-solid fa-minus"></i>
                                 Remove from Friends
                             </button>
-                        {% endif %}
-                    </form>
+                        </form>
+                    {% endif %}
                 </div>
             </div>    
         </div>

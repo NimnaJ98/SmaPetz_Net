@@ -101,10 +101,26 @@
 .cardListCol{
     width: 100% !important;
     background: #fff !important;
+    margin-bottom: 15px;
+    margin-left: auto !important; 
+    margin-right: auto !important;
 }
 .users_name{
     background: #fff !important;
 }
 .bg-light{
+    background: #fff !important;
+}
+.btn-remove{
+    border-color: #EE7752 !important;
+    color: #EE7752 !important;
+    background: #fff !important;
+}
+.btn-success{
+    border-color: #000000 !important;
+    color: #000000 !important;
+    background: #fff !important;
+}
+form{
     background: #fff !important;
 }

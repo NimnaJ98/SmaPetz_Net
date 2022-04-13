@@ -1,4 +1,5 @@
 from re import L
+from django.dispatch import receiver
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import Profile, Pet, Pet_Lover, Store, Veterinarian, FriendRequest
 from users.models import User
@@ -94,7 +95,7 @@ def profiles_list_view(request):
 
     return render(request, 'profiles/profile_list.html', context)
 
-
+#class-based view to display profiles
 class ProfileListView(ListView):
     model = Profile
     template_name = 'profiles/profile_list.html'
@@ -128,7 +129,36 @@ class ProfileListView(ListView):
 
         return context
 
+#send friend requests to profiles
+def send_requests(request):
+    if request.method == 'POST':
+        pk = request.POST.get('profile_pk')
+        user = request.user
+        sender = Profile.objects.get(user=user)
+        receiver = Profile.objects.get(pk=pk)
 
+        friendship = FriendRequest.objects.create(sender=sender, receiver=receiver, status='send')
+
+        return redirect(request.META.get('HTTP_REFERER'))
+    return redirect('profiles:profile-test')
+
+#remove friends
+def remove_from_friends(request):
+    if request.method == 'POST':
+        pk = request.POST.get('profile_pk')
+        user = request.user
+        sender = Profile.objects.get(user=user)
+        receiver = Profile.objects.get(pk=pk)
+
+        friendship = FriendRequest.objects.get(
+            (Q(sender=sender) & Q(receiver=receiver)) | (Q(sender=receiver) & Q(receiver=sender))
+        )
+        friendship.delete()
+        return redirect(request.META.get('HTTP_REFERER'))
+
+    return redirect('profiles:profile-test')
+
+    
 
 def accept_invitation(request):
     if request.method=="POST":
@@ -150,27 +180,3 @@ def reject_invitation(request):
         rel.delete()
     return redirect('profiles:my-invites-view')
 
-def send_invitations(request):
-    if request.method =='POST':
-        pk = request.POST.get('profile_pk')
-        user = request.user
-        sender = Profile.objects.get(user=user)
-        receiver = Profile.objects.get(pk=pk)
-
-        rel = FriendRequest.objects.create(sender=sender, receiver=receiver, status='send')
-        return redirect(request.META.get('HTTP_REFERER'))
-    return redirect('profiles:profile_test_view')
-
-def remove_from_friends(request):
-    if request.method =='POST':
-        pk = request.POST.get('profile_pk')
-        user = request.user
-        sender = Profile.objects.get(user=user)
-        receiver = Profile.objects.get(pk=pk)
-    
-        rel = FriendRequest.objects.get(
-            (Q(sender=sender) & Q(receiver=receiver)) | (Q(sender=receiver) & Q(receiver=sender))
-        )
-        rel.delete()
-        return redirect(request.META.get('HTTP_REFERER'))
-    return redirect('profiles:profile_test_view')
