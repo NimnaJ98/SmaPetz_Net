@@ -10,7 +10,6 @@ from django.db.models import Q
 
 
 # Create your views here.
-
 def profile_test_view(request):
     
     confirm = False
@@ -67,20 +66,16 @@ def profile_test_view(request):
         }
         return render(request, 'profiles/petLover_profile.html', {'profile':profile})
 
+#to display the received friend requests of the logged in user
 def received_requests_view(request):
     profile = Profile.objects.get(user=request.user)
-    qs = FriendRequest.objects.invitations_received(profile)
-    results = list(map(lambda x: x.sender, qs))
-    is_empty = False
-    if len(results)==0:
-        is_empty = True
-        
-    context = {
-        'qs': results,
-        'is_empty':is_empty, 
-        }
+    qs = FriendRequest.objects.received_requests(profile)
 
-    return render(request, 'profiles/my_invites.html', context)
+    context = {'qs':qs}
+
+    return render(request, 'profiles/received_requests.html', context)
+    
+
 
 def accept_invitation(request):
     if request.method=="POST":
@@ -118,34 +113,7 @@ def profiles_list_view(request):
 
     return render(request, 'profiles/profile_list.html', context)
 
-class ProfileDetailView(DetailView):
-    model = Profile
-    template_name = 'profiles/detail.html'
 
-    def get_object(self, pk=None):
-        pk = self.kwargs.get('pk')
-        profile = Profile.objects.get(pk=pk)
-        return profile
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        user = User.objects.get(username__iexact=self.request.user)
-        profile = Profile.objects.get(user=user)
-        rel_r = FriendRequest.objects.filter(sender=profile)
-        rel_s = FriendRequest.objects.filter(receiver=profile)
-        rel_receiver = []
-        rel_sender = []
-        for item in rel_r:
-            rel_receiver.append(item.receiver.user)
-        for item in rel_s:
-            rel_sender.append(item.sender.user) 
-        context["rel_receiver"] = rel_receiver
-        context["rel_sender"] = rel_sender
-        #to get all the posts from a user, by using the method created in models page
-        context['posts']=self.get_object().get_all_authors_posts()
-        context['len_posts']= True if len(self.get_object().get_all_authors_posts())> 0 else False
-                
-        return context
 
 class ProfileListView(ListView):
     model = Profile

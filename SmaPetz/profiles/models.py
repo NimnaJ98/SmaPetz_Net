@@ -208,8 +208,8 @@ STATUS_CHOICES = (
 )
 
 class FriendRequestManager(models.Manager):
-    def invitations_received(self, receiver):
-        qs = FriendRequest.objects.filter(receiver=receiver, status='send')
+    def received_requests(self, receiver):
+        qs = FriendRequest.objects.filter(receiver = receiver, status='send')
         return qs
 
 # FriendRequest model
