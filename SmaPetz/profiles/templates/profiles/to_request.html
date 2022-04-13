@@ -1,13 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %}Invite Profiles{% endblock title %}
+{% block title %}Request Friends{% endblock title %}
 
 {% block content %}
 <ul>
-    {% if request.user.type == 'PET' %}
-        {% for item in qs %}
-            <li>{{item}}</li>
-        {% endfor %}
-    {% endif %}
+    {% for item in qs %}
+        <li>{{item}}</li>
+    {% endfor %}
 </ul>
 {% endblock content %}

@@ -5,7 +5,7 @@ from .views import (
     profiles_list_view, 
     invite_profiles_list_view, 
     # ProfileDetailView,
-    ProfileListView, 
+    # ProfileListView, 
     send_invitations, 
     remove_from_friends,
     accept_invitation,
@@ -16,10 +16,12 @@ from .views import (
 app_name = 'profiles'
 
 urlpatterns = [
-    path('', ProfileListView.as_view(), name='all-profiles-view'),
+    # path('', ProfileListView.as_view(), name='all-profiles-view'),
     path('profile/', profile_test_view, name='profile-test'),
     path('received-requests/', received_requests_view, name='received-requests'),
-    path('to-invite/', invite_profiles_list_view, name='invite-profiles-view'),
+    path('all-profiles/', profiles_list_view, name='all-profiles-view'),
+    path('to-request/', invite_profiles_list_view, name='request-profiles-view'),
+
     path('send-invite/',send_invitations, name='send-invite'),
     path('remove-friend/',remove_from_friends, name='remove-friend'),
     # path('<slug>/', ProfileDetailView.as_view(), name='profile-detail-view'),
