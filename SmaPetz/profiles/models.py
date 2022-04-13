@@ -15,11 +15,11 @@ class ProfileManager(models.Manager):
         qs = FriendRequest.objects.filter(Q(sender=profile)|Q(receiver=profile))
         print(qs)
 
-        accepted=[]
+        accepted= set([])
         for req in qs:
             if req.status == 'accepted':
-                accepted.append(req.receiver)
-                accepted.append(req.sender)
+                accepted.add(req.receiver)
+                accepted.add(req.sender)
         print(accepted)
 
         available = [profile for profile in profiles if profile not in accepted]

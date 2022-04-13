@@ -1,3 +1,4 @@
+from re import L
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import Profile, Pet, Pet_Lover, Store, Veterinarian, FriendRequest
 from users.models import User
@@ -75,6 +76,15 @@ def received_requests_view(request):
 
     return render(request, 'profiles/received_requests.html', context)
 
+#to display the profiles available to request
+def invite_profiles_list_view(request):
+    user = request.user
+    qs = Profile.objects.get_profiles_to_send_requests(user)
+
+    context = {'qs':qs}
+
+    return render(request, 'profiles/to_request.html', context)
+
 #to display all the profiles except for the logged in user
 def profiles_list_view(request):
     user = request.user
@@ -84,13 +94,40 @@ def profiles_list_view(request):
 
     return render(request, 'profiles/profile_list.html', context)
 
-def invite_profiles_list_view(request):
-    user = request.user
-    qs = Profile.objects.get_profiles_to_send_requests(user)
 
-    context = {'qs':qs}
+class ProfileListView(ListView):
+    model = Profile
+    template_name = 'profiles/profile_list.html'
+    context_object_name = 'qs'
 
-    return render(request, 'profiles/to_request.html', context)
+    def get_queryset(self):
+        qs = Profile.objects.get_all_profiles(self.request.user)
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = User.objects.get(email__iexact = self.request.user)
+        profile = Profile.objects.get(user = user)
+
+        req_receiver = FriendRequest.objects.filter(sender=profile)
+        req_sender = FriendRequest.objects.filter(receiver=profile)
+
+        request_receiver = []
+        request_sender = []
+
+        for item in req_receiver:
+            request_receiver.append(item.receiver.user)
+        for item in req_sender:
+            request_sender.append(item.sender.user)
+        context["request_receiver"] = request_receiver
+        context["request_sender"] = request_sender
+
+        context['is_empty'] = False
+        if len(self.get_queryset()) == 0:
+            context['is_empty'] = True
+
+        return context
+
 
 
 def accept_invitation(request):

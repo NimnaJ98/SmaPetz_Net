@@ -4,8 +4,10 @@ from .views import (
     received_requests_view,
     profiles_list_view, 
     invite_profiles_list_view, 
+    ProfileListView,
+    
     # ProfileDetailView,
-    # ProfileListView, 
+     
     send_invitations, 
     remove_from_friends,
     accept_invitation,
@@ -19,7 +21,7 @@ urlpatterns = [
     # path('', ProfileListView.as_view(), name='all-profiles-view'),
     path('profile/', profile_test_view, name='profile-test'),
     path('received-requests/', received_requests_view, name='received-requests'),
-    path('all-profiles/', profiles_list_view, name='all-profiles-view'),
+    path('all-profiles/', ProfileListView.as_view(), name='all-profiles-view'),
     path('to-request/', invite_profiles_list_view, name='request-profiles-view'),
 
     path('send-invite/',send_invitations, name='send-invite'),

@@ -34,7 +34,7 @@ def post_save_add_to_friends(sender, instance, created, **kwargs):
 def pre_delete_remove_friend(sender, instance, **kwargs):
     sender = instance.sender
     receiver = instance.receiver
-    sender.friends.remove(receiver.user)
-    receiver.friends.remove(sender.user)
+    sender.following.remove(receiver.user)
+    receiver.following.remove(sender.user)
     sender.save()
     receiver.save()

@@ -87,3 +87,24 @@
 .btnForm{
     background-color: #fff !important;
 }
+.cardList{
+    background: #fff !important;
+    border: none;
+    width: 75% !important;
+}
+
+.cardList img{
+    width: 150px !important;
+    background: #fff !important;
+    border-radius: 100px  !important;
+}
+.cardListCol{
+    width: 100% !important;
+    background: #fff !important;
+}
+.users_name{
+    background: #fff !important;
+}
+.bg-light{
+    background: #fff !important;
+}
