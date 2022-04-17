@@ -4,7 +4,7 @@ from .models import Pet, Veterinarian, Store, Pet_Lover
 class PetModelForm(forms.ModelForm):
     class Meta:
         model = Pet
-        fields = {'avatar', 'bio', 'address', 'number','pet_type', 'breed', 'fish_type', 'reptile_type', 'bird_type', 'amphibian_type', 'mammal_type'}
+        fields = {'profilePic', 'bio', 'address', 'number','pet_type', 'breed', 'fish_type', 'reptile_type', 'bird_type', 'amphibian_type', 'mammal_type'}
         widgets = {
           'bio': forms.Textarea(attrs={'rows':2, 'class':'form-control'}),
           'address': forms.Textarea(attrs={'rows':2, 'class':'form-control'}),
@@ -21,7 +21,7 @@ class PetModelForm(forms.ModelForm):
 class VeterinarianModelForm(forms.ModelForm):
     class Meta:
         model = Veterinarian
-        fields = {'avatar', 'bio', 'address', 'number','education'}
+        fields = {'profilePic', 'bio', 'address', 'number','education'}
         widgets = {
           'bio': forms.Textarea(attrs={'rows':2, 'class':'form-control'}),
           'address': forms.Textarea(attrs={'rows':2, 'class':'form-control'}),
@@ -32,7 +32,7 @@ class VeterinarianModelForm(forms.ModelForm):
 class StoreModelForm(forms.ModelForm):
     class Meta:
         model = Store
-        fields = {'avatar', 'bio', 'address', 'number','store_type'}
+        fields = {'profilePic', 'bio', 'address', 'number','store_type'}
         widgets = {
           'bio': forms.Textarea(attrs={'rows':2, 'class':'form-control'}),
           'address': forms.Textarea(attrs={'rows':2, 'class':'form-control'}),
@@ -43,7 +43,7 @@ class StoreModelForm(forms.ModelForm):
 class PetLoverModelForm(forms.ModelForm):
     class Meta:
         model = Pet_Lover
-        fields = {'avatar', 'bio', 'address', 'number'}
+        fields = {'profilePic', 'bio', 'address', 'number'}
         widgets = {
           'bio': forms.Textarea(attrs={'rows':2, 'class':'form-control'}),
           'address': forms.Textarea(attrs={'rows':2, 'class':'form-control'}),

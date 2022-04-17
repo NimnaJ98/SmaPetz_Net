@@ -22,49 +22,48 @@
     </button>
 </div>
 {% endif %}
-<div class="card-lg mr-5">
+
+<div class="card-lg">
+  <div class="card-body">
+    <div class = "row profileRow">
+      <div class="col-sm-4">
+        <img class="img-fluid m-3" alt="Responsive image" src={{profile.profilePic.url}}>
+        
+      </div>
+      <div class="col-sm-4">
+          <div class="username mt-3">
+            {{request.user.name}}
+            <!-- Update profile button -->
+            <button type="button" class="btn btnUpdate" data-toggle="modal" data-target="#exampleModal">
+              <i class="fa fa-paw"></i>
+              Update Profile
+            </button>
+          </div>
+          <div class ="titles mt-4">
+            <a href="#" class="badge">{{profile.get_post_no}} Posts</a>
+            <a href="#" class="badge">{{profile.get_following_no}} Following</a>
+            <a href="#" class="badge">{{profile.get_followers_count}} Followers</a>
+          </div>
+          <div class ="userDetail mt-4">
+            {{profile.bio}} <br>
+            {{profile.breed}}
+          </div>
+      </div>
+    </div>
+  </div>
   <div class="card-body">
     <div class = "row">
       <div class="col-sm-4">
-        
-        <img class="img-fluid mb-3" alt="Responsive image" src={{pet.avatar.url}}>
-      </div>
-      <div class="col-sm-8">
-        <div class ="userDetail ml-4">
-        {{request.user.name}}
-        &nbsp
-        <!-- Update profile button -->
-        <button type="button" class="btn btnUpdate" data-toggle="modal" data-target="#exampleModal">
-          Update Profile
-        </button>
-      </div>
-        <div class ="titles mt-4">
-          <a href="#" class="badge">{{profile.get_post_no}} Posts</a>
-          <a href="#" class="badge">{{profile.get_following_no}} Following</a>
-          <a href="#" class="badge">{{profile.get_followers_count}} Followers</a>
-        </div>
-        <div class ="userDetail mt-4">
-          {{profile.bio}} <br>
-          {{profile.breed}}
-        </div>
+        <p>{{profile}}</p>
       </div>
     </div>
   </div>
-  <hr class="line">
-</div>
 
-<div class="card-body">
-  <div class = "row">
-    <div class="col-sm-4">
-      <p>{{profile}}</p>
-    </div>
-  </div>
-</div>
-
-<!-- Update modal -->  
-<div class="modal fade update" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <!-- Update modal -->  
+  <div class="modal fade update" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
+
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Update Your Profile</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -72,50 +71,33 @@
           </button>
         </div>
         <div class="modal-body">
-            <form action="" method="POST" class="form-group" enctype ="multipart/form-data">
+          <form action="" method="POST" class="form-group" enctype ="multipart/form-data">
             {% csrf_token %}
             <div class="container mb-1">
               <div class="row">
                 <div class="col">
-                  <div class ="image content ml-3"><img src = {{pet.avatar.url}}></div>
+                  <div class ="image content ml-3"><img src = {{profile.profilePic.url}}></div><br>
+                  <div class ="description ml-3">{{pet_form.profilePic}}</div>
                 </div>
                 <div class="col mb-1">
-                  <div class ="description mb-2">Bio : {{form.bio}}</div>
-                  <div class ="description mb-2">Address : {{form.address}}</div>
-                  <div class ="description">Telephone Number : {{form.number}}</div>
-                  <div class ="description mt-3" id='chooseType'>Pet Type : {{form.pet_type}}</div>
-                  <div class ="description">Breed : {{form.breed}}</div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col">
-                  {% comment %} doesn't work {% endcomment %}
-                  <div class ="description ml-5">{{form.avatar}}</div>
-                </div>
-                <div class="col">
-                  <ul class ="petType mt-3" id='type'>
-                    {% comment %} make list type show and hidden {% endcomment %}
-                    <li class='type mb-1'>Fish Type : {{form.fish_type}}</li>
-                    <li class='type mb-1'>Reptile Type : {{form.reptile_type}}</li>
-                    <li class='type mb-1'>Bird Type : {{form.bird_type}}</li>
-                    <li class='type mb-1'>Amphibian Type : {{form.amphibian_type}}</li>
-                    <li class='type mb-1'>Mammal Type : {{form.mammal_type}}</li>
-                  </ul>
+                  <div class ="description mb-2">Bio : {{pet_form.bio}}</div>
+                  <div class ="description mb-2">Address : {{pet_form.address}}</div>
+                  <div class ="description">Telephone Number : {{pet_form.number}}</div>
+                  <div class ="description mt-3" id='chooseType'>Pet Type : {{pet_form.pet_type}}</div><br>
+                  <div class ="description">Breed : {{pet_form.breed}}</div>
                 </div>
               </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btnModal" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btnModal">Save changes</button>
+              <button type="button" class="btn btnModal" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btnModal">Save changes</button>
             </div>
-            </form>
+          </form>
+        </div>  
       </div>
     </div>
-  </div>
+  </div>  
+</div>
+
 
 {% endblock content %}
-
-
-
-
-

@@ -17,57 +17,79 @@ def profile_test_view(request):
     
     confirm = False
     profile = Profile.objects.get(user=request.user)
+
     if request.user.type == "PET":
        
         pet = Pet.objects.get(user=request.user)
-        form = PetModelForm(request.POST or None,request.FILES or None, instance=profile)
+        pet_form = PetModelForm(request.POST or None,request.FILES or None, instance=profile)
 
         if request.method == 'POST':
-            if form.is_valid():
-                form.save()
+            if pet_form.is_valid():
+                pet_form.save()
                 confirm = True
+            return redirect('profiles:profile-test')
 
         context = {
             'profile': profile,
-            'form':form,
+            'pet_form':pet_form,
             'confirm':confirm,
             'pet':pet
         }
         return render(request, 'profiles/pet_profile.html', context)
 
     elif request.user.type == "VET":
-        profile = Veterinarian.objects.get(user=request.user)
-        form = VeterinarianModelForm(request.POST or None,request.FILES or None, instance=profile)
+        vet = Veterinarian.objects.get(user=request.user)
+        vet_form = VeterinarianModelForm(request.POST or None,request.FILES or None, instance=profile)
+
+        if request.method == 'POST':
+            if vet_form.is_valid():
+                vet_form.save()
+                confirm = True
+            return redirect('profiles:profile-test')
 
         context = {
             'profile': profile,
-            'form':form,
+            'vet_form':vet_form,
             'confirm':confirm,
+            'vet':vet
         }
-        return render(request, 'profiles/vet_profile.html', {'profile':profile})
+        return render(request, 'profiles/vet_profile.html', context)
 
     elif request.user.type == "STORE":
-        profile = Store.objects.get(user=request.user)
-        form = StoreModelForm(request.POST or None,request.FILES or None, instance=profile)
+        store = Store.objects.get(user=request.user)
+        store_form = StoreModelForm(request.POST or None,request.FILES or None, instance=profile)
+
+        if request.method == 'POST':
+            if store_form.is_valid():
+                store_form.save()
+                confirm = True
+            return redirect('profiles:profile-test')
 
         context = {
             'profile': profile,
-            'form':form,
+            'store_form':store_form,
             'confirm':confirm,
+            'store':store
         }
-        return render(request, 'profiles/store_profile.html', {'profile':profile})
+        return render(request, 'profiles/store_profile.html', context)
 
     elif request.user.type == "PET_LOVER":
         lover = Pet_Lover.objects.get(user=request.user)
-        petLoverform = PetLoverModelForm(request.POST or None,request.FILES or None, instance=profile)
+        lover_form = PetLoverModelForm(request.POST or None,request.FILES or None, instance=profile)
+
+        if request.method == 'POST':
+            if lover_form.is_valid():
+                lover_form.save()
+                confirm = True
+            return redirect('profiles:profile-test')
 
         context = {
             'profile': profile,
-            'petLoverform':petLoverform,
+            'lover_form':lover_form,
             'confirm':confirm,
             'lover':lover
         }
-        return render(request, 'profiles/petLover_profile.html', {'profile':profile})
+        return render(request, 'profiles/petLover_profile.html', context)
 
 #to display the received friend requests of the logged in user
 def received_requests_view(request):

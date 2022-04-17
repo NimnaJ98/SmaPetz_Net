@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% load static %}
-{% load crispy_forms_tags %}
 
 {% block extrahead %}
     <link rel="stylesheet" href={% static 'profiles/profile.css' %}>
@@ -9,88 +8,94 @@
 {% endblock extrahead %}
 
 {% block title %} 
-    pet lover profile
+    pet Lover profile
 {% endblock title %}
 
 {% block content %}
+
 <!-- Button trigger modal -->
-    {% if confirm %}
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        Your Profile has been Updated
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    {% endif %}
+{% if confirm %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    Your Profile has been Updated
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endif %}
 
-    <div class="card-lg mr-5">
-        <div class="card-body">
-          <div class = "row">
-            <div class="col-sm-4">
-              
-              <img class="img-fluid mb-3" alt="Responsive image" src={{profile.profilePic.url}}>
-            </div>
-            <div class="col-sm-8">
-              <div class ="userDetail ml-4">
-              {{request.user.name}}
-              &nbsp
-              <!-- Update profile button -->
-              <button type="button" class="btn btnUpdate" data-toggle="modal" data-target="#exampleModal">
-                Update Profile
-              </button>
-            </div>
-              <div class ="titles mt-4">
-                <a href="#" class="badge">{{profile.get_post_no}} Posts</a>
-                <a href="#" class="badge">{{profile.get_following_no}} Following</a>
-                <a href="#" class="badge">{{profile.get_followers_count}} Followers</a>
-              </div>
-              <div class ="userDetail mt-4">
-                {{profile.bio}} <br>
-              </div>
-            </div>
-          </div>
-        </div>
-        <hr class="line">
+<div class="card-lg">
+  <div class="card-body">
+    <div class = "row profileRow">
+      <div class="col-sm-4">
+        <img class="img-fluid proAvatar m-3" alt="Responsive image" src={{profile.profilePic.url}}>
+        
       </div>
-      
-      <div class="card-body">
-        <div class = "row">
-          <div class="col-sm-4">
-            <p>{{profile}}</p>
+      <div class="col-sm-4">
+          <div class="username mt-3">
+            {{request.user.name}}
+            <!-- Update profile button -->
+            <button type="button" class="btn btnUpdate" data-toggle="modal" data-target="#exampleModal">
+              <i class="fa fa-paw"></i>
+              Update Profile
+            </button>
           </div>
-        </div>
+          <div class ="titles mt-4">
+            <a href="#" class="badge">{{profile.get_post_no}} Posts</a>
+            <a href="#" class="badge">{{profile.get_following_no}} Following</a>
+            <a href="#" class="badge">{{profile.get_followers_count}} Followers</a>
+          </div>
+          <div class ="userDetail mt-4">
+            {{profile.bio}} <br>
+          </div>
       </div>
-
-<!-- Update modal -->  
-    <div class="modal fade update" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Update Your Profile</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form action="" method="POST" class="form-group" enctype ="multipart/form-data">
-                        {% csrf_token %}
-                        <div class="container mb-1">
-                            <div class="row">
-                                <div class="col">
-                        
-                                    <div class="form-group">
-                                        {{ petLoverform }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btnModal" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btnModal">Save changes</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
     </div>
+  </div>
+  <div class="card-body">
+    <div class = "row">
+      <div class="col-sm-4">
+        <p>{{profile}}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Update modal -->  
+  <div class="modal fade update" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Update Your Profile</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="" method="POST" class="form-group" enctype ="multipart/form-data">
+            {% csrf_token %}
+            <div class="container mb-1">
+              <div class="row">
+                <div class="col">
+                  <div class ="image content ml-3"><img class="proAvatar" src = {{profile.profilePic.url}}></div><br>
+                  <div class ="description ml-3">{{lover_form.profilePic}}</div>
+                </div>
+                <div class="col mb-1">
+                  <div class ="description mb-2">Bio : {{lover_form.bio}}</div>
+                  <div class ="description mb-2">Address : {{lover_form.address}}</div>
+                  <div class ="description">Telephone Number : {{lover_form.number}}</div>
+                  
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btnModal" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btnModal">Save changes</button>
+            </div>
+          </form>
+        </div>  
+      </div>
+    </div>
+  </div>  
+</div>
+
+
 {% endblock content %}
