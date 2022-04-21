@@ -227,3 +227,36 @@ def remove_from_friends(request):
         return redirect(request.META.get('HTTP_REFERER'))
 
     return redirect('profiles:profile-test')
+
+class ProfileDetailView(DetailView):
+    model = Profile
+    template_name = 'profiles/detail.html'
+
+    def get_object(self, pk = None):
+        pk = self.kwargs.get('pk')
+        profile = Profile.objects.get(pk = pk)
+        return profile
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = User.objects.get(email__iexact = self.request.user)
+        profile = Profile.objects.get(user = user)
+
+        req_receiver = FriendRequest.objects.filter(sender=profile)
+        req_sender = FriendRequest.objects.filter(receiver=profile)
+
+        request_receiver = []
+        request_sender = []
+
+        for item in req_receiver:
+            request_receiver.append(item.receiver.user)
+        for item in req_sender:
+            request_sender.append(item.sender.user)
+        context["request_receiver"] = request_receiver
+        context["request_sender"] = request_sender
+
+        context['posts'] = self.get_object().get_all_authors_posts()
+        context['len_posts'] = True if len(self.get_object().get_all_authors_posts()) > 0 else False
+        
+
+        return context

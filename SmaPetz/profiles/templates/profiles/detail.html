@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+See Profile
+{% endblock title %}
+
+
+{% block content %}
+    <div class="card-lg">
+        <div class="card-body">
+            <div class = "row profileRow">
+                <div class="col-sm-4">
+                    <img class="img-fluid m-3" alt="Responsive image" src={{object.profilePic.url}}>
+                </div>
+                <div class="col-sm-4">
+                    <div class="username mt-3">
+                      {{object.user.name}}
+                    </div>
+                    {% if object.user.type == 'PET' %}
+                        <div class="alert alert-light" role="alert">
+                            A Pet Profile
+                        </div>
+                    {% endif %}
+                    {% if object.user.type == 'VET' %}
+                        <div class="alert alert-light" role="alert">
+                            A Veterinarian Profile
+                        </div>
+                    {% endif %}
+                    {% if object.user.type == 'STORE' %}
+                        <div class="alert alert-light" role="alert">
+                            A Store Profile
+                        </div>
+                    {% endif %}
+                    {% if object.user.type == 'PET_LOVER' %}
+                        <div class="alert alert-light" role="alert">
+                            A Pet Lover Profile
+                        </div>
+                    {% endif %}
+                    <div class ="titles mt-4">
+                      <a href="#" class="badge">{{object.get_post_no}} Posts</a>
+                      <a href="#" class="badge">{{object.get_following_no}} Following</a>
+                      <a href="#" class="badge">{{object.get_followers_count}} Followers</a>
+                    </div>
+                    <div class ="userDetail mt-4">
+                      {{object.bio}} <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if len_posts %}
+            {% for post in posts %}
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card mb-3" style="width: 70rem;">
+                        <div class="card-body">
+                            {{post.caption}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-light" role="alert">
+                No posts
+            </div>
+        {% endif %}
+    </div>
+{% endblock content %}

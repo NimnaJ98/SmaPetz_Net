@@ -150,6 +150,12 @@ form{
     text-shadow: #333 !important;
     font-size:x-large !important;
 }
+.profilename{
+    background: #fff !important;
+    color: #f1896a !important;
+    text-shadow: #333 !important;
+    font-size:xx-large !important;
+}
 .nav-tabs a{
     color: #000 !important;
 }

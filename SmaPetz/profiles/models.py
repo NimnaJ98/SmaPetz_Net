@@ -64,6 +64,19 @@ class Profile(models.Model):
     def get_all_authors_posts(self):
         return self.posts.all()
 
+    #get followers of the user
+    def get_followers(self):
+        qs = Profile.objects.all()
+        followers_list = []
+        for p in qs:
+            if self.user in p.get_following():
+                followers_list.append(p)
+        return followers_list
+    
+    @property
+    def get_followers_count(self):
+        return len(self.get_followers())
+        
     #to grab the no of likes given by the user
     def get_likes_given_no(self):
         Likes = self.like_set.all()
