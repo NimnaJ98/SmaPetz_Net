@@ -17,6 +17,9 @@ def profile_test_view(request):
     
     confirm = False
     profile = Profile.objects.get(user=request.user)
+    post =  Post.objects.all()
+    photo = Post.objects.exclude(picture="")
+    video = Post.objects.exclude(video="")
 
     if request.user.type == "PET":
        
@@ -33,7 +36,10 @@ def profile_test_view(request):
             'profile': profile,
             'pet_form':pet_form,
             'confirm':confirm,
-            'pet':pet
+            'pet':pet,
+            'post':post,
+            'photo':photo,
+            'video':video
         }
         return render(request, 'profiles/pet_profile.html', context)
 
@@ -51,7 +57,10 @@ def profile_test_view(request):
             'profile': profile,
             'vet_form':vet_form,
             'confirm':confirm,
-            'vet':vet
+            'vet':vet,
+            'post':post,
+            'photo':photo,
+            'video':video
         }
         return render(request, 'profiles/vet_profile.html', context)
 
@@ -69,7 +78,10 @@ def profile_test_view(request):
             'profile': profile,
             'store_form':store_form,
             'confirm':confirm,
-            'store':store
+            'store':store,
+            'post':post,
+            'photo':photo,
+            'video':video
         }
         return render(request, 'profiles/store_profile.html', context)
 
@@ -87,7 +99,10 @@ def profile_test_view(request):
             'profile': profile,
             'lover_form':lover_form,
             'confirm':confirm,
-            'lover':lover
+            'lover':lover,
+            'post':post,
+            'photo':photo,
+            'video':video
         }
         return render(request, 'profiles/petLover_profile.html', context)
 

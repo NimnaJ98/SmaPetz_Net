@@ -150,3 +150,18 @@ form{
     text-shadow: #333 !important;
     font-size:x-large !important;
 }
+.nav-tabs a{
+    color: #000 !important;
+}
+.nav-tabs a:hover{
+    color: #f1896a !important;
+}
+li.active>a{
+	color: #f1896a !important;
+}
+
+.card-img-top {
+    width: 18rem !important;
+    height: 15vw;
+    object-fit: cover;
+}

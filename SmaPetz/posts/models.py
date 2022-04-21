@@ -40,7 +40,6 @@ class Comment(models.Model):
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
-
     def __str__(self):
         return str(self.pk)
 
@@ -57,7 +56,6 @@ class Like(models.Model):
     value = models.CharField(choices=LIKE_CHOICES, max_length=8)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
-
 
     def __str__(self):
         return f"{self.user}-{self.post}-{self.value}"

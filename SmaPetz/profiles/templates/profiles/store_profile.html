@@ -50,13 +50,61 @@
       </div>
     </div>
   </div>
-  <div class="card-body">
-    <div class = "row">
-      <div class="col-sm-4">
-        <p>{{profile}}</p>
+  <ul class="nav nav-tabs justify-content-center">
+    <li class="tab active mr-4"><a data-toggle="tab" href="#gallery">Gallery</a></li>
+    <li class="tab"><li><a data-toggle="tab" href="#videos">Videos</a></li>
+    <li class="tab mr-4"><li><a data-toggle="tab" href="#posts">Posts</a></li>
+  </ul>
+    <div class="tab-content">
+      <div id="gallery" class="tab-pane active">
+        <div class="card-group">
+          {% for obj in photo %}
+            {% if request.user == obj.author.user %}
+              <div class="card-gallery m-2 mt-3" style="width: 18rem !important; height: 20rem !important;">
+                <img src={{obj.picture.url}} class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h6 class="card-title">{{obj.caption}}</h6> 
+                  <p class="card-text"><small class="text-muted">{{obj.tags}}</small></p>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+      <div id="videos" class="tab-pane fade">
+        <div class="card-group">
+          {% for obj in video %}
+            {% if request.user == obj.author.user %}
+              <div class="card-gallery m-2 mt-3" style="width: 18rem !important; height: 20rem !important;">
+                <video controls autoplay muted id="vid">
+                  <source src={{obj.video.url}} type="video/mp4"></source>
+                </video>
+                <div class="card-body">
+                  <h6 class="card-title">{{obj.caption}}</h6> 
+                  <p class="card-text"><small class="text-muted">{{obj.tags}}</small></p>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+      <div id="posts" class="tab-pane fade">
+        <div class="card-group">
+          {% for obj in post %}
+            {% if request.user == obj.author.user %}
+              {% if obj not in photo and video %}
+                <div class="card-gallery m-2 mt-3" style="width: 18rem !important; height: 20rem !important;">
+                  <div class="card-body">
+                    <h6 class="card-title">{{obj.caption}}</h6> 
+                    <p class="card-text"><small class="text-muted">{{obj.tags}}</small></p>
+                  </div>
+                </div>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        </div>
       </div>
     </div>
-  </div>
 
   <!-- Update modal -->  
   <div class="modal fade update" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
