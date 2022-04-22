@@ -62,10 +62,10 @@
               {% for obj in photo %}
                 {% if request.user == obj.author.user %}
                   <div class="card-gallery m-2 mt-3" style="width: 18rem !important; height: 20rem !important;">
-                    <img src={{obj.picture.url}} class="card-img-gallery" alt="...">
+                    <img src={{obj.picture.url}} class="card-img-top" alt="...">
                     <div class="card-body">
                       <h6 class="card-title">{{obj.caption}}</h6> 
-                      <p class="card-small-text"><small class="text-muted">{{obj.tags}}</small></p>
+                      <p class="card-text"><small class="text-muted">{{obj.tags}}</small></p>
                     </div>
                   </div>
                 {% endif %}
@@ -82,7 +82,7 @@
                     </video>
                     <div class="card-body">
                       <h6 class="card-title">{{obj.caption}}</h6> 
-                      <p class="card-small-text"><small class="text-muted">{{obj.tags}}</small></p>
+                      <p class="card-text"><small class="text-muted">{{obj.tags}}</small></p>
                     </div>
                   </div>
                 {% endif %}
@@ -97,7 +97,7 @@
                     <div class="card-gallery m-2 mt-3" style="width: 18rem !important; height: 20rem !important;">
                       <div class="card-body">
                         <h6 class="card-title">{{obj.caption}}</h6> 
-                        <p class="card-small-text"><small class="text-muted">{{obj.tags}}</small></p>
+                        <p class="card-text"><small class="text-muted">{{obj.tags}}</small></p>
                       </div>
                     </div>
                   {% endif %}

@@ -4,7 +4,6 @@ from users.models import User
 from phonenumber_field.modelfields import PhoneNumberField
 from itertools import chain
 import random
-from django.shortcuts import reverse
 from django.db.models import Q
 
 # profile manager
@@ -49,9 +48,6 @@ class Profile(models.Model):
     def __str__(self):
         return str(self.user)
 
-    def get_absolute_url(self):
-        return reverse('profiles:profile-detail-view', kwargs={'pk': self.pk})
-
     #to grab all the following profiles
     def get_following(self):
         return self.following.all()
@@ -67,12 +63,6 @@ class Profile(models.Model):
     #to grab all the posts to show in Profile
     def get_all_authors_posts(self):
         return self.posts.all()
-
-    def get_all_authors_photos(self):
-        return self.posts.all().exclude(picture="")
-    
-    def get_all_authors_videos(self):
-        return self.posts.all().exclude(video="")
 
     #get followers of the user
     def get_followers(self):
