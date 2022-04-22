@@ -65,3 +65,9 @@
 .card-body-likes{
     background: #FFF !important;   
 }
+.postModal{
+    background: red !important;  
+}
+.friendPic{
+    border-radius: 25% !important;
+}
