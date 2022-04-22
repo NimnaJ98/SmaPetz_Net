@@ -1,4 +1,5 @@
 document.getElementById('vid').play();
+
 // Comments show/hide button
 $(document).ready(function(){
     let display = false

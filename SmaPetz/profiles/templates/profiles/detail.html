@@ -16,6 +16,35 @@ See Profile
                 <div class="col-sm-4">
                     <div class="username mt-3">
                       {{object.user.name}}
+                      {% if object.user not in request_receiver and object.user not in request_sender %}
+                        <form action="{% url 'profiles:send-request' %}" method="POST" class="btn-form">
+                            {% csrf_token %}
+                            <input type="hidden" name="profile_pk" value={{object.pk}}>
+                            
+                            <button type="submit" class="btn btn-success">
+                                <i class="fa-solid fa-plus"></i>
+                                Add to Friends
+                            </button>
+                        </form>
+                     {% endif %}
+
+                     {% if object.user in request_receiver and request.user not in object.following.all %}
+                        <br><button class="btn waitingBtn" disabled>
+                            <i class="fa-solid fa-paw"></i>
+                            Waiting for Approval
+                        </button>
+                     {% endif %}
+                    
+                     {% if request.user in object.following.all %}
+                        <form action="{% url 'profiles:remove-friend' %}" method="POST" class="btn-form">
+                            {% csrf_token %}
+                            <input type="hidden" name="profile_pk" value={{object.pk}}>
+                            <button type="submit" class="btn btn-remove">
+                                <i class="fa-solid fa-minus"></i>
+                                Remove from Friends
+                            </button>
+                        </form>
+                     {% endif %}
                     </div>
                     {% if object.user.type == 'PET' %}
                         <div class="alert alert-light" role="alert">
@@ -42,28 +71,77 @@ See Profile
                       <a href="#" class="badge">{{object.get_following_no}} Following</a>
                       <a href="#" class="badge">{{object.get_followers_count}} Followers</a>
                     </div>
-                    <div class ="userDetail mt-4">
+                    <div class ="userDetail mt-4 mb-4">
                       {{object.bio}} <br>
                     </div>
                 </div>
             </div>
         </div>
-        {% if len_posts %}
-            {% for post in posts %}
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="card mb-3" style="width: 70rem;">
+    </div>
+    <ul class="nav nav-tabs justify-content-center">
+        <li class="tab active mr-4"><a data-toggle="tab" href="#gallery">Gallery</a></li>
+        <li class="tab"><li><a data-toggle="tab" href="#videos">Videos</a></li>
+        <li class="tab mr-4"><li><a data-toggle="tab" href="#posts">Posts</a></li>
+    </ul>
+    
+    <div class="tab-content">
+        <div id="gallery" class="tab-pane active">
+          <div class="card-group">
+            {% if len_gallery %}
+                {% for post in gallery %}
+                    <div class="card-gallery m-2 mt-3" style="width: 18rem !important; height: 20rem !important;">
+                    <img src={{post.picture.url}} class="card-img-gallery" alt="...">
+                    <div class="card-body">
+                        <h6 class="card-title">{{post.caption}}</h6> 
+                        <p class="card-small-text"><small class="text-tags">{{post.tags}}</small></p>
+                    </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-light" role="alert">
+                    No photos
+                </div>
+            {% endif %}
+          </div>
+        </div>
+        <div id="videos" class="tab-pane fade">
+          <div class="card-group">
+            {% if len_videos %}
+                {% for post in videos %}
+                    <div class="card-gallery m-3" style="width: 18rem !important; height: 20rem !important;">
+                        <video controls autoplay muted id="vid">
+                            <source src={{post.video.url}} type="video/mp4"></source>
+                        </video>
                         <div class="card-body">
-                            {{post.caption}}
+                            <h6 class="card-title">{{post.caption}}</h6> 
+                            <p class="card-small-text"><small class="text-tags">{{post.tags}}</small></p>
                         </div>
                     </div>
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-light" role="alert">
+                    No videos
                 </div>
-            </div>
-            {% endfor %}
-        {% else %}
-            <div class="alert alert-light" role="alert">
-                No posts
-            </div>
-        {% endif %}
-    </div>
+            {% endif %}
+          </div>
+        </div>
+        <div id="posts" class="tab-pane fade">
+          <div class="card-group">
+            {% if len_posts %}
+                {% for post in posts %}
+                    <div class="card-gallery m-2 mt-3" style="width: 18rem !important; height: 20rem !important;">
+                        <div class="card-body">
+                            <h6 class="card-title">{{post.caption}}</h6> 
+                            <p class="card-small-text"><small class="text-tags">{{post.tags}}</small></p>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-light" role="alert">
+                    No posts
+                </div>
+            {% endif %}
+          </div>
+      </div>
+    
 {% endblock content %}

@@ -3,7 +3,6 @@
 {% block title %}All Profiles{% endblock title %}
 
 {% block content %}
-
 {% if is_empty %}
     <h4>No Profiles</h4>
 {% endif %}
@@ -17,7 +16,6 @@
                 </div>
                 <div class="col-8 cardListCol">
                     <h5 class="card-title users_name mt-2">{{obj.user.name}}</h5>
-                
                     {% if obj.user.type == 'PET' %}
                         <div class="alert alert-light" role="alert">
                             A Pet Profile
@@ -41,7 +39,7 @@
                     <p class="bg-light">{{obj.bio}}</p>
                 </div>
                 <div class="col-1 cardListCol">
-                    <button type="button" class="btn btnModal seeProfile mt-3 mb-3">See Profile</button>
+                    <a href="#" class="btn btnModal seeProfile mt-3 mb-3">See Profile</button></a>
                     
                     {% if obj.user not in request_receiver and obj.user not in request_sender %}
                         <form action="{% url 'profiles:send-request' %}" method="POST">

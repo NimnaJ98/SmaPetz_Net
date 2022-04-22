@@ -10,9 +10,12 @@ from .forms import PetLoverModelForm, PetModelForm, StoreModelForm, Veterinarian
 from django.views.generic import ListView, DetailView
 from posts.models import Post
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 # Create your views here.
+@login_required
 def profile_test_view(request):
     
     confirm = False
@@ -107,6 +110,7 @@ def profile_test_view(request):
         return render(request, 'profiles/petLover_profile.html', context)
 
 #to display the received friend requests of the logged in user
+@login_required
 def received_requests_view(request):
     profile = Profile.objects.get(user=request.user)
     qs = FriendRequest.objects.received_requests(profile)
@@ -123,6 +127,7 @@ def received_requests_view(request):
     return render(request, 'profiles/received_requests.html', context)
 
 #accept received requests
+@login_required
 def accept_requests(request):
     if request.method=="POST":
         pk = request.POST.get('profile_pk')
@@ -137,6 +142,7 @@ def accept_requests(request):
     return redirect('profiles:received-requests')
 
 #reject received requests
+@login_required
 def reject_requests(request):
     if request.method=="POST":
         pk = request.POST.get('profile_pk')
@@ -148,6 +154,7 @@ def reject_requests(request):
     return redirect('profiles:received-requests')
 
 #to display the profiles available to request
+@login_required
 def invite_profiles_list_view(request):
     user = request.user
     qs = Profile.objects.get_profiles_to_send_requests(user)
@@ -157,6 +164,7 @@ def invite_profiles_list_view(request):
     return render(request, 'profiles/to_request.html', context)
 
 #to display all the profiles except for the logged in user
+@login_required
 def profiles_list_view(request):
     user = request.user
     qs = Profile.objects.get_all_profiles(user)
@@ -166,7 +174,8 @@ def profiles_list_view(request):
     return render(request, 'profiles/profile_list.html', context)
 
 #class-based view to display profiles
-class ProfileListView(ListView):
+
+class ProfileListView(LoginRequiredMixin, ListView):
     model = Profile
     template_name = 'profiles/profile_list.html'
     context_object_name = 'qs'
@@ -200,6 +209,7 @@ class ProfileListView(ListView):
         return context
 
 #send friend requests to profiles
+@login_required
 def send_requests(request):
     if request.method == 'POST':
         pk = request.POST.get('profile_pk')
@@ -213,6 +223,7 @@ def send_requests(request):
     return redirect('profiles:profile-test')
 
 #remove friends
+@login_required
 def remove_from_friends(request):
     if request.method == 'POST':
         pk = request.POST.get('profile_pk')
@@ -228,35 +239,3 @@ def remove_from_friends(request):
 
     return redirect('profiles:profile-test')
 
-class ProfileDetailView(DetailView):
-    model = Profile
-    template_name = 'profiles/detail.html'
-
-    def get_object(self, pk = None):
-        pk = self.kwargs.get('pk')
-        profile = Profile.objects.get(pk = pk)
-        return profile
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        user = User.objects.get(email__iexact = self.request.user)
-        profile = Profile.objects.get(user = user)
-
-        req_receiver = FriendRequest.objects.filter(sender=profile)
-        req_sender = FriendRequest.objects.filter(receiver=profile)
-
-        request_receiver = []
-        request_sender = []
-
-        for item in req_receiver:
-            request_receiver.append(item.receiver.user)
-        for item in req_sender:
-            request_sender.append(item.sender.user)
-        context["request_receiver"] = request_receiver
-        context["request_sender"] = request_sender
-
-        context['posts'] = self.get_object().get_all_authors_posts()
-        context['len_posts'] = True if len(self.get_object().get_all_authors_posts()) > 0 else False
-        
-
-        return context

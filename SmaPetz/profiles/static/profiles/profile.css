@@ -166,8 +166,24 @@ li.active>a{
 	color: #f1896a !important;
 }
 
-.card-img-top {
+.card-img-gallery {
     width: 18rem !important;
     height: 15vw;
     object-fit: cover;
+}
+
+.btn-form{
+    background: #fafafa !important;
+}
+.card-group{
+    background: #fff !important;
+    border-radius: 25px;
+    margin: 25px !important;
+    align-content: center !important;
+}
+.card-gallery{
+    margin: 25px !important;
+}
+.seeProfile{
+    color: #fff !important;
 }

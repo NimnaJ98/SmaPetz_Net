@@ -9,6 +9,9 @@ from users.models import User
 def home_view(request):
     return redirect('posts:home-view')
 
+def about_view(request):
+    return render(request, 'users/about.html')
+
 def register(request):
     context = {}
     if request.POST:

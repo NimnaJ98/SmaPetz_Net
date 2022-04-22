@@ -1,5 +1,11 @@
 {% load static %}
 
+{% url 'posts:home-view' as path_to_posts %}
+{% url 'profiles:profile-test' as path_to_profile %}
+{% url 'users:about-view' as path_to_about %}
+{% url 'profiles:all-profiles-view' as path_to_allProfiles %}
+{% url 'profiles:received-requests' as path_to_requests %}
+{% url 'profiles:request-profiles-view' as path_to_sendRequests %}
 
 <div class="grad-bar"></div>
 
@@ -17,25 +23,25 @@
   <div class="collapse navbar-collapse pr-3" id="navbarSupportedContent" >
     <ul class="navbar-nav ml-auto">
       <li class="nav-item ">
-        <a class="nav-link" href="#">About </a>
+        <a class="nav-link" href="{{path_to_about}}">About </a>
       </li>
       {% if request.user.is_authenticated %}
       <li class="nav-item active">
-          <a class="nav-link" href="#">Feed</a>
+          <a class="nav-link {% if request.path == path_to_posts %}active{% endif %}" href="{{path_to_posts}}">Feed</a>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Friends
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Sent Requests</a>
-          <a class="dropdown-item" href="#">Received Requests</a>
+          <a class="dropdown-item" href="{{path_to_sendRequests}}">Sent Requests</a>
+          <a class="dropdown-item" href="{{path_to_requests}}">Received Requests</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">All Profiles</a>
+          <a class="dropdown-item" href="{{path_to_allProfiles}}">All Profiles</a>
         </div>
       </li>
       <li class="nav-item">
-          <a class="nav-link" href="#">{{request.user.name}}</a>
+          <a class="{% if request.path == path_to_profile %}active{% endif %} nav-link" href="{{path_to_profile}}">{{request.user.name}}</a>
       </li>
       {% endif %}
       <li class="nav-item">
