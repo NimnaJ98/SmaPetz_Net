@@ -240,10 +240,10 @@ class ProfileDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = User.objects.get(email__iexact = self.request.user)
-        profile = Profile.objects.get(user = user)
+        profiles = Profile.objects.get(user = user)
 
-        req_receiver = FriendRequest.objects.filter(sender=profile)
-        req_sender = FriendRequest.objects.filter(receiver=profile)
+        req_receiver = FriendRequest.objects.filter(sender=profiles)
+        req_sender = FriendRequest.objects.filter(receiver=profiles)
 
         request_receiver = []
         request_sender = []
@@ -257,6 +257,10 @@ class ProfileDetailView(DetailView):
 
         context['posts'] = self.get_object().get_all_authors_posts()
         context['len_posts'] = True if len(self.get_object().get_all_authors_posts()) > 0 else False
-        
+        context['gallery'] = self.get_object().get_all_authors_photos()
+        context['len_gallery'] = True if len(self.get_object().get_all_authors_photos()) > 0 else False
+        context['videos'] = self.get_object().get_all_authors_photos()
+        context['len_videos'] = True if len(self.get_object().get_all_authors_videos()) > 0 else False
+
 
         return context
