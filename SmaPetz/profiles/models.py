@@ -21,13 +21,26 @@ class ProfileManager(models.Manager):
             if req.status == 'accepted':
                 accepted.add(req.receiver)
                 accepted.add(req.sender)
+            
         print(accepted)
 
         available = [profile for profile in profiles if profile not in accepted]
         print(available)
         return(available)
 
+    def get_sent_requests(self, sender):
+        profile = Profile.objects.get(user = sender)
+        qs = FriendRequest.objects.filter(sender=profile)
 
+        sent= set([])
+        for req in qs:
+            if req.status == 'send':
+                sent.add(req.receiver)
+                sent.add(req.sender)   
+        return sent
+
+
+    
     #get all profiles except for the logged in user
     def get_all_profiles(self, me):
         profiles = Profile.objects.all().exclude(user=me)
@@ -48,9 +61,6 @@ class Profile(models.Model):
 
     def __str__(self):
         return str(self.user)
-
-    def get_absolute_url(self):
-        return reverse('profiles:profile-detail-view', kwargs={'pk': self.pk})
 
     #to grab all the following profiles
     def get_following(self):

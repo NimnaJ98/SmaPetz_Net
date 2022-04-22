@@ -157,7 +157,7 @@ def reject_requests(request):
 @login_required
 def invite_profiles_list_view(request):
     user = request.user
-    qs = Profile.objects.get_profiles_to_send_requests(user)
+    qs = Profile.objects.get_sent_requests(user)
 
     context = {'qs':qs}
 
@@ -238,4 +238,5 @@ def remove_from_friends(request):
         return redirect(request.META.get('HTTP_REFERER'))
 
     return redirect('profiles:profile-test')
+
 
