@@ -13,3 +13,4 @@ def invitations_no(request):
         qs_count = FriendRequest.objects.received_requests(profile_obj).count()
         return {'requests_no':qs_count}
     return {}
+

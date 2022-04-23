@@ -34,6 +34,7 @@ body{
 }
 .navbar-mainbg{
 	background-color: #fff !important;
+    background: #FFF !important;
     padding: 0;
     margin: 0;
     height:min-content;
@@ -143,8 +144,7 @@ body{
     width: 25px !important;
     height: 25px !important;
     border-radius: 50px !important;
-    background: #fff !important;
-    background-color: #fff !important;
+
 }
 .requests_no{
     background-color: transparent !important;
