@@ -35,13 +35,18 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="{{path_to_sendRequests}}">Sent Requests</a>
-          <a class="dropdown-item" href="{{path_to_requests}}">Received Requests</a>
+          <a class="dropdown-item" href="{{path_to_requests}}">
+            Received Requests &nbsp; <label class ="requests_no">{{requests_no}}</label>
+          </a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="{{path_to_allProfiles}}">All Profiles</a>
         </div>
       </li>
       <li class="nav-item">
-          <a class="{% if request.path == path_to_profile %}active{% endif %} nav-link" href="{{path_to_profile}}">{{request.user.name}}</a>
+          <a class="{% if request.path == path_to_profile %}active{% endif %} nav-link" href="{{path_to_profile}}">
+            <img class="img-fluid profile-pic" src={{picture.url}} /> &nbsp;
+            {{request.user.name}}
+          </a>
       </li>
       {% endif %}
       <li class="nav-item">
