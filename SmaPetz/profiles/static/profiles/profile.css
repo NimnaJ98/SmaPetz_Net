@@ -202,3 +202,23 @@ li.active>a{
 .description{
     background: #fff !important;
 }
+#exampleModal1 {
+    background-color:rgba(0, 0, 0, 0.75) !important;
+}
+.fa-plus{
+    color: #fff !important;
+    background: transparent !important;
+}
+.fa-plus:hover{
+    color: #000 !important;
+}
+.productTitle{
+    background: transparent !important;
+}
+.add-pro{
+    background: #fff !important;
+}
+.add-pro-con{
+    background: #fff !important;
+    width: 75% !important;
+}

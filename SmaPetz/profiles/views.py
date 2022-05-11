@@ -6,9 +6,11 @@ from .models import Profile, Pet, Pet_Lover, Store, Veterinarian, FriendRequest
 from users.models import User
 from django.views.generic import TemplateView, View
 from django.http import JsonResponse
-from .forms import PetLoverModelForm, PetModelForm, StoreModelForm, VeterinarianModelForm
+from .forms import PetLoverModelForm, PetModelForm, StoreModelForm, VeterinarianModelForm, ProductForm
 from django.views.generic import ListView, DetailView
 from posts.models import Post
+from products.models import Product
+from django.utils.text import slugify
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -69,6 +71,7 @@ def profile_test_view(request):
 
     elif request.user.type == "STORE":
         store = Store.objects.get(user=request.user)
+        products = store.products.all()
         store_form = StoreModelForm(request.POST or None,request.FILES or None, instance=profile)
 
         if request.method == 'POST':
@@ -84,7 +87,8 @@ def profile_test_view(request):
             'store':store,
             'post':post,
             'photo':photo,
-            'video':video
+            'video':video,
+            'products':products,
         }
         return render(request, 'profiles/store_profile.html', context)
 
@@ -270,5 +274,25 @@ def remove_from_friends(request):
         return redirect(request.META.get('HTTP_REFERER'))
 
     return redirect('profiles:profile-test')
+
+
+#add products
+def add_products(request):
+    if request.method == 'POST':
+        product_form = ProductForm(request.POST, request.FILES)
+
+        if product_form.is_valid():
+            product = product_form.save(commit=False)
+            store = Store.objects.get(user=request.user)
+            product.store = store
+            product.slug = slugify(product.title)
+            product.save()
+        
+            return redirect('profiles:profile-test')
+        
+    else:
+        product_form = ProductForm()
+    
+    return render(request, 'profiles/add_product.html', {'product_form':product_form})
 
 

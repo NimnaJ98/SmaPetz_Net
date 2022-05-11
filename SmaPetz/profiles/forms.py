@@ -1,5 +1,6 @@
 from django import forms
 from .models import Pet, Veterinarian, Store, Pet_Lover
+from products.models import Product
 
 class PetModelForm(forms.ModelForm):
     class Meta:
@@ -43,5 +44,15 @@ class PetLoverModelForm(forms.ModelForm):
           'bio': forms.Textarea(attrs={'rows':2, 'class':'form-control'}),
           'address': forms.Textarea(attrs={'rows':2, 'class':'form-control'}),
           'number': forms.Textarea(attrs={'rows':1, 'class':'form-control'}),
+        }
+
+class ProductForm(forms.ModelForm):
+    class Meta:
+          model = Product
+          fields = {'category', 'image', 'title', 'description', 'price'}
+          widgets = {
+          'title': forms.Textarea(attrs={'rows':2, 'class':'form-control'}),
+          'description': forms.Textarea(attrs={'rows':3, 'class':'form-control'}),
+          'price': forms.Textarea(attrs={'rows':1, 'class':'form-control'}),
         }
 

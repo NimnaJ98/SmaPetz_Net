@@ -38,6 +38,11 @@
               <i class="fa fa-paw"></i>
               Update Profile
             </button>
+            <a href="{% url 'profiles:add-products' %}">
+              <button type="button" class="btn btnUpdate"><i class="fa fa-plus"></i>
+                Add Product
+              </button>
+            </a>
           </div>
           <div class ="titles mt-4">
             <a href="#" class="badge">{{profile.get_post_no}} Posts</a>
@@ -54,6 +59,7 @@
     <li class="tab active mr-4"><a data-toggle="tab" href="#gallery">Gallery</a></li>
     <li class="tab"><li><a data-toggle="tab" href="#videos">Videos</a></li>
     <li class="tab mr-4"><li><a data-toggle="tab" href="#posts">Posts</a></li>
+    <li class="tab mr-4"><li><a data-toggle="tab" href="#products">Products</a></li>
   </ul>
     <div class="tab-content">
       <div id="gallery" class="tab-pane active">
@@ -102,6 +108,23 @@
               {% endif %}
             {% endif %}
           {% endfor %}
+        </div>
+      </div>
+      <div id="products" class="tab-pane fade">
+        <div class="card-group">
+          {% if products %}
+            {% for product in products %}
+              <div class="card-gallery m-2 mt-3" style="width: 18rem !important; height: 20rem !important;">
+                <img src={{product.image.url}} class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h6 class="card-title">{{product.title}}</h6> 
+                  <p class="card-text"><small class="text-muted">${{product.price}}</small></p>
+                </div>
+              </div>
+            {% endfor %}
+          {% else %}
+            <p>You don't have any product yet...</p>
+          {% endif %}
         </div>
       </div>
     </div>
