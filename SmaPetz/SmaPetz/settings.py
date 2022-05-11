@@ -42,7 +42,8 @@ INSTALLED_APPS = [
 
     'users',
     'profiles',
-    'posts'
+    'posts',
+    'products'
 ]
 
 MIDDLEWARE = [
@@ -133,7 +134,8 @@ STATICFILES_DIRS =[
     BASE_DIR/ 'posts' / 'static',
     BASE_DIR/ 'profiles' / 'static',
     BASE_DIR/ 'users' / 'static',
-    ]
+    BASE_DIR/ 'products' / 'static',
+]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR/ 'media'
