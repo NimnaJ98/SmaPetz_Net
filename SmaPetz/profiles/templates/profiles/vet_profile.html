@@ -30,7 +30,7 @@
         <img class="img-fluid proAvatar m-3" alt="Responsive image" src={{profile.profilePic.url}}>
         
       </div>
-      <div class="col-sm-4">
+      <div class="col-sm-8">
           <div class="username mt-3">
             {{request.user.name}}
             <!-- Update profile button -->
@@ -44,9 +44,10 @@
             <a href="#" class="badge">{{profile.get_following_no}} Following</a>
             <a href="#" class="badge">{{profile.get_followers_count}} Followers</a>
           </div>
-          <div class ="userDetail mt-4">
-            {{profile.bio}} <br>
-            {{profile.education}}
+          <div class ="userDetail mt-4 mb-2">
+            {{profile.bio}}<br><br>
+            <b>Location: </b>{{profile.address}}<br>
+            <b>Telephone Number: </b>{{profile.number}}
           </div>
       </div>
     </div>
@@ -122,8 +123,8 @@
           <form action="" method="POST" class="form-group" enctype ="multipart/form-data">
             {% csrf_token %}
             <div class="container mb-1">
-              <div class="row">
-                <div class="col">
+              <div class="row updateProfileRow">
+                <div class="col updateProfileRow">
                   <div class ="image content ml-3"><img class="proAvatar" src = {{profile.profilePic.url}}></div><br>
                   <div class ="description ml-3">{{vet_form.profilePic}}</div>
                 </div>

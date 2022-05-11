@@ -29,7 +29,7 @@
       <div class="col-sm-4">
         <img class="img-fluid m-3" alt="Responsive image" src={{profile.profilePic.url}}>
       </div>
-      <div class="col-sm-4">
+      <div class="col-sm-8">
           <div class="username mt-3">
             {{request.user.name}}
             <!-- Update profile button -->
@@ -124,9 +124,9 @@
           <form action="" method="POST" class="form-group" enctype ="multipart/form-data">
             {% csrf_token %}
             <div class="container mb-1">
-              <div class="row">
-                <div class="col">
-                  <div class ="image content ml-3"><img src = {{profile.profilePic.url}}></div><br>
+              <div class="row updateProfileRow">
+                <div class="col updateProfileRow">
+                  <div class ="img content ml-3"><img src = {{profile.profilePic.url}}></div><br>
                   <div class ="description ml-3">{{pet_form.profilePic}}</div>
                 </div>
                 <div class="col mb-1">

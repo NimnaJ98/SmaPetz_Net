@@ -7,8 +7,8 @@ class postModelForm(forms.ModelForm):
     model = Post
     fields = ('caption', 'picture', 'video', 'tags')
     widgets = {
-      'caption': forms.Textarea(attrs={'rows':3, 'class':'form-control'}),
-      'tags': forms.Textarea(attrs={'rows':1, 'class':'form-control'}),
+      'caption': forms.Textarea(attrs={'rows':3,'cols':50, 'class':'form-control'}),
+      'tags': forms.Textarea(attrs={'rows':1, 'cols':50, 'class':'form-control'}),
     }
 
 class commentModelForm(forms.ModelForm):

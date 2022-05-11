@@ -41,7 +41,7 @@
                     <p class="bg-light">{{obj.bio}}</p>
                 </div>
                 <div class="col-1 cardListCol">
-                    <a href="">
+                    <a href={{obj.get_absolute_url}}>
                         <button type="button" class="btn btnModal seeProfile mt-3 mb-3">See Profile</button>
                     </a>
                     <form action="{% url 'profiles:accept-request' %}" method="POST">

@@ -188,5 +188,17 @@ li.active>a{
     color: #fff !important;
 }
 .card-small-text{
-    color: #fafafa !important;
+    background: #fafafa !important;
+}
+.updateProfileRow{
+    background: #fff !important;
+}
+.mb-1{
+    background: #fff !important;
+}
+.content{
+    background: #fff !important;
+}
+.description{
+    background: #fff !important;
 }

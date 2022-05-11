@@ -16,7 +16,7 @@ class Post(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return str(self.author)
+        return f"{self.author}-{self.caption}"
     
 #to grab the number of likes
     def num_likes(self):

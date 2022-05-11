@@ -5,6 +5,8 @@ from phonenumber_field.modelfields import PhoneNumberField
 from itertools import chain
 import random
 from django.shortcuts import reverse
+from .utils import get_random_code
+from django.template.defaultfilters import default, slugify
 from django.db.models import Q
 
 # profile manager
@@ -54,6 +56,7 @@ class Profile(models.Model):
     bio = models.TextField(default="no bio...", blank=True, max_length=100)
     address = models.TextField(max_length=100, blank=True)
     number = PhoneNumberField(unique = True, null = True, blank = True)
+    slug = models.SlugField(unique=True, blank=True)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
@@ -61,6 +64,9 @@ class Profile(models.Model):
 
     def __str__(self):
         return str(self.user)
+        
+    # def get_absolute_url(self):
+    #     return reverse("profiles:profile-detail-view", kwargs={"slug": self.slug})
 
     #to grab all the following profiles
     def get_following(self):
@@ -114,69 +120,31 @@ class Profile(models.Model):
             total_liked += item.like_set.all().count()
         return total_liked
 
+    #generate a random slug when there're 2 or more profiles with the same name
+    __initial_name = None
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.__initial_name = self.user.name
+
+    def save(self, *args, **kwargs):
+        ex =False
+        to_slug = self.slug
+        if self.user.name != self.__initial_name or self.slug=="":
+            if self.user.name:
+                to_slug = slugify(str(self.user.name))
+                ex = Profile.objects.filter(slug = to_slug).exists()
+                while ex:
+                    to_slug = slugify(to_slug+" "+ str(get_random_code()))
+                    ex = Profile.objects.filter(slug = to_slug).exists()
+            else:
+                to_slug = str(self.user)
+        self.slug = to_slug
+        super().save(*args, **kwargs)
+
 class Pet(Profile):
     
     class petTypes(models.TextChoices):
-        FISH = "FISH", "Fish"
-        REPTILE = "REPTILE", "Reptile"
-        BIRD = "BIRD", "Bird"
-        AMPHIBIAN = "AMPHIBIAN" ,'Amphibian'
-        MAMMAL = "MAMMAL" ,'Mammal'
-        OTHER = "OTHER" , 'Other'
-
-    class fishTypes(models.TextChoices):
-        BETTA = "BETTA", "Betta"
-        GOLDFISH = "GOLDFISH", "Goldfish"
-        ANGELFISH = "ANGELFISH", "Angelfish"
-        GUPPIES = "GUPPIES" ,'Guppies'
-        NEONTETRAS = "NEONTETRAS" ,'Neon Tetras'
-        ZEBRADANIOS = "ZEBRADANIOS" ,'Zebra Danios'
-        MOLLIES = "MOLLIES" ,'Mollies'
-        CATFISH = "CATFISH" ,'Catfish'
-        CHERRYBARB = "CHERRYBARB" ,'Cherry Barb'
-        PLATY = "PLATY" ,' Platy'
-        SWORDTAIL = "SWORDTAIL" ,' Swordtail'
-        OTHER = "OTHER" , 'Other'
-
-    class reptileTypes(models.TextChoices):
-        BEARDEDDRAGON = "BEARDEDDRAGON", "Bearded Dragon"
-        GECKOS = "GECKOS", "Leopard Gecko"
-        TURTLES = "TURTLES", "Turtle"
-        TORTOISE = "TORTOISE" ,'Tortoise'
-        CORNSNAKES = "CORNSNAKES" ,'Corn Snake'
-        ZEBRADANIOS = "ZEBRADANIOS" ,'Ball Python'
-        CRESTEDGECKO = "CRESTEDGECKO" ,'Crested Gecko'
-        SKINK = "SKINK" ,'Blue-Tongued Skink'
-        GREENIGUANA = "GREENIGUANA" ,'Green Iguana'
-        ANOLE = "ANOLE" ,' Anole'
-        SNAKE = "SNAKE" ,'Snake'
-        WATERDRAGON = "WATERDRAGON" ,'Water Dragon'
-        OTHER = "OTHER" , 'Other'
-
-    class birdTypes(models.TextChoices):
-        PARROT = "PARROT", "Parrot"
-        COCKTIEL = "COCKTIEL", "Cockatiel"
-        FINCH = "FINCH", "Finch"
-        COCKATOO = "COCKATOO" ,'Cockatoo'
-        CANARY = "CANARY" ,'Canary'
-        LOVEBIRD = "LOVEBIRD" ,'Lovebird'
-        PARAKEET = "PARAKEET" ,'Parakeet'
-        DOVE = "DOVE" ,'Dove'
-        CONURES = "CONURES" ,'Conures'
-        MACAW = "MACAW" ,'Macaw'
-        OTHER = "OTHER" , 'Other'
-
-    class amphibianTypes(models.TextChoices):
-        TREEFROG = "TREEFROG", "Tree Frog"
-        SALMANDER = "SALMANDER", "Salamander"
-        FINCH = "AXOLOTL", "Axolotl"
-        PACEMANFROG = "PACEMANFROG" ,'Pacman Frog'
-        OFBT = "OFBT" ,'Oriental Fire-Bellied Toad'
-        EASTERNNEWT = "EASTERNNEWT" ,'Eastern Newt'
-        OTHER = "OTHER" , 'Other'
-
-    class mammalTypes(models.TextChoices):
-        GERBIL = "GERBIL", "Gerbil"
         DOG = "DOG", "Dog"
         CAT = "CAT", "Cat"
         HAMSTER = "HAMSTER" ,'Hamster'
@@ -184,20 +152,20 @@ class Pet(Profile):
         RAT = "RAT" ,'Rat'
         PIG = "PIG" ,'Guinea Pig'
         FERRET = "FERRET" ,'Ferret'
+        GOLDFISH = "GOLDFISH", "Goldfish"
         HEDGEHOG = "HEDGEHOG" ,'Hedgehog'
         FFOXES = "FFOXES" ,' Fennec Foxes'
+        GECKOS = "GECKOS", "Leopard Gecko"
+        TURTLES = "TURTLES", "Turtle"
+        TORTOISE = "TORTOISE" ,'Tortoise'
+        SNAKE = "SNAKE" ,'Snake'
+        PARROT = "PARROT", "Parrot"
+        CANARY = "CANARY" ,'Canary'
+        LOVEBIRD = "LOVEBIRD" ,'Lovebird'
         OTHER = "OTHER" , 'Other'
 
     pet_id = models.OneToOneField(Profile, on_delete=models.CASCADE, parent_link=True, primary_key=True)
-    avatar = models.ImageField(upload_to='avatars', default='pet_avatar.png')
-    pet_type = models.CharField(max_length=50, choices=petTypes.choices, blank=True)
-
-    fish_type = models.CharField(max_length=50, choices=fishTypes.choices, blank=True)
-    reptile_type = models.CharField(max_length=50, choices=reptileTypes.choices, blank=True)
-    bird_type = models.CharField(max_length=50, choices=birdTypes.choices, blank=True)
-    amphibian_type = models.CharField(max_length=50, choices=amphibianTypes.choices, blank=True)
-    mammal_type = models.CharField(max_length=50, choices=mammalTypes.choices, blank=True)
-    
+    pet_type = models.CharField(max_length=50, choices=petTypes.choices, blank=True)    
     breed = models.TextField(max_length=50, blank=True)
     
     objects = ProfileManager()
@@ -207,7 +175,6 @@ class Pet(Profile):
 class Veterinarian(Profile):
     vet_id = models.OneToOneField(Profile, on_delete=models.CASCADE, parent_link=True, primary_key=True)
     education = models.TextField(max_length=255, blank=True)
-    avatar = models.ImageField(upload_to='avatars', default='vet_avatar.png')
 
     def __str__(self):
         return str(self.user)
@@ -219,7 +186,6 @@ class Store(Profile):
         PRODUCTSTORE = "PRODUCTSTORE", "Pet Product Store"
 
     store_id = models.OneToOneField(Profile, on_delete=models.CASCADE, parent_link=True, primary_key=True)
-    avatar = models.ImageField(upload_to='avatars', default='store_avatar.png')
     store_type = models.CharField(max_length=50, choices=storeTypes.choices, blank=False)
     
     def __str__(self):
@@ -228,7 +194,6 @@ class Store(Profile):
 
 class Pet_Lover(Profile):
     lover_id = models.OneToOneField(Profile, on_delete=models.CASCADE, parent_link=True, primary_key=True)
-    avatar = models.ImageField(upload_to='avatars', default='avatar.png')
 
     def __str__(self):
         return str(self.user)

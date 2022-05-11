@@ -109,6 +109,39 @@ def profile_test_view(request):
         }
         return render(request, 'profiles/petLover_profile.html', context)
 
+class ProfileDetailView(LoginRequiredMixin, DetailView):
+    model = Profile
+    template_name = 'profiles/detail.html'
+
+    def get_object(self, Slug=None):
+        slug = self.kwargs.get('slug')
+        profile = Profile.objects.get(slug=slug)
+        return profile
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = User.objects.get(email__iexact = self.request.user)
+        profile = Profile.objects.get(user = user)
+
+        req_receiver = FriendRequest.objects.filter(sender=profile)
+        req_sender = FriendRequest.objects.filter(receiver=profile)
+
+        request_receiver = []
+        request_sender = []
+
+        for item in req_receiver:
+            request_receiver.append(item.receiver.user)
+        for item in req_sender:
+            request_sender.append(item.sender.user)
+        context["request_receiver"] = request_receiver
+        context["request_sender"] = request_sender
+
+        context['posts'] = self.get_object().get_all_authors_posts()
+        context['len_posts'] = True if len(self.get_object().get_all_authors_posts()) > 0 else False
+        
+
+        return context
+
 #to display the received friend requests of the logged in user
 @login_required
 def received_requests_view(request):
@@ -211,14 +244,13 @@ class ProfileListView(LoginRequiredMixin, ListView):
 #send friend requests to profiles
 @login_required
 def send_requests(request):
-    if request.method == 'POST':
+    if request.method =='POST':
         pk = request.POST.get('profile_pk')
         user = request.user
         sender = Profile.objects.get(user=user)
         receiver = Profile.objects.get(pk=pk)
 
-        friendship = FriendRequest.objects.create(sender=sender, receiver=receiver, status='send')
-
+        rel = FriendRequest.objects.create(sender=sender, receiver=receiver, status='send')
         return redirect(request.META.get('HTTP_REFERER'))
     return redirect('profiles:profile-test')
 

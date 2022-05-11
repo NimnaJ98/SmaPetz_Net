@@ -29,6 +29,7 @@
 }
 .card-text{
     background-color: #fff !important;
+    color:  #EE7752 !important;
 }
 .reactions{
     background-color: #fff !important;
@@ -52,10 +53,6 @@
 .form-group{
     background: #fff !important;
 }
-.likebtn{
-    background: #FFF !important;
-    color: #EE7752 !important;
-}
 .likeIcon{
     background: #FFF !important; 
 }
@@ -65,9 +62,38 @@
 .card-body-likes{
     background: #FFF !important;   
 }
-.postModal{
-    background: red !important;  
-}
 .friendPic{
     border-radius: 25% !important;
+}
+.like-form{
+    background: #fff !important;
+}
+.like-btn{
+    background: #fff !important;
+}
+.modal-title{
+    background: #fff !important;
+}
+.modal-header{
+    background: #fff !important;
+
+}
+.modal-content{
+    background: #fff !important;
+}
+.form-group{
+    background: #fff !important;
+}
+.modal-body{
+    background: #fff !important;
+}
+.form-row{
+    background: #fff !important;
+}
+.form-control{
+    background: #fff !important;
+}
+.likeBtn{
+    background: #ee9d99 !important;
+    color: #fff !important;
 }

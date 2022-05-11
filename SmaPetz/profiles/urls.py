@@ -26,4 +26,5 @@ urlpatterns = [
     path('remove-friend/',remove_from_friends, name='remove-friend'),
     path('received-requests/accept/', accept_requests, name='accept-request'),
     path('received-requests/reject/', reject_requests, name='reject-request'),  
+    
 ]

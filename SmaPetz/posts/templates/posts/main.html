@@ -42,18 +42,23 @@
                     <p class="card-text">{{obj.tags}}</p>
                     <!-- Like -->
                     <div class="card-body-likes float-right">
-                        <form action="{% url 'posts:like-post-view' %}" method="POST">
+                        <form action="{% url 'posts:like-post-view' %}" method="POST" class="like-form" id="{{obj.id}}">
                             {% csrf_token %}
                             <input type="hidden" name="post_id" value={{obj.id}}>
-                            <button type="submit" class="btn likebtn">
+                            <button type="submit" class="btn likeBtn like-btn{{obj.id}}">
                                 {% if profile not in obj.liked_by.all %}
-                                    <i class="fa-solid fa-heart likeIcon"></i>
+                                    Like
                                 {% else %}
-                                    <i class="fa-solid fa-heart-crack likeIcon"></i>
+                                    Unlike
                                 {% endif %}
-                                <i class='numbers'>{{obj.num_likes}}</i>
                             </button>
-                            
+                            <i class="like-count{{obj.id}}"> {{obj.num_likes}} likes </i>
+                            <br>
+                            <div class="grid">
+                                <div class="col">
+                                    
+                                </div>
+                            </div> 
                         </form>
                     </div>
                     <!-- Comments -->
@@ -124,7 +129,20 @@
                         <form action="" method="POST" class ="form-group" enctype="multipart/form-data">
                             <div class="modal-body">
                                 {% csrf_token %}
-                                {{post_form|crispy}}
+                                <div class="form-row">
+                                    <div class="form-group mb-2">Caption: {{ post_form.caption }}</div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group mb-2">Picture: {{ post_form.picture }}</div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group mb-2">Video: {{ post_form.video }}</div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group mb-2">
+                                      {{ post_form.tags|as_crispy_field }}
+                                    </div>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btnModal" data-dismiss="modal">Close</button>

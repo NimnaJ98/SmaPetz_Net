@@ -18,7 +18,7 @@ def register(request):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('login')
+            return redirect('users:login')
         context['register_form'] = form
     
     else:
@@ -40,7 +40,7 @@ def login_view(request):
 
             if user is not None:
                 login(request, user)
-                return redirect("dashboard")
+                return redirect("users:dashboard")
 
         else:
             context['login_form'] = form
@@ -54,4 +54,4 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('login')
+    return redirect('users:login')

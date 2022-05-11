@@ -140,13 +140,12 @@ body{
     cursor: pointer;
     background-color: #fff !important;
 }
-.profile-pic{
-    width: 25px !important;
-    height: 25px !important;
-    border-radius: 50px !important;
 
-}
 .requests_no{
     background-color: transparent !important;
     border-radius: 50px !important;
+}
+li:active{
+    background: transparent !important;
+    color: #f1896a !important;
 }
