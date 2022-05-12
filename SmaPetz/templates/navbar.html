@@ -6,6 +6,7 @@
 {% url 'profiles:all-profiles-view' as path_to_allProfiles %}
 {% url 'profiles:received-requests' as path_to_requests %}
 {% url 'profiles:request-profiles-view' as path_to_sendRequests %}
+{% url 'products:store-view' as path_to_stores %}
 
 <div class="grad-bar"></div>
 
@@ -49,8 +50,8 @@
           </a>
       </li>
       {% endif %}
-      <li class="nav-item">
-          <a class="nav-link" href="#">Store</a>
+      <li class="{% if request.path == path_to_stores %}active{% endif %} nav-item">
+          <a class="nav-link" href="{{path_to_stores}}">Store</a>
       </li>
       <li class="nav-item">
           <a class="nav-link" href="#">Veterinarian</a>

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}
+Store
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+      <h2 class="justify-content-center">Newest Products</h2>
+    </div>
+    <div class="row">
+        {% for product in newest_products %}
+            <div class="card m-3 StoreProduct" style="width: 18rem;">
+                <img src="{{product.get_thumbnail}}" class="card-img-top productThumb" alt="...">
+                <div class="card-body">
+                <h5 class="card-title">{{product.title}}</h5>
+                <p class="card-tags">${{product.price}}</p>
+                <a href="#" class="btn btn-dark">View Product</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+  </div>
+{% endblock content %}

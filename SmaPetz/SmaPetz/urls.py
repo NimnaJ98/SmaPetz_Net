@@ -23,7 +23,7 @@ urlpatterns = [
     path('', include('posts.urls', namespace='posts')),
     path('profiles/', include('profiles.urls', namespace='profiles')),
     path('users/', include('users.urls', namespace='users')),
-    
+    path('products/', include('products.urls', namespace='products')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
