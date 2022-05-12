@@ -117,7 +117,7 @@
               <div class="card-gallery m-2 mt-3" style="width: 18rem !important; height: 20rem !important;">
                 <img src={{product.image.url}} class="card-img-top" alt="...">
                 <div class="card-body">
-                  <h6 class="card-title">{{product.title}}</h6> 
+                  <h6 class="card-title"><a href="{% url 'products:product' product.category.slug product.slug %}">{{product.title}}</a></h6> 
                   <p class="card-text"><small class="text-muted">${{product.price}}</small></p>
                 </div>
               </div>

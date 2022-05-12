@@ -73,6 +73,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'profiles.context_processors.profile_pic',
                 'profiles.context_processors.invitations_no',
+                'products.context_processors.menu_categories',
             ],
         },
     },

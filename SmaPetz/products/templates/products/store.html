@@ -6,7 +6,16 @@ Store
 {% block content %}
 <div class="container">
     <div class="row">
+      {% for category in menu_categories %}
+        <a href="{% url 'products:category' category.slug %}" class='nav-item'>{{category.title}}</a>
+      {% endfor %}
+    </div>
+    <div class="row">
       <h2 class="justify-content-center">Newest Products</h2>
+      <form method="get" action="{% url 'products:product-search' %}">
+        <input type ="text" class="input" placeholder="Search Products..." name="query">
+        <button class="button is-dark is-uppercase">Search</button>
+      </form>
     </div>
     <div class="row">
         {% for product in newest_products %}
