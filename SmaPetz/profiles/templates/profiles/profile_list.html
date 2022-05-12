@@ -39,7 +39,7 @@
                     <p class="bg-light">{{obj.bio}}</p>
                 </div>
                 <div class="col-1 cardListCol">
-                    <a href={{obj.get_absolute_url}}><button class="btn btnModal seeProfile mt-3 mb-3">See Profile</button></a>
+                    <a href="{% url 'profiles:profile-detail-view' obj.slug %}"><button class="btn btnModal seeProfile mt-3 mb-3">See Profile</button></a>
                     
                     {% if obj.user not in request_receiver and obj.user not in request_sender %}
                         <form action="{% url 'profiles:send-request' %}" method="POST">

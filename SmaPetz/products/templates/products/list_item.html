@@ -1,0 +1,8 @@
+<div class="card m-3 StoreProduct" style="width: 18rem;">
+    <img src="{{product.get_thumbnail}}" class="card-img-top productThumb" alt="...">
+    <div class="card-body">
+    <h5 class="card-title">{{product.title}}</h5>
+    <p class="card-tags">${{product.price}}</p>
+    <a href="{% url 'products:product' product.category.slug product.slug %}" class="btn productView">View Product</a>
+    </div>
+</div>

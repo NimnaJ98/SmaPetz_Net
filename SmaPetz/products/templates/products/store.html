@@ -10,14 +10,7 @@ Store
     </div>
     <div class="row">
         {% for product in newest_products %}
-            <div class="card m-3 StoreProduct" style="width: 18rem;">
-                <img src="{{product.get_thumbnail}}" class="card-img-top productThumb" alt="...">
-                <div class="card-body">
-                <h5 class="card-title">{{product.title}}</h5>
-                <p class="card-tags">${{product.price}}</p>
-                <a href="#" class="btn btn-dark">View Product</a>
-                </div>
-            </div>
+          {% include 'products/list_item.html' %}
         {% endfor %}
     </div>
   </div>

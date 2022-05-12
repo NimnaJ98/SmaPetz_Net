@@ -117,9 +117,9 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
     model = Profile
     template_name = 'profiles/detail.html'
 
-    def get_object(self, Slug=None):
+    def get_object(self, slug=None):
         slug = self.kwargs.get('slug')
-        profile = Profile.objects.get(slug=slug)
+        profile = get_object_or_404(Profile, slug= slug)
         return profile
 
     def get_context_data(self, **kwargs):
