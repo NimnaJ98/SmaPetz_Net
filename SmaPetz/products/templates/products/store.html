@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}
 Store
 {% endblock title %}
@@ -6,18 +7,36 @@ Store
 {% block content %}
 <div class="container">
     <div class="row">
-      {% for category in menu_categories %}
-        <a href="{% url 'products:category' category.slug %}" class='nav-item'>{{category.title}}</a>
-      {% endfor %}
+      <ul class="nav ">
+        {% for category in menu_categories %}
+          <li class="nav-item subnav">
+            <a href="{% url 'products:category' category.slug %}" class='nav-link'>{{category.title}}</a>
+          <li>
+        {% endfor %}
+      </ul>
     </div>
-    <div class="row">
-      <h2 class="justify-content-center">Newest Products</h2>
-      <form method="get" action="{% url 'products:product-search' %}">
-        <input type ="text" class="input" placeholder="Search Products..." name="query">
-        <button class="button is-dark is-uppercase">Search</button>
-      </form>
+    <br>
+    <div class="row mb-3">
+      <div class="col-2 d-flex justify-content-end imgCol">
+        <img class="img-fluid justify-content-right ml-5" alt="Responsive image" src="{% static "images/product_store.png" %}">
+      </div>
+      <div class="col-5 d-flex align-items-start">
+        <h2 class="storeHeader justify-content-left">Newest Products</h2>
+      </div>
+      <div class="col">
+        <form method="get" action="{% url 'products:product-search' %}" class="formSearch">
+          <div class="boxContainer">
+            <table class="elementsContainer">
+              <tr>
+                <td><input type ="search" class="form-control searchInput" placeholder="Search..." name="query"></td>
+                <td><button class="btn btnSearch"><i class="fas fa-search"></i></button></td>
+              </tr>
+            </table>
+          </div>
+        </form>
+      </div>
     </div>
-    <div class="row">
+    <div class="row mb-3">
         {% for product in newest_products %}
           {% include 'products/list_item.html' %}
         {% endfor %}

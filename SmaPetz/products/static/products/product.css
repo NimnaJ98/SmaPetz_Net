@@ -1,7 +1,7 @@
 .productView{
     cursor: pointer;
-    background-color: #f1896a !important;
-    color: #fff !important;
+    background: #e56554 !important;
+    color: white !important;
 }
 .StoreProduct{
     transition: transform 0.2s ease !important;
@@ -9,4 +9,48 @@
 }
 .StoreProduct:hover {
     transform: scale(1.1) !important;
+}
+.subnav a{
+    background-color:#221c1c !important;
+    color: #fff !important;
+    border-radius: 5px !important;
+    transition: transform 0.2s ease !important;
+}
+.subnav a:hover{
+    background-color: #fff !important;
+    color: #221c1c !important;
+    border-color: #221c1c !important;
+    border-width: 5 !important;
+    transform: scale(1.1) !important;
+}
+h2 {
+    text-align: center;
+    color: #e56554 !important;
+    font: 700 normal 2.5em 'tahoma';
+    text-shadow:2px 2px #b7b7b7, 3px 5px #ffffff;
   }
+.imgCol img{
+    width: 75px !important;
+    height: 75px !important;
+}
+.formSearch{
+    background: transparent!important;
+}
+.boxContainer{
+    margin: auto;
+    position: relative;
+    font: 700 normal 2.5em 'tahoma';
+}
+.fa-search{
+    margin: auto !important;
+    color: #221c1c !important;
+}
+.fa-search:hover{
+    color: #e56554 !important;
+}
+.searchInput{
+    width: 90% !important;
+    background: transparent !important;
+    border-radius: 50px !important;
+    padding-left: 25px;
+}

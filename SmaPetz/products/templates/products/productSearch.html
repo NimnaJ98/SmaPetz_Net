@@ -14,5 +14,10 @@ Search Products
           {% include 'products/list_item.html' %}
         {% endfor %}
     </div>
+    <div class="row">
+      {% for post in posts %}
+        {{post.caption}} <br><br>
+      {% endfor %}
+  </div>
   </div>
 {% endblock content %}

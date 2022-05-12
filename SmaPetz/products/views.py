@@ -2,15 +2,18 @@ import imp
 from django.shortcuts import render, redirect, get_object_or_404
 import random
 from .models import Product, Category
+from posts.models import Post
 from django.db.models import Q
 
 # Create your views here.
 def searchProduct(request):
     query = request.GET.get('query', '')
     products = Product.objects.filter(Q(title__icontains=query) | Q(description__icontains=query))
+    posts = Post.objects.filter(Q(caption__icontains=query) | Q(tags__icontains=query))
     context = {
         'products': products,
         'query':query,
+        'posts':posts,
     }
     return render(request, 'products/productSearch.html', context)
 
