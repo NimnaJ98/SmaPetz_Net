@@ -5,9 +5,10 @@ Category
 
 {% block content %}
 <div class="container">
-    <div class="row">
-      <h2 class="justify-content-center">{{category.title}}</h2>
+    <div class="row justify-content-center catRow">
+      <h3>Category: {{category.title}}</h3>
     </div>
+    <hr/>
     <div class="row">
         {% for product in category.products.all %}
           {% include 'products/list_item.html' %}

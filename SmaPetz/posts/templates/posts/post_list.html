@@ -1,0 +1,22 @@
+<div class="card postCard m-3">
+    <div class ="card-head clearfix ml-4 mt-2 mb-2">
+        <a href="{% url 'profiles:profile-detail-view' post.author.slug %}">
+            <img class="img-fluid avatar mr-3" alt="Responsive image" src={{post.author.profilePic.url}}>
+            {{post.author.user.name}}
+        </a>
+    </div>
+    {% if post.picture %}
+        <figure class="figure">
+            <img src="{{post.picture.url}}"  class="card-img-top postSearch" >
+        </figure>
+    {% elif post.video %}
+        <video controls autoplay muted id="vid">
+            <source src={{post.video.url}} type="video/mp4"></source>
+        </video>
+    {% endif %}
+    <div class="card-body mb-5">
+        <h6 class="card-title">{{post.caption}}</h6>
+        <p class="card-text">{{post.tags}}</p>
+        <a href="{% url 'profiles:profile-detail-view' post.author.slug %}"><button class="btn productView" style="color:#fff !important;">See Profile</button></a>
+    </div>
+</div>

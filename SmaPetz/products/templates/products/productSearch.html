@@ -5,19 +5,28 @@ Search Products
 
 {% block content %}
 <div class="container">
-    <div class="row">
-      <h2 class="justify-content-center">Search</h2>
-      <h3>Search term: "{{ query }}"</h3>
+    <div class="row searchTerm m-3">
+      <h3><i class="fa-solid fa-magnifying-glass"></i> "{{ query }}" </h3>
     </div>
-    <div class="row">
+    <div class="row searchTitle"><h3 class="m-3">Products: </h3><br/></div>
+    <div class="row mt-4">
         {% for product in products %}
           {% include 'products/list_item.html' %}
         {% endfor %}
     </div>
-    <div class="row">
-      {% for post in posts %}
-        {{post.caption}} <br><br>
+    <hr>
+    <div class="row searchTitle"><h3 class="m-3">Profiles: </h3><br/></div>
+    <div class="row mt-4">
+      {% for profile in profiles %}
+        {% include 'profiles/search_list.html' %}
       {% endfor %}
-  </div>
-  </div>
+    </div>
+    <hr>
+    <div class="row searchTitle"><h3 class="m-3">Posts: </h3><br/></div>
+    <div class="row mt-4">
+      {% for post in posts %}
+        {% include 'posts/post_list.html' %}
+      {% endfor %}
+    </div>
+</div>
 {% endblock content %}

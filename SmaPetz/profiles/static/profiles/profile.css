@@ -222,3 +222,10 @@ li.active>a{
     background: #fff !important;
     width: 75% !important;
 }
+.profilesGrid{
+    transition: transform 0.2s ease !important;
+    width: 50% !important;
+}
+.profilesGrid:hover{
+    transform: scale(1.1) !important;
+}

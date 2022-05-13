@@ -87,3 +87,35 @@ h2 {
     color: #e56554 !important;   
     text-shadow:1px 1px #201616, 3px 5px #ffffff;
 }
+.catRow h3{
+    margin: auto !important;
+    color: #e56554 !important;   
+    text-shadow:1px 1px #201616, 3px 5px #ffffff;
+}
+.postCard{
+    height: 320px !important;
+    width: 300px !important;
+    transition: transform 0.2s ease !important;
+    box-shadow: 0 4px 6px 0 rgba(22, 22, 26, 0.18) !important;
+}
+.postCard:hover{
+    transform: scale(1.1) !important;
+}
+.postSearch{
+    height: 255px !important;
+    width: 300px !important;
+}
+.clearfix a:hover{
+    text-decoration: none !important;
+}
+.searchTerm h3{ 
+    text-align: center !important;
+    color: #221c1c !important;
+    font: 700 normal 2.5em 'tahoma';
+    text-shadow:2px 2px #b7b7b7, 3px 5px #ffffff;
+}
+.searchTitle h3{
+    margin: auto !important;
+    color: #e56554 !important;   
+    text-shadow:1px 1px #201616, 3px 5px #ffffff;
+}
