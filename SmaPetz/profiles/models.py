@@ -48,6 +48,7 @@ class ProfileManager(models.Manager):
         profiles = Profile.objects.all().exclude(user=me)
         return profiles
 
+
 # base profile model
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user')

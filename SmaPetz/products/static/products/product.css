@@ -54,3 +54,36 @@ h2 {
     border-radius: 50px !important;
     padding-left: 25px;
 }
+.productThumb{
+    height: 300px !important;
+    width: 286px !important;
+}
+.deatilTitle{
+    text-align: left;
+    color: #221c1c !important;
+    font: 700 normal 2.5em 'tahoma';
+    text-shadow:2px 2px #b7b7b7, 3px 5px #ffffff;
+  }
+.deatilPrice{
+    text-align: left;
+    color: #e56554 !important;
+}
+.deatilTable{
+    box-shadow: 0 4px 6px 0 rgba(22, 22, 26, 0.2) !important;
+    padding: 15px !important;
+}
+.badgeLink a{
+    background-color:#201616 !important;
+    color: #fff !important;
+    border-radius: 5px !important;
+    transition: transform 0.2s ease !important;
+    padding: 10px !important;
+}
+.badgeLink a:hover{
+    transform: scale(1.1) !important;
+}
+.similarProducts h3{
+    text-align: left !important;
+    color: #e56554 !important;   
+    text-shadow:1px 1px #201616, 3px 5px #ffffff;
+}

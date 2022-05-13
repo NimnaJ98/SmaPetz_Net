@@ -4,22 +4,48 @@ Product View
 {% endblock title %}
 
 {% block content %}
-
-    {% if product.image %}
-        <figure class="figure">
-            <img src="{{product.image.url}}" class="figure-img img-fluid rounded">
-        </figure>
-    {% endif %}  
-    <h1>{{product.title}}, ${{product.price}}</h1>
-    <p class ="mb-2"><span class="badge badge">{{product.store.user.name}}</span></p>
-    <p>{{product.description}}</p>
-    {% if similar_Products %}
-        <hr>
+<div class="container">
+    <div class="row m-3">
+      <div class="col-sm-6">
+        {% if product.image %}
+            <figure class="figure">
+                <img src="{{product.image.url}}" class="figure-img img-fluid rounded">
+            </figure>
+        {% endif %} 
+      </div>
+      <div class="col-sm-6">
+        <h1 class='deatilTitle'>{{product.title}}</h1>
+        <h3 class='deatilPrice mb-5'>$ {{product.price}}</h3>
+        <table class="table table-borderless deatilTable m-3">
+            <tbody>
+              <tr>
+                <th scope="row">Description: </th>
+                <td>{{product.description}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Store: </th>
+                <td class="badgeLink"><a href="{% url 'profiles:profile-detail-view' product.store.slug %}" class="badgeLink">{{product.store.user.name}}</a></td>
+              </tr>
+              <tr>
+                <th scope="row">Category: </th>
+                <td colspan="2" class="badgeLink"><a href="{% url 'products:category' product.category.slug %}" class="badgeLink">{{product.category}}</a></td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
+    </div>
+    <hr>
+    <div class="row similarProducts">
         <div class='col'>
-            <h2 class='subtitle mb-3'>Similar Products<h2>
+            <h3 class='subtitle mb-3'>Similar Products<h3>
         </div>
-        {% for product in similar_Products %}
-            {% include 'products/list_item.html' %}
-        {% endfor %}
-    {% endif %}
+    </div>
+    <div class="row">
+        {% if similar_Products %}
+            {% for product in similar_Products %}
+                {% include 'products/list_item.html' %}
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
 {% endblock content %}

@@ -2,6 +2,7 @@ import imp
 from django.shortcuts import render, redirect, get_object_or_404
 import random
 from .models import Product, Category
+from profiles.models import Store, Profile
 from posts.models import Post
 from django.db.models import Q
 
@@ -19,7 +20,8 @@ def searchProduct(request):
 
 
 def store_view(request):
-    newest_products = Product.objects.all()[0:8]
+    newest_products = Product.objects.all()[0:9]
+    
     context = {
         'newest_products': newest_products,
     }
