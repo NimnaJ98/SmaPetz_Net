@@ -119,3 +119,19 @@ h2 {
     color: #e56554 !important;   
     text-shadow:1px 1px #201616, 3px 5px #ffffff;
 }
+
+@keyframes show-toast{
+    0% {top: -100%;}
+    20% {top: 150px;}
+    80% {top: 150px;}
+    100% {top: -100px;}
+}
+.notification{
+    position: fixed;
+    top: 100%;
+    color: #e56554 !important;
+    background-color: #201616 !important;
+    right: 20px;
+    animation-name: show-toast;
+    animation-duration: 6s;
+}

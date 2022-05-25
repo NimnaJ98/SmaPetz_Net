@@ -7,6 +7,7 @@
 {% url 'profiles:received-requests' as path_to_requests %}
 {% url 'profiles:request-profiles-view' as path_to_sendRequests %}
 {% url 'products:store-view' as path_to_stores %}
+{% url 'cart:cart' as path_to_cart %}
 
 <div class="grad-bar"></div>
 
@@ -57,8 +58,8 @@
           <a class="nav-link" href="#">Veterinarian</a>
       </li>
       
-      <li class="nav-item">
-        <a class="nav-link" href="#"><i class="fa-solid fa-cart-arrow-down"></i></a>
+      <li class="{% if request.path == path_to_cart %}active{% endif %} nav-item">
+        <a class="nav-link" href="{{path_to_cart}}"><i class="fa-solid fa-cart-arrow-down"></i>{% if cart %}({{cart|length}}){% endif %}</a>
       </li>
         
       {% if request.user.is_authenticated %}

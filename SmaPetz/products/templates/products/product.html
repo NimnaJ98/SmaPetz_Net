@@ -32,6 +32,21 @@ Product View
               </tr>
             </tbody>
           </table>
+          
+          {% if messages %}
+            {% for message in messages %}
+              <div class="notification">{{message}}</div>
+            {% endfor %}
+          {% endif %}
+          <form method="post" action=".">
+            {% csrf_token %}
+            <div class="input-group mb-3 ml-3">
+              <input type="number" name="quantity" value="1" class="input form-control" min="1">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary">Add to Cart</button>
+              </div>
+            </div>
+          </form>  
       </div>
     </div>
     <hr>

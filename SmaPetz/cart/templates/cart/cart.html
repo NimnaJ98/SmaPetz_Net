@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% block title %}
+cart
+{% endblock title %}
+
+{% block content %}
+
+{% if cart %}
+    <div class="card">
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Product</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Price</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart %}
+                        <tr>
+                            <td>
+                                <figure>
+                                    <img src="{{item.product.get_thumbnail}}" class="imgCart">
+                                </figure>
+                            </td>
+                            <td>
+                                <a href="{% url 'products:product' item.product.category.slug item.product.slug %}">{{item.product.title}}</a>
+                            </td>
+                            <td>
+                                {{item.quantity}}
+
+                                <a href="?change_quantity={{ item.id }}&quantity=-1">-</a>
+                                <a href="?change_quantity={{ item.id }}&quantity=1">+</a>
+                            </td>
+                            <td>${{ item.total_price }}</td>
+                            <td>
+                                <a href="?remove_from_cart={{ item.id }}" class="delete">Remove</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td></td>
+                        <td><strong>Total cost</strong></td>
+                        <td><strong>{{ cart|length}}</strong></td>
+                        <td colspan="2"><strong>${{ cart.get_total_cost }}</strong></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="card-footer">
+            <h3 class='sub-title mb-3'>Contact Information</h3>
+            <form method="post" action="." id="payment-form">
+                {% csrf_token %}
+                <div class="container">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label>First Name</label>
+                            <div class="control">
+                                <input type="text" name="first_name" class="input form-control">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label>Last Name</label>
+                            <div class="control">
+                                <input type="text" name="last_name" class="input form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label>Email</label>
+                            <div class="control">
+                                <input type="email" name="email" class="input form-control">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label>Phone Number</label>
+                            <div class="control">
+                                <input type="text" name="phone" class="input form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label>Address 1</label>
+                            <div class="control">
+                                <input type="text" name="address1" class="input form-control">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label>Address 2</label>
+                            <div class="control">
+                                <input type="text" name="address2" class="input form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label>Zip Code</label>
+                            <div class="control">
+                                <input type="text" name="zipcode" class="input form-control">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label>Country</label>
+                            <div class="control">
+                                <input type="text" name="country" class="input form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <div class="control">
+                                {% comment %} make this a paypal button {% endcomment %}
+                                <button type="button" class="btn checkout">Checkout</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% else %}
+    <p>You don't have any product in your cart</p>
+{% endif %}
+
+{% endblock content %}

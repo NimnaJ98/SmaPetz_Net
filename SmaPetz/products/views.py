@@ -1,9 +1,14 @@
 import imp
+from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 import random
+
+import cart
 from .models import Product, Category
 from profiles.models import Store, Profile
 from posts.models import Post
+from cart.cart import Cart
+from .forms import AddToCartForm
 from django.db.models import Q
 
 # Create your views here.
@@ -30,7 +35,21 @@ def store_view(request):
     return render(request, 'products/store.html', context)
 
 def product(request, category_slug, product_slug):
+    cart = Cart(request)
     product = get_object_or_404(Product, category__slug= category_slug, slug=product_slug)
+
+    if request.method == 'POST':
+        form = AddToCartForm(request.POST)
+
+        if form.is_valid():
+            quantity = form.cleaned_data['quantity']
+            cart.add(product_id=product.id, quantity=quantity, update_quantity=False)
+            messages.success(request, 'The product was added to the cart')
+            return redirect('products:product', category_slug=category_slug, product_slug=product_slug)
+
+    else:
+        form = AddToCartForm()
+
     similar_Products = list(product.category.products.exclude(id=product.id))
 
     if len(similar_Products) >= 4:
@@ -39,6 +58,7 @@ def product(request, category_slug, product_slug):
     context = {
         'product': product,
         'similar_Products':similar_Products,
+        'form':form
     }
     return render(request, 'products/product.html', context)
 

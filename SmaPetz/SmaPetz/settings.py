@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+SESSION_COOKIE_AGE = 86400
+CART_SESSION_ID = 'cart'
 
 # Application definition
 
@@ -43,7 +45,8 @@ INSTALLED_APPS = [
     'users',
     'profiles',
     'posts',
-    'products'
+    'products',
+    'cart'
 ]
 
 MIDDLEWARE = [
@@ -74,6 +77,7 @@ TEMPLATES = [
                 'profiles.context_processors.profile_pic',
                 'profiles.context_processors.invitations_no',
                 'products.context_processors.menu_categories',
+                'cart.context_processors.cart'
             ],
         },
     },
@@ -136,6 +140,7 @@ STATICFILES_DIRS =[
     BASE_DIR/ 'profiles' / 'static',
     BASE_DIR/ 'users' / 'static',
     BASE_DIR/ 'products' / 'static',
+    BASE_DIR/ 'cart' / 'static',
 ]
 
 MEDIA_URL = '/media/'

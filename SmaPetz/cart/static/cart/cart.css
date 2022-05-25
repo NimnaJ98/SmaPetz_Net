@@ -1,0 +1,12 @@
+.imgCart{
+    width: 64px !important;
+    height: 64px !important;
+}
+.sub-title{
+    color: #f1896a;
+    text-shadow:1px 1px #201616, 3px 5px #ffffff;
+}
+.checkout{
+    background: #201616 !important;
+    color: #ffffff !important;
+}
