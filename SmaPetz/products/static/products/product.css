@@ -129,9 +129,11 @@ h2 {
 .notification{
     position: fixed;
     top: 100%;
-    color: #e56554 !important;
-    background-color: #201616 !important;
-    right: 20px;
+    left:50%; 
+    color: #FFF !important;
+    background-color: #e56554 !important;
+    padding: 15px !important;
+    border-radius: 25px;
     animation-name: show-toast;
     animation-duration: 6s;
 }
