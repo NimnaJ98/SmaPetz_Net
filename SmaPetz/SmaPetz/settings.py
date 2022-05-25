@@ -41,12 +41,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'phonenumber_field',
     'crispy_forms',
+    'django_countries',
 
     'users',
     'profiles',
     'posts',
     'products',
-    'cart'
+    'cart',
+    'order'
 ]
 
 MIDDLEWARE = [
