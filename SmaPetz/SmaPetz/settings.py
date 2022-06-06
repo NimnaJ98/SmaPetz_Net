@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +29,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-SESSION_COOKIE_AGE = 86400
+STRIPE_PUB_KEY = config('STRIPE_PUB_KEY')
+STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
+
+SESSION_COOKIE_AGE = 604800
 CART_SESSION_ID = 'cart'
 
 # Application definition

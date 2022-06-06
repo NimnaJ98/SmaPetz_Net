@@ -1,4 +1,12 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block extrahead %}
+    <link rel="stylesheet" href={% static 'cart/cart.css' %}>
+    <script src={% static 'cart/cart.js' %} defer></script>
+    <script src="https://js.stripe.com/v3/"></script>
+{% endblock extrahead %}
+
 {% block title %}
 cart
 {% endblock title %}
@@ -56,6 +64,25 @@ cart
             <h3 class='sub-title mb-3'>Contact Information</h3>
             <form method="post" action="." id="payment-form">
                 {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="notification">
+                        {{form.non_field_errors}}
+                    </div>
+                {% endif %}
+
+                {% if form.errors %}
+                    <div class="notification">
+                        <ul>
+                            {% for field in form %}
+                                {% for error in field.errors %}
+                                    <li><strong>{{field.label}}:</strong>{{error}}</li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
                 <div class="container">
                     <div class="row mb-3">
                         <div class="col">
@@ -115,9 +142,26 @@ cart
                     </div>
                     <div class="row mb-3">
                         <div class="col">
+                            <h5 class='sub-title mb-3'>Payment Information</h5>
+                        </div>
+                        <div class="col">
+                            <div id="card-element">
+                                <!-- A stripe element-->
+                            </div>
+                            <!-- Used to display form errors -->
+                            <div id="card-errors"></div>
+                        </div>
+                    </div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="notification">{{message}}</div>
+                        {% endfor %}
+                    {% endif %}
+                    <div class="row mb-3">
+                        <div class="col">
                             <div class="control">
                                 {% comment %} make this a paypal button {% endcomment %}
-                                <button type="button" class="btn checkout">Checkout</button>
+                                <button class="button checkout uppercase" type="submit">Checkout</button>
                             </div>
                         </div>
                     </div>

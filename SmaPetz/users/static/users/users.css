@@ -51,3 +51,10 @@ a small{
 
 .login-sec{padding: 50px 30px; position:inherit;}
 .reg-sec{padding: 10px 10px; position:inherit;}
+
+#bg{
+    background-size: 1800px 900px;
+    background-repeat: no-repeat;
+    background-position: top;
+    background-attachment: fixed;
+}
