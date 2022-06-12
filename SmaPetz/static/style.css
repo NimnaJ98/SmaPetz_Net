@@ -15,6 +15,9 @@ body{
     background: #fafafa !important;
     font-family: 'Roboto', sans-serif;
 }
+.conBase{
+    overflow: hidden;
+}
 .grad-bar {
     width: 100%;
     height: 5px;

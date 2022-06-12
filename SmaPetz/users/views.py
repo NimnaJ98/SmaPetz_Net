@@ -2,7 +2,9 @@ from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
 from users.forms import UserRegistrationForm, UserLoginForm
 from users.models import User
-
+from products.models import Product
+from posts.models import Post
+import random
 
 
 # Create your views here.
@@ -10,7 +12,16 @@ def home_view(request):
     return redirect('posts:home-view')
 
 def about_view(request):
-    return render(request, 'users/about.html')
+    products = list(Product.objects.all())
+    show_Products = random.sample(products, 8)
+    posts = list(Post.objects.exclude(picture=""))
+    show_posts = random.sample(posts, 6)
+    
+    context = {
+        'show_Products': show_Products,
+        'show_posts': show_posts,
+    }
+    return render(request, 'users/about.html', context)
 
 def register(request):
     context = {}

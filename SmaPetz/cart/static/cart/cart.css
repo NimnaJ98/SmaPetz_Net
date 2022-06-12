@@ -9,4 +9,6 @@
 .checkout{
     background: #201616 !important;
     color: #ffffff !important;
+    padding: 10px !important;
+    border-radius: 25px !important;
 }

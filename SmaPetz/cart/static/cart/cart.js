@@ -1,35 +1,32 @@
-var stripe = Stripe('{{ stripe_pub_key }}');
-var elements = stripe.elements();
+ // Render the PayPal button into #paypal-button-container
+ paypal.Buttons({
 
-var card = elements.create('card');
+    // Set up the transaction
+    createOrder: function(data, actions) {
+        return actions.order.create({
+            purchase_units: [{
+                amount: {
+                    value: '18.60'
+                }
+            }]
+        });
+    },
+
+    // Finalize the transaction
+    onApprove: function(data, actions) {
+        return actions.order.capture().then(function(orderData) {
+            // Successful capture! For demo purposes:
+            console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+            var transaction = orderData.purchase_units[0].payments.captures[0];
+            alert('Transaction '+ transaction.status + ': ' + transaction.id + '\n\nSee console for all available details');
+
+            // Replace the above to show a success message within this page, e.g.
+            // const element = document.getElementById('paypal-button-container');
+            // element.innerHTML = '';
+            // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+            // Or go to another URL:  actions.redirect('thank_you.html');
+        });
+    }
 
 
-card.mount('#card-element');
-
-var form = document.getElementById('payment-form');
-form.addEventListener('submit', function(event) {
-    event.preventDefault();
-
-    stripe.createToken(card).then(function(result) {
-        if (result.error) {
-            var errorElement = document.getElementById('card-errors');
-            
-            errorElement.textContent = result.error.message;
-        } else {
-            stripeTokenHandler(result.token);
-        }
-    });
-});
-
-function stripeTokenHandler(token) {
-    // Insert the token ID into the form so it gets submitted to the server
-    var form = document.getElementById('payment-form');
-    var hiddenInput = document.createElement('input');
-    hiddenInput.setAttribute('type', 'hidden');
-    hiddenInput.setAttribute('name', 'stripeToken');
-    hiddenInput.setAttribute('value', token.id);
-    form.appendChild(hiddenInput);
-  
-    // Submit the form
-    form.submit();
-  }
+}).render('#paypal-button-container');

@@ -16,15 +16,14 @@ def cart_detail(request):
         form = CheckoutForm(request.POST)
         if form.is_valid():
             stripe.api_key = settings.STRIPE_SECRET_KEY
-
             stripe_token = form.cleaned_data['stripe_token']
             charge = stripe.Charge.create(
-                # stripe expects price in cents not dollars
-                amount = int(cart.get_total_cost()*100),
+                amount = int(cart.get_total_cost() * 100),
                 currency = 'USD',
                 description = 'Charge from SmaPetz',
                 source = stripe_token
             )
+
             first_name = form.cleaned_data['first_name']
             last_name = form.cleaned_data['last_name']
             email = form.cleaned_data['email']
@@ -34,12 +33,12 @@ def cart_detail(request):
             zipcode = form.cleaned_data['zipcode']
             country = form.cleaned_data['country']
 
-            order = checkout(request, first_name, last_name, email, address1, address2, phone, zipcode, country, cart.get_total_cost())
+            order = checkout(request, first_name, last_name, email, phone, address1, address2, zipcode, country, cart.get_total_cost())
             cart.clear()
-
             return redirect('cart:success')
+
     else:
-        form = CheckoutForm()
+        form = CheckoutForm()    
 
     remove_from_cart = request.GET.get('remove_from_cart', '')
     change_quantity = request.GET.get('change_quantity', '')
@@ -51,14 +50,9 @@ def cart_detail(request):
 
     if change_quantity:
         cart.add(change_quantity, quantity, True)
-        return redirect('cart:cart')
-
-    context = {
-        'form': form,
-        'stripe_pub_key':settings.STRIPE_PUB_KEY,
-    }    
+        return redirect('cart:cart') 
         
-    return render(request, 'cart/cart.html', context)
+    return render(request, 'cart/cart.html', {'form': form, 'stripe_pub_key': settings.STRIPE_PUB_KEY})
 
 
 def success(request):

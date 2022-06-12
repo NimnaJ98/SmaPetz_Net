@@ -4,7 +4,8 @@
 {% block extrahead %}
     <link rel="stylesheet" href={% static 'cart/cart.css' %}>
     <script src={% static 'cart/cart.js' %} defer></script>
-    <script src="https://js.stripe.com/v3/"></script>
+    {% comment %} <script src="https://js.stripe.com/v3/"></script> {% endcomment %}
+    <script src="https://www.paypal.com/sdk/js?client-id=Aae_ykypza8EqIG3ehyXSPBzS2JkJvKQM04iWk0F_G_FZJoNj7DTsrtjlhgA-PKOfPGmEAJDhF1K6P-R&currency=USD"></script>
 {% endblock extrahead %}
 
 {% block title %}
@@ -59,6 +60,7 @@ cart
                     </tr>
                 </tfoot>
             </table>
+            <div id="paypal-button-container"></div>
         </div>
         <div class="card-footer">
             <h3 class='sub-title mb-3'>Contact Information</h3>
@@ -162,6 +164,9 @@ cart
                             <div class="control">
                                 {% comment %} make this a paypal button {% endcomment %}
                                 <button class="button checkout uppercase" type="submit">Checkout</button>
+                                <br>
+                                <!-- Set up a container element for the button -->
+                                
                             </div>
                         </div>
                     </div>
