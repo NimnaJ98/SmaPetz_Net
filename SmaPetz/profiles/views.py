@@ -228,16 +228,21 @@ class ProfileListView(LoginRequiredMixin, ListView):
 
         req_receiver = FriendRequest.objects.filter(sender=profile)
         req_sender = FriendRequest.objects.filter(receiver=profile)
+        rec_requests = FriendRequest.objects.received_requests(profile)
 
         request_receiver = []
         request_sender = []
+        received_requests = []
 
         for item in req_receiver:
             request_receiver.append(item.receiver.user)
         for item in req_sender:
             request_sender.append(item.sender.user)
+        for item in rec_requests:
+            received_requests.append(item.sender.user)
         context["request_receiver"] = request_receiver
         context["request_sender"] = request_sender
+        context["received_requests"] = received_requests
 
         context['is_empty'] = False
         if len(self.get_queryset()) == 0:

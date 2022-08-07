@@ -35,7 +35,7 @@ User Login
                     {% endif %}
                     <div class="form-check">
                         <label class="form-check-label">
-                        <a href="#"><small>Forgot Password?</small></a>
+                        <a href="{% url "users:password_reset" %}"><small>Forgot Password?</small></a>
                         </label>
                         <button type="submit" class="btn btnModal float-right">Login</button>
                     </div>

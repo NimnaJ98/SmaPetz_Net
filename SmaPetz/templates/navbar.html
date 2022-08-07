@@ -3,6 +3,7 @@
 {% url 'posts:home-view' as path_to_posts %}
 {% url 'profiles:profile-test' as path_to_profile %}
 {% url 'users:about-view' as path_to_about %}
+{% url 'users:vet-view' as path_to_vet %}
 {% url 'profiles:all-profiles-view' as path_to_allProfiles %}
 {% url 'profiles:received-requests' as path_to_requests %}
 {% url 'profiles:request-profiles-view' as path_to_sendRequests %}
@@ -54,8 +55,8 @@
       <li class="{% if request.path == path_to_stores %}active{% endif %} nav-item">
           <a class="nav-link" href="{{path_to_stores}}">Store</a>
       </li>
-      <li class="nav-item">
-          <a class="nav-link" href="#">Veterinarian</a>
+      <li class="{% if request.path == path_to_vet %}active{% endif %} nav-item">
+          <a class="nav-link" href="{{path_to_vet}}">Veterinarian</a>
       </li>
       
       <li class="{% if request.path == path_to_cart %}active{% endif %} nav-item">

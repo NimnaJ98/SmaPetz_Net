@@ -1,15 +1,27 @@
-from django.shortcuts import redirect, render
+import profile
+from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
+from profiles.models import Veterinarian
 from users.forms import UserRegistrationForm, UserLoginForm
 from users.models import User
 from products.models import Product
 from posts.models import Post
+from profiles.models import Veterinarian
 import random
 
 
 # Create your views here.
 def home_view(request):
     return redirect('posts:home-view')
+
+def vet_view(request):
+    # vets = list(get_object_or_404(Veterinarian))
+    # posts = list(Post.objects.get(author = vets))
+    # show_posts = random.sample(posts, 6)
+    # context = {
+    #     'show_posts': show_posts,
+    # }
+    return render(request, 'users/vet.html')
 
 def about_view(request):
     products = list(Product.objects.all())

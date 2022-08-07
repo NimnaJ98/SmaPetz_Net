@@ -1,4 +1,5 @@
 from locale import currency
+import logging
 import stripe
 from django.conf import settings
 from django.contrib import messages
@@ -14,31 +15,37 @@ def cart_detail(request):
 
     if request.method == 'POST':
         form = CheckoutForm(request.POST)
+        print('key', settings.STRIPE_SECRET_KEY)
         if form.is_valid():
-            stripe.api_key = settings.STRIPE_SECRET_KEY
+            stripe.api_key = 'sk_test_51L3WtpIU7sBPiFFAud5AdDFcxdvjGqSYMuIvrOS7zopAUsKQfdN76S8JgovUdWXMCTWi70lPUXiCWxngmHJCph8C002qKfPWK3'
+            print('key', settings.STRIPE_SECRET_KEY)
+
             stripe_token = form.cleaned_data['stripe_token']
-            charge = stripe.Charge.create(
-                amount = int(cart.get_total_cost() * 100),
-                currency = 'USD',
-                description = 'Charge from SmaPetz',
-                source = stripe_token
-            )
 
-            first_name = form.cleaned_data['first_name']
-            last_name = form.cleaned_data['last_name']
-            email = form.cleaned_data['email']
-            phone = form.cleaned_data['phone']
-            address1 = form.cleaned_data['address1']
-            address2 = form.cleaned_data['address2']
-            zipcode = form.cleaned_data['zipcode']
-            country = form.cleaned_data['country']
+            try:
+                charge = stripe.Charge.create(
+                    amount=int(cart.get_total_cost() * 100),
+                    currency='USD',
+                    description='Charge from SmaPetz',
+                    source=stripe_token
+                )
+                first_name = form.cleaned_data['first_name']
+                last_name = form.cleaned_data['last_name']
+                email = form.cleaned_data['email']
+                phone = form.cleaned_data['phone']
+                address1 = form.cleaned_data['address1']
+                address2 = form.cleaned_data['address2']
+                zipcode = form.cleaned_data['zipcode']
+                country = form.cleaned_data['country']
 
-            order = checkout(request, first_name, last_name, email, phone, address1, address2, zipcode, country, cart.get_total_cost())
-            cart.clear()
-            return redirect('cart:success')
+                order = checkout(request, first_name, last_name, email, phone, address1, address2, zipcode, country, cart.get_total_cost())
+                cart.clear()
+                return redirect('cart:success')
+            except Exception:
+                messages.error(request, 'There was something wrong with the payment')
 
     else:
-        form = CheckoutForm()    
+        form = CheckoutForm()
 
     remove_from_cart = request.GET.get('remove_from_cart', '')
     change_quantity = request.GET.get('change_quantity', '')
@@ -52,7 +59,7 @@ def cart_detail(request):
         cart.add(change_quantity, quantity, True)
         return redirect('cart:cart') 
         
-    return render(request, 'cart/cart.html', {'form': form, 'stripe_pub_key': settings.STRIPE_PUB_KEY})
+    return render(request, 'cart/cart.html', {'form': form, 'stripe_pub_key': 'pk_test_51L3WtpIU7sBPiFFAyGeQx7lRvAkF8XCzvNWiwK5VgloVlxxzPHOgP2vj7mde43C9FzSmFDILMa020v1GQ6jdyvrY00ILiwrCOG'})
 
 
 def success(request):

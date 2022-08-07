@@ -11,6 +11,7 @@ from django.views.generic import UpdateView, DeleteView
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+import random
 
 
 # Create your views here.
@@ -21,6 +22,9 @@ def home_view(request):
     profile = Profile.objects.get(user=request.user)    
     written = Post.objects.exclude(picture="")
     video = Post.objects.exclude(video="")
+
+    pros = Profile.objects.all().exclude(user=request.user)
+    show_pros = random.sample(list(pros), 4)
 
     #Post and Comment Forms
     post_form = postModelForm()
@@ -59,6 +63,7 @@ def home_view(request):
         'post_form':post_form,
         'comment_form':comment_form,
         'post_added': post_added,
+        'show_pros' : show_pros
     }
 
     return render(request, 'posts/main.html', context)

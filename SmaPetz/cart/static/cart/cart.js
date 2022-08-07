@@ -1,32 +1,34 @@
- // Render the PayPal button into #paypal-button-container
- paypal.Buttons({
+var stripe = Stripe('pk_test_51L3WtpIU7sBPiFFAyGeQx7lRvAkF8XCzvNWiwK5VgloVlxxzPHOgP2vj7mde43C9FzSmFDILMa020v1GQ6jdyvrY00ILiwrCOG');
+    var elements = stripe.elements();
 
-    // Set up the transaction
-    createOrder: function(data, actions) {
-        return actions.order.create({
-            purchase_units: [{
-                amount: {
-                    value: '18.60'
-                }
-            }]
+    var card = elements.create('card');
+    
+
+    card.mount('#card-element');
+
+    var form = document.getElementById('payment-form');
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        console.log('card', card)
+
+        stripe.createToken(card).then(function(result) {
+            if (result.error) {
+                var errorElement = document.getElementById('card-errors');
+                errorElement.textContent = 'test error';
+            } else {
+                stripeTokenHandler(result.token);
+            }
         });
-    },
+    });
 
-    // Finalize the transaction
-    onApprove: function(data, actions) {
-        return actions.order.capture().then(function(orderData) {
-            // Successful capture! For demo purposes:
-            console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
-            var transaction = orderData.purchase_units[0].payments.captures[0];
-            alert('Transaction '+ transaction.status + ': ' + transaction.id + '\n\nSee console for all available details');
+    function stripeTokenHandler(token) {
+        var form = document.getElementById('payment-form');
+        var hiddenInput = document.createElement('input');
+        hiddenInput.setAttribute('type', 'hidden');
+        hiddenInput.setAttribute('name', 'stripe_token');
+        hiddenInput.setAttribute('value', token.id);
+        form.appendChild(hiddenInput);
 
-            // Replace the above to show a success message within this page, e.g.
-            // const element = document.getElementById('paypal-button-container');
-            // element.innerHTML = '';
-            // element.innerHTML = '<h3>Thank you for your payment!</h3>';
-            // Or go to another URL:  actions.redirect('thank_you.html');
-        });
+        form.submit();
     }
-
-
-}).render('#paypal-button-container');

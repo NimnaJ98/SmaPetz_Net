@@ -97,3 +97,29 @@
     background: #ee9d99 !important;
     color: #fff !important;
 }
+.avatar-img{
+    width: 70px !important;
+    height: 70px !important;
+    border-radius: 25px !important;
+    padding: 10px;
+    margin: 5px !important;
+}
+.ViewPros h6{
+    font-weight: bold;
+    padding-top: 10px !important;
+}
+.viewPro :hover{
+    color:  #EE7752 !important;
+}
+.suggestIcon{
+    color:  #EE7752 !important;
+}
+.suggestName{
+    width: 120px !important;
+}
+.sugesttitle{
+    text-align: center !important;
+    color: #221c1c !important;
+    font: 600 normal 1.5em ;
+    text-shadow:2px 2px #b7b7b7, 3px 5px #ffffff;
+}

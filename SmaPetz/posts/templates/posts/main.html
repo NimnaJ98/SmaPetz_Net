@@ -107,10 +107,34 @@
             <!-- Friend Suggestions -->
             <div class="card suggestions mt-5">
                 <div class="card-body">
-                    {{request.user.type}}<br>
-                    {{profile.get_Vetfollow_suggestions}}<br>
-                    {{profile.get_Storefollow_suggestions}}<br>
-                    {{profile.get_PetLoverfollow_suggestions}}<br><br>
+                    {% comment %} {{request.user.type}}{% endcomment %}
+                    <h6 class='sugesttitle mb-3'>Friend Suggestions</h6>
+                    {% for pro in show_pros %}
+                        <div class="card m-3 StoreProduct" style="width: 18rem; height: 6rem;">
+                            <table class="suggestFriends">
+                                <tr>
+                                    <td rowspan="2" class="align-baseline"><img class="img-fluid avatar-img" alt="Responsive image" src={{pro.profilePic.url}}></td>
+                                    <td class="align-baseline"><h6 class="card-title suggestName">{{pro.user.name}}</h6></td>
+                                    <td rowspan="2" class="align-baseline">
+                                        <a href="{% url 'profiles:profile-detail-view' pro.slug %}">
+                                            {% if pro.user.type == 'PET' %}
+                                                <i class="fa-solid fa-paw suggestIcon"></i>
+                                            {% endif %}
+                                            {% if pro.user.type == 'VET' %}
+                                                <i class="fa-solid fa-user-doctor suggestIcon"></i>
+                                            {% endif %}
+                                            {% if pro.user.type == 'STORE' %}
+                                                <i class="fa-solid fa-store suggestIcon"></i>
+                                            {% endif %}
+                                            {% if pro.user.type == 'PET_LOVER' %}
+                                                <i class="fa-solid fa-face-kiss-wink-heart suggestIcon"></i>
+                                            {% endif %}
+                                        </a>
+                                    </td>
+                                </tr>    
+                            </table>
+                        </div>
+                    {% endfor %}
 
                 </div>
             </div>
