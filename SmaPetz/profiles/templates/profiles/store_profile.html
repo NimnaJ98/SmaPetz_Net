@@ -35,7 +35,7 @@
             {{request.user.name}}
             <!-- Update profile button -->
             <button type="button" class="btn btnUpdate" data-toggle="modal" data-target="#exampleModal">
-              <i class="fa fa-paw"></i>
+              <i class="fa fa-store updateIcon"></i>
               Update Profile
             </button>
             <a href="{% url 'profiles:add-products' %}">
@@ -50,7 +50,11 @@
             <a href="#" class="badge">{{profile.get_followers_count}} Followers</a>
           </div>
           <div class ="userDetail mt-4">
-            {{profile.bio}} <br>
+            {{profile.bio}} <br><br>
+            <a href="{% url 'profiles:display-orders' %}">
+              <strong>Orders
+              <i class="fa-solid fa-angles-right"></i></strong>
+            </a>
           </div>
       </div>
     </div>
@@ -111,10 +115,10 @@
         </div>
       </div>
       <div id="products" class="tab-pane fade">
-        <div class="card-group">
+        <div class="card-group mb-3">
           {% if products %}
             {% for product in products %}
-              <div class="card-gallery m-2 mt-3" style="width: 18rem !important; height: 20rem !important;">
+              <div class="card-gallery m-2 mt-3 mb-3" style="width: 18rem !important; height: 20rem !important;">
                 <img src={{product.image.url}} class="card-img-top" alt="...">
                 <div class="card-body">
                   <h6 class="card-title"><a href="{% url 'products:product' product.category.slug product.slug %}">{{product.title}}</a></h6> 

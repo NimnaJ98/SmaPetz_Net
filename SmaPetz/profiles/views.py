@@ -281,7 +281,35 @@ def remove_from_friends(request):
     return redirect('profiles:profile-test')
 
 
+#display orders
+@login_required
+def display_orders(request):
+    store = Store.objects.get(user=request.user)
+    products = store.products.all()
+    orders = store.orders.all()
+
+    for order in orders:
+        order.store_amount = 0
+        order.store_paid_amount = 0
+        order.fully_paid = True
+
+        for item in order.items.all():
+            if item.store == request.user:
+                if item.store_paid:
+                    order.store_paid_amount += item.get_total_price()
+                else:
+                    order.store_amount += item.get_total_price()
+                    order.fully_paid = False
+
+    context = {
+            'store': store,
+            'products':products,
+            'orders':orders,
+        }
+    return render(request, 'profiles/orders.html', context)
+
 #add products
+@login_required
 def add_products(request):
     if request.method == 'POST':
         product_form = ProductForm(request.POST, request.FILES)

@@ -10,7 +10,8 @@ from .views import (
     remove_from_friends,
     accept_requests,
     reject_requests,
-    add_products
+    add_products,
+    display_orders
 )
 
 app_name = 'profiles'
@@ -21,6 +22,7 @@ urlpatterns = [
     path('received-requests/', received_requests_view, name='received-requests'),
     path('all-profiles/', ProfileListView.as_view(), name='all-profiles-view'),
     path('add_products/', add_products, name='add-products'),
+    path('display_orders/', display_orders, name='display-orders'),
     
     path('<slug:slug>', ProfileDetailView.as_view(), name='profile-detail-view'),
     path('to-request/', invite_profiles_list_view, name='request-profiles-view'),
