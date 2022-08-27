@@ -1,10 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@500&display=swap');
 
 * {
     margin: 0px;
     padding: 0px;
-    font-family: 'Poppins', sans-serif;
-    font-family: 'Roboto', sans-serif;
+    /* font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif; */
+    font-family: 'Noto Serif HK', serif;
     background: #fafafa !important;
 
 }
@@ -151,4 +153,11 @@ body{
 li:active{
     background: transparent !important;
     color: #f1896a !important;
+}
+.logoMain{
+    text-align: left;
+    color: #221c1c !important;
+    font: 150 normal 1.0em 'Libre Baskerville', serif;
+    text-shadow:2px 2px #b7b7b7, 3px 5px #ffffff;
+    margin-left: 3rem;
 }

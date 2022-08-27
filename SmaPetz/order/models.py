@@ -14,7 +14,7 @@ class Order(models.Model):
     address1 = models.CharField(max_length=100)
     address2 = models.CharField(max_length=100)
     zipcode = models.CharField(max_length=100)
-    country = CountryField()
+    country = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     paid_amount = models.DecimalField(max_digits=8, decimal_places=2)
     stores = models.ManyToManyField(Store, related_name='orders')
@@ -23,7 +23,7 @@ class Order(models.Model):
         ordering = ['-created_at']
 
     def __str__(self):
-        return self.first_name
+        return self.first_name 
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE) 
@@ -34,4 +34,4 @@ class OrderItem(models.Model):
     quantity = models.IntegerField(default=1)
 
     def __str__(self):
-        return self.id
+        return str(self.id)

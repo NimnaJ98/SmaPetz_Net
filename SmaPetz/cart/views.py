@@ -15,13 +15,9 @@ def cart_detail(request):
 
     if request.method == 'POST':
         form = CheckoutForm(request.POST)
-        print('key', settings.STRIPE_SECRET_KEY)
         if form.is_valid():
-            stripe.api_key = 'sk_test_51L3WtpIU7sBPiFFAud5AdDFcxdvjGqSYMuIvrOS7zopAUsKQfdN76S8JgovUdWXMCTWi70lPUXiCWxngmHJCph8C002qKfPWK3'
-            print('key', settings.STRIPE_SECRET_KEY)
-
+            stripe.api_key = settings.STRIPE_SECRET_KEY
             stripe_token = form.cleaned_data['stripe_token']
-
             try:
                 charge = stripe.Charge.create(
                     amount=int(cart.get_total_cost() * 100),
@@ -59,7 +55,7 @@ def cart_detail(request):
         cart.add(change_quantity, quantity, True)
         return redirect('cart:cart') 
         
-    return render(request, 'cart/cart.html', {'form': form, 'stripe_pub_key': 'pk_test_51L3WtpIU7sBPiFFAyGeQx7lRvAkF8XCzvNWiwK5VgloVlxxzPHOgP2vj7mde43C9FzSmFDILMa020v1GQ6jdyvrY00ILiwrCOG'})
+    return render(request, 'cart/cart.html', {'form': form, 'stripe_pub_key': settings.STRIPE_PUB_KEY})
 
 
 def success(request):

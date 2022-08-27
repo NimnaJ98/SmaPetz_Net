@@ -1,5 +1,6 @@
 from django import forms
 from django_countries.fields import CountryField
+from django_countries.widgets import CountrySelectWidget
 
 class CheckoutForm(forms.Form):
     first_name = forms.CharField(max_length=255)
@@ -9,5 +10,5 @@ class CheckoutForm(forms.Form):
     address1 = forms.CharField(max_length=255)
     address2 = forms.CharField(max_length=255)
     zipcode = forms.CharField(max_length=255)
-    country = forms.CharField(max_length=255)
+    country = forms.CharField()
     stripe_token = forms.CharField(max_length=255)

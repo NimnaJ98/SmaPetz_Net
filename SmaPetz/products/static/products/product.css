@@ -57,7 +57,7 @@ h2 {
 .productThumb{
     height: 300px !important;
     width: 286px !important;
-}
+} 
 .deatilTitle{
     text-align: left;
     color: #221c1c !important;
@@ -136,4 +136,12 @@ h2 {
     border-radius: 25px;
     animation-name: show-toast;
     animation-duration: 6s;
+}
+.addCart{
+   border-color: #505153   !important;
+}
+.addCart:hover{
+    color: #e56554 !important;
+    font-weight: bold !important;
+    border-color: #e56554   !important;
 }
