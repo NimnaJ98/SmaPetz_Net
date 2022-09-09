@@ -1,13 +1,8 @@
 var stripe = Stripe('pk_test_51L3WtpIU7sBPiFFAyGeQx7lRvAkF8XCzvNWiwK5VgloVlxxzPHOgP2vj7mde43C9FzSmFDILMa020v1GQ6jdyvrY00ILiwrCOG');
     var elements = stripe.elements();
-
     var card = elements.create('card');
-    
-
     card.mount('#card-element');
-
     var form = document.getElementById('payment-form');
-
     form.addEventListener('submit', function(event) {
         event.preventDefault();
         console.log('card', card)
@@ -21,7 +16,6 @@ var stripe = Stripe('pk_test_51L3WtpIU7sBPiFFAyGeQx7lRvAkF8XCzvNWiwK5VgloVlxxzPH
             }
         });
     });
-
     function stripeTokenHandler(token) {
         var form = document.getElementById('payment-form');
         var hiddenInput = document.createElement('input');
@@ -29,6 +23,5 @@ var stripe = Stripe('pk_test_51L3WtpIU7sBPiFFAyGeQx7lRvAkF8XCzvNWiwK5VgloVlxxzPH
         hiddenInput.setAttribute('name', 'stripe_token');
         hiddenInput.setAttribute('value', token.id);
         form.appendChild(hiddenInput);
-
         form.submit();
     }

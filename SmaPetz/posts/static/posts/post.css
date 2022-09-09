@@ -120,6 +120,6 @@
 .sugesttitle{
     text-align: center !important;
     color: #221c1c !important;
-    font: 600 normal 1.5em ;
-    text-shadow:2px 2px #b7b7b7, 3px 5px #ffffff;
+    font: 600 bold 2.5em !important;
+    
 }

@@ -5,24 +5,27 @@ Display Orders
 {% endblock title %}
 
 {% block content %}
-
-<div class="grid">
+<div class="orderhead mt-3 mb-3 ml-2 p-3">
+    <strong>My balance : </strong>${{  balance }}<br>
+    <strong>Paid Amount : </strong>${{ paid }}
+</div>
+<div class="grid p-2">
     {% if orders %}
         {% for order in orders %}
-            <div class="{% if order.fully_paid %} bgcolor1 {% else %} bgcolor2 {% endif %} card m-2 mt-3">
-                <div class="col m-2">
+            <div class="card mt-3 mb-4 orderCart">
+                <div class="col m-2 p-1" style="width:50% !important;">
                     <h3 class="orderDetail">#{{order.id}} - {{order.first_name}} {{order.last_name}}</h3> 
                 </div>
-                <div class="col m-4">
+                <div class="col m-4" style="width:50% !important;">
                     <b>Name:</b> {{ order.first_name }} {{ order.last_name }} <br>
                     <b>Address:</b> {{ order.address1 }} , {{ order.address2 }} <br>
                     <b>Zip and Country:</b> {{ order.zipcode }} {{ order.country }} <br>
                     <b>E-mail:</b> {{ order.email }}<br>
                     <b>Phone:</b> {{ order.phone }}
                 </div>    
-                <table class="ordersTable m-2">
+                <table class="ordersTable m-2 p-2">
                     <thead>
-                        <tr>
+                        <tr class="mb-2">
                             <th>Title</th>
                             <th>Price</th>
                             <th>Quantity</th>
@@ -32,7 +35,7 @@ Display Orders
                     </thead>
                     <tbody>
                         {% for item in order.items.all %}
-                            {% comment %} {% if item.store == request.user.store %} {% endcomment %}
+                            {% if request.user == item.store.user %} 
                                 <tr>
                                     <td>{{ item.product.title }}</td>
                                     <td>${{ item.product.price }}</td>
@@ -40,11 +43,10 @@ Display Orders
                                     <td>{{ item.store_paid|yesno:"Yes,No" }}</td>
                                     <td>${{ item.get_total_price }}</td>
                                 </tr>
-                            {% comment %} {% endif %} {% endcomment %}
+                            {% endif %} 
                         {% endfor %}
                     </tbody>
                 </table>
-                
             </div>  
         {% endfor %}
     {% else %}

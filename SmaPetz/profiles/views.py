@@ -1,7 +1,10 @@
+from ast import And
 from re import L
 from unittest import result
 from django.dispatch import receiver
 from django.shortcuts import redirect, render, get_object_or_404
+
+from order.models import OrderItem
 from .models import Profile, Pet, Pet_Lover, Store, Veterinarian, FriendRequest
 from users.models import User
 from django.views.generic import TemplateView, View
@@ -285,8 +288,12 @@ def remove_from_friends(request):
 @login_required
 def display_orders(request):
     store = Store.objects.get(user=request.user)
+    items_paid_false = store.items.filter(store_paid=False, order__stores__in=[store.id])
+    item_paid_true = store.items.filter(store_paid=True, order__stores__in=[store.id])
     products = store.products.all()
     orders = store.orders.all()
+    paid = 0
+    balance =0
 
     for order in orders:
         order.store_amount = 0
@@ -301,10 +308,17 @@ def display_orders(request):
                     order.store_amount += item.get_total_price()
                     order.fully_paid = False
 
+    for item in items_paid_false:
+        balance += item.product.price * item.quantity
+    for obj in item_paid_true:
+        paid = obj.product.price * obj.quantity
+
     context = {
             'store': store,
             'products':products,
             'orders':orders,
+            'balance':balance,
+            'paid':paid
         }
     return render(request, 'profiles/orders.html', context)
 

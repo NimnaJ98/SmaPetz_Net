@@ -192,6 +192,14 @@ class Store(Profile):
     def __str__(self):
         return str(self.user)
 
+    def get_balance(self):
+        items = self.items.filter(store_paid=False, order__stores__in=[self.id])
+        return sum((item.product.price * item.quantity) for item in items)
+    
+    def get_paid_amount(self):
+        items = self.items.filter(store_paid=True, order__stores__in=[self.id])
+        return sum((item.product.price * item.quantity) for item in items)
+
 
 class Pet_Lover(Profile):
     lover_id = models.OneToOneField(Profile, on_delete=models.CASCADE, parent_link=True, primary_key=True)

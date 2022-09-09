@@ -113,3 +113,7 @@ a small{
 .postImg{
     height: 320px !important;
 }
+.alert-danger{
+    border: rgb(110, 18, 18) !important;
+    color: #fff !important;
+}
