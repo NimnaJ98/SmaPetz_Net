@@ -28,8 +28,8 @@ Store
           <div class="boxContainer">
             <table class="elementsContainer">
               <tr>
-                <td><input type ="search" class="form-control searchInput" placeholder="Search..." name="query"></td>
-                <td><button class="btn btnSearch"><i class="fas fa-search"></i></button></td>
+                <td class="align-baseline"><input type ="search" class="form-control searchInput" placeholder="Search..." name="query"></td>
+                <td rowspan="2" class="align-baseline"><button class="btn btnSearch"><i class="fas fa-search"></i></button></td>
               </tr>
             </table>
           </div>
@@ -41,8 +41,33 @@ Store
           {% include 'products/list_item.html' %}
         {% endfor %}
     </div>
-    {% comment %} <div class="row mb-3">
-        add store suggestions
-    <div> {% endcomment %}
-  </div>
+    <hr>
+    <div class="row mb-3">
+      <div class="col-2 d-flex justify-content-end imgCol">
+        <img class="img-fluid justify-content-right ml-5" alt="Responsive image" src="{% static "images/sniff.png" %}">
+      </div>
+      <div class="col-5 d-flex align-items-start">
+        <h2 class="storeHeader justify-content-left">Sniff Stores</h2>
+      </div>
+    <div>
+    <br>
+    <div class="row mb-3">
+      {% for store in stores %}
+        <div class="orderhead m-3 p-3">
+          <table class="suggestFriends">
+              <tr>
+                <td rowspan="2" class="align-baseline"><img class="img-fluid storeAvatar" alt="Responsive image" src={{store.profilePic.url}}></td>
+                <td class="align-baseline" rowspan="3"><h6 class="card-title suggestStore">{{store.user.name}}</h6></td>
+                <td rowspan="2" class="align-baseline">
+                  <a href="{% url 'profiles:profile-detail-view' store.slug %}"class="btn productView" style="color:#fff !important;">
+                    <i class="fa-solid fa-store storeIcon"></i>
+                    View Store
+                  </a>
+                </td>
+              </tr>   
+          </table>
+        </div>
+      {% endfor %}
+    </div>
+</div>
 {% endblock content %}

@@ -2,7 +2,7 @@ import imp
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 import random
-
+from django.contrib.auth.decorators import login_required
 import cart
 from .models import Product, Category
 from profiles.models import Store, Profile
@@ -28,12 +28,19 @@ def searchProduct(request):
 
 def store_view(request):
     newest_products = Product.objects.all()[0:9]
+    stores = Store.objects.all()
+    list_stores = list(stores)
+
+    if len(list_stores) >= 4:
+        list_stores = random.sample(list_stores, 4)
     
     context = {
         'newest_products': newest_products,
+        'stores':stores
     }
     return render(request, 'products/store.html', context)
 
+@login_required
 def product(request, category_slug, product_slug):
     cart = Cart(request)
     product = get_object_or_404(Product, category__slug= category_slug, slug=product_slug)

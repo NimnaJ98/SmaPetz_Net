@@ -145,3 +145,17 @@ h2 {
     font-weight: bold !important;
     border-color: #e56554   !important;
 }
+.storeAvatar{
+    width: 150px !important;
+    height: 150px !important;
+    border-radius: 25px !important;
+    padding: 10px;
+    margin: 5px !important;
+}
+.suggestStore{
+    width: 200px !important;
+}
+.storeIcon{
+    color:  #FFF !important;
+    background: transparent !important;
+}

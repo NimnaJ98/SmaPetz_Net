@@ -6,5 +6,53 @@ Veterinarian
 {% endblock title %}
 
 {% block content %}
-    {{show_posts}}
+<div class="container">
+    <div class="row mb-3">
+        {% for vet in vets %}
+        <div class="orderhead m-3 p-3">
+          <table class="suggestFriends">
+              <tr>
+                <td rowspan="2" class="align-baseline"><img class="img-fluid vetAvatar" alt="Responsive image" src={{vet.profilePic.url}}></td>
+                <td class="align-baseline" rowspan="3"><h6 class="card-title suggestStore">{{vet.user.name}}</h6></td>
+                <td rowspan="2" class="align-baseline">
+                  <a href="{% url 'profiles:profile-detail-view' vet.slug %}"class="btn productView" style="color:#fff !important;">
+                    <i class="fa-solid fa-user-doctor suggestVet"></i>
+                    View Doctor
+                  </a>
+                </td>
+              </tr>   
+          </table>
+        </div>
+      {% endfor %}
+    </div>
+    <hr>
+    <div class="row mb-3">
+        {% for post in posts %}
+            {% if post.author.user.type == "VET" %}
+                <div class="card m-3" style="width: 28rem;">
+                    <div class ="card-title clearfix p-2">
+                        <img class="img-fluid avatar mr-3" alt="Responsive image" src={{post.author.profilePic.url}}>
+                        {{post.author.user.name}} - {{post.created|timesince}} ago
+                    </div>
+                        {% if post.picture %}
+                            <img src="{{post.picture.url}}" class="img-vet" alt="...">
+                        {% endif %}
+                        {% if post.video %}
+                            <video controls autoplay muted id="vid">
+                                <source src={{post.video.url}} type="video/mp4"></source>
+                            </video>
+                        {% endif %}
+                    <div class="card-body">
+                        <h6 class="card-title">{{post.caption}}</h5>
+                        <p class="card-tags vetTags">{{post.tags}}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'profiles:profile-detail-view' post.author.slug %}" class="btn productView" style="color:#fff !important;">Sniff Profile</a>
+                    </div>
+                </div>
+            {% endif %}  
+        {% endfor %}
+    </div>
+</div>
+            
 {% endblock content %}

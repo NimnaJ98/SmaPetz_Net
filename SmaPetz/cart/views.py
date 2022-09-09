@@ -7,9 +7,10 @@ from django.shortcuts import redirect, render
 from .cart import Cart
 from .forms import CheckoutForm
 from order.utilities import checkout
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-
+@login_required
 def cart_detail(request):
     cart = Cart(request)
 
@@ -57,6 +58,6 @@ def cart_detail(request):
         
     return render(request, 'cart/cart.html', {'form': form, 'stripe_pub_key': settings.STRIPE_PUB_KEY})
 
-
+@login_required
 def success(request):
     return render(request, 'cart/success.html')

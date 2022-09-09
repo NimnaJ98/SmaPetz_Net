@@ -15,13 +15,14 @@ def home_view(request):
     return redirect('posts:home-view')
 
 def vet_view(request):
-    # vets = list(get_object_or_404(Veterinarian))
-    # posts = list(Post.objects.get(author = vets))
-    # show_posts = random.sample(posts, 6)
-    # context = {
-    #     'show_posts': show_posts,
-    # }
-    return render(request, 'users/vet.html')
+    posts = Post.objects.all()
+    vets = Veterinarian.objects.all()
+    
+    context = {
+         'posts': posts,
+         'vets':vets
+    }
+    return render(request, 'users/vet.html', context)
 
 def about_view(request):
     products = list(Product.objects.all())

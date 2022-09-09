@@ -117,3 +117,16 @@ a small{
     border: rgb(110, 18, 18) !important;
     color: #fff !important;
 }
+.img-vet{
+    height: 28rem !important;
+}
+.vetTags{
+    color: #DE6262 !important;
+}
+.suggestVet{
+    background: transparent !important;
+}
+.vetAvatar{
+    width: 100px !important;
+    height: 100px !important;
+}
