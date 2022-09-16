@@ -13,9 +13,9 @@ class UserRegistrationForm(UserCreationForm):
        }
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['type'].widget.attrs.update({'class': 'custom-class'})
-        self.fields['password1'].widget.attrs.update({'class': 'custom-class'})
-        self.fields['password2'].widget.attrs.update({'class': 'custom-class'})
+        self.fields['type'].widget.attrs.update({'class':'form-control custom-class'})
+        self.fields['password1'].widget.attrs.update({'class':'form-control custom-class'})
+        self.fields['password2'].widget.attrs.update({'class':'form-control custom-class'})
 
 class UserLoginForm(forms.ModelForm):
     password = forms.CharField(label="password", widget=forms.PasswordInput(attrs={'class':'form-control custom-class'}))

@@ -1,12 +1,47 @@
 @import url("//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css");
-.login-block{
-    background: #DE6262 !important;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to bottom, #FFB88C, #DE6262) !important;  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to bottom, #FFB88C, #DE6262) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    float:left;
-    width:100%;
-    padding : 50px 0;
-    border-radius: 25px;
+
+.divider:after,
+.divider:before {
+content: "";
+flex: 1;
+height: 1px;
+background: rgb(207, 203, 203);
+}
+.h-custom {
+height: calc(100% - 73px);
+}
+@media (max-width: 450px) {
+.h-custom {
+height: 100%;
+}
+}
+.loginBtn{
+    background: #f1896a !important;
+    box-shadow: 0 4px 6px 0 rgba(22, 22, 26, 0.18) !important;
+    color: #fff !important;
+}
+.offset-xl-1{
+    -moz-box-shadow: 0 0 5px #000;
+    -webkit-box-shadow: 0 0 5px #000;
+    box-shadow: 0 0 5px #000;
+    margin: 10px !important;
+    padding: 25px !important;
+    border-radius: 1rem !important;
+}
+.errorMsg{
+    color: #ba3939;
+    background: #ffe0e0;
+    
+}
+.closeError{
+    color: #ba3939;
+    background: #ffe0e0;
+}
+.form-outline{
+    background: #FFF !important;
+}
+.regiLabel{
+    background: #FFF !important;
 }
 .register-block{
     background: #DE6262 !important; 

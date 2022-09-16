@@ -7,46 +7,69 @@ User Registration
 {% endblock title %}
 
 {% block content %}
-<div class="container justify-content-center">
-    <div class="row">
-		<div class="col-md-5 reg-sec justify-content-center register-block">
-            <div class="form p-5">
-                <form action="" method="POST" class="registerForm">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        {{ register_form.email|as_crispy_field }}
+<section class="vh-100">
+    <div class="container-fluid h-custom">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          
+          <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1 shadow p-3 mb-5 bg-white rounded">
+            <form action="" method="POST" class="registerForm">
+                {% csrf_token %}
+                <div class="form-outline mb-4">
+                    <label class="form-label regiLabel" for="form3Example3">Email Address</label>
+                    <div class="form-group" id="form3Example3">
+                        {{ register_form.email }}
                     </div>
-                    <div class="form-group custom">
-                        <div class="row">
-                            <div class="col">{{ register_form.name|as_crispy_field }}</div>
-                            <div class="col">{{ register_form.type|as_crispy_field }}</div>
+                    <div class="form-outline mb-3">
+                        <label class="form-label regiLabel" for="form3Example4">Name</label>
+                        <div class="form-group">
+                            {{ register_form.name }}
                         </div>
                     </div>
-                    <div class="form-group">
-                        {{ register_form.password1|as_crispy_field }}
-                        {{ register_form.password2|as_crispy_field }}
-                    </div>
-
-                    {% for error in register_form.errors %}
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <small>{{error}}</small>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                    <div class="form-outline mb-3">
+                        <label class="form-label regiLabel" for="form3Example4">Type</label>
+                        <div class="form-group bg-white">
+                            {{ register_form.type }}
                         </div>
-                    {% endfor %}
-                    
-                    <div class="form-check">
-                        <button type="submit" class="btn btnModal float-right">Register</button>
                     </div>
-                </form>
+                    <div class="form-outline mb-3">
+                        <label class="form-label regiLabel" for="form3Example4">Password</label>
+                        <div class="form-group">
+                            {{ register_form.password1}}
+                        </div>
+                    </div>
+                    <div class="form-outline mb-3">
+                        <label class="form-label regiLabel" for="form3Example4">Confirm Password</label>
+                        <div class="form-group">
+                            {{ register_form.password2 }}
+                        </div>
+                    </div>
+                    <div class="form-outline mb-3">
+                        {% for error in register_form.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    <small class="errorMsg">{{error}}</small>
+                                    <button type="button" class="close closeError" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                        {% endfor %}
+                       
+                    </div>
+                    <div class="form-outline mt-4 mb-3">
+                        <button type="submit" class="btn btn-lg btn-block loginBtn">Join SmaPetz</button>
+                    </div>
+                </div>
+            </form>
+            <div class="text-center text-lg-start mt-4 pt-2 bg-white">
+                <h6 class="fw-bold mt-2 pt-1 mb-0 bg-white">Already a Member? &nbsp
+                    <i class="fa-solid fa-hand-point-right bg-white"></i> &nbsp
+                    <a href="{% url 'users:login' %}" style="color: #DE6262 !important;" class="bg-white">Login</a> 
+                </h6>
             </div>
-            
-        </div>
-        <div class="col-md-6 banner-sec">
-            <img class="d-block img-fluid" src="{% static 'images/bg.png' %}">
+          </div>
+          <div class="col-md-9 col-lg-6 col-xl-5 p-3 mb-5 rounded">
+            <img src="{% static 'images/bg.png' %}" class="img-fluid" alt="Sample image">
+          </div>
         </div>
     </div>
-</div>
+</section>
 {% endblock content %}
-
