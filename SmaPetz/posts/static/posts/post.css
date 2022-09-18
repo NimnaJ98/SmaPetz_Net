@@ -123,3 +123,14 @@
     font: 600 bold 2.5em !important;
     
 }
+.card-body-likes i{
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+}
+.card-body-comment span{
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+}
+.labelUpdate{
+    font-weight: bold !important;
+}

@@ -6,8 +6,28 @@ Veterinarian
 {% endblock title %}
 
 {% block content %}
-<div class="container">
+<div class="section pl-5">
     <div class="row mb-3">
+        <div class="col-2 d-flex justify-content-end imgCol">
+          <img class="img-fluid justify-content-right ml-5" alt="Responsive image" src="{% static "images/vet_clinic.png" %}">
+        </div>
+        <div class="col-5 d-flex align-items-start">
+          <h2 class="storeHeader justify-content-left">Veterinarians</h2>
+        </div>
+        <div class="col">
+          <form method="get" action="{% url 'users:search-vet' %}" class="formSearch">
+            <div class="boxContainer">
+              <table class="elementsContainer">
+                <tr>
+                  <td class="align-baseline"><input type ="search" class="form-control searchInput" placeholder="Search..." name="query"></td>
+                  <td rowspan="2" class="align-baseline"><button class="btn btnSearch"><i class="fas fa-search"></i></button></td>
+                </tr>
+              </table>
+            </div>
+          </form>
+        </div>
+    </div>
+    <div class="row mb-3 p-5">
         {% for vet in vets %}
         <div class="orderhead m-3 p-3">
           <table class="suggestFriends">

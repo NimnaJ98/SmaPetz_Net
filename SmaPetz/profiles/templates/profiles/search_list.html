@@ -1,13 +1,14 @@
-{% comment %} <div class="card cardList shadow rounded"> {% endcomment %}
-    <div class="grid profilesGrid shadow">
-        <div class="row justify-content-center">
-            <div class="col-4">
-                <img class="img-fluid m-2" alt="Responsive image" src={{profile.profilePic.url}}>
-            </div>
-            <div class="col-8">
-                <h5 class="card-title mt-2">{{profile.user.name}}</h5>
-                <a href="{% url 'profiles:profile-detail-view' profile.slug %}"><button class="btn productView" style="color:#fff !important;">See Profile</button></a>
-            </div>
-        </div>
-    </div>
-{% comment %} </div> {% endcomment %}
+<div class="orderhead m-3 p-3">
+    <table class="suggestFriends">
+        <tr>
+          <td rowspan="2" class="align-baseline"><img class="img-fluid vetAvatar" alt="Responsive image" src={{vet.profilePic.url}}></td>
+          <td class="align-baseline" rowspan="3"><h6 class="card-title suggestStore">{{vet.user.name}}</h6></td>
+          <td rowspan="2" class="align-baseline">
+            <a href="{% url 'profiles:profile-detail-view' vet.slug %}"class="btn productView" style="color:#fff !important;">
+              <i class="fa-solid fa-user-doctor suggestVet"></i>
+              View Doctor
+            </a>
+          </td>
+        </tr>   
+    </table>
+</div>

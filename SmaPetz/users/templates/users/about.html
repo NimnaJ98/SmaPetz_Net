@@ -62,9 +62,9 @@ About
   <div class="row"><h3 class='deatilTitle pl-5 pt-5'>Pet Social Media</h1><hr></div>
   <div class="row">
     {% for post in show_posts %}
-      <div class="card m-3 AboutPost" style="width: 20rem; height:32rem;">
+      <div class="card m-3 AboutPost" style="width: 22rem; height:32rem;">
         <img src="{{post.picture.url}}" class="card-img-top postImg" alt="...">
-        <div class="card-body">
+        <div class="card-body aboutBody">
           <h6 class="card-cap">{{post.caption}}</h6>
         </div>
         <div class="card-footer">
@@ -76,7 +76,7 @@ About
   <div class="row"><h3 class='deatilTitle pl-5 pt-5'>Pet Store</h1><hr></div>
   <div class="row">
       {% for product in show_Products %}
-        <div class="card m-3 StoreProduct" style="width: 14.5rem;">
+        <div class="card m-3 StoreProduct" style="width: 16rem;">
           <img src="{{product.get_thumbnail}}" class="card-img-top productImg" alt="...">
           <div class="card-body">
             <h5 class="card-title">{{product.title}}</h5>

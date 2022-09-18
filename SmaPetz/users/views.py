@@ -1,3 +1,4 @@
+from cProfile import Profile
 import profile
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
@@ -6,8 +7,8 @@ from users.forms import UserRegistrationForm, UserLoginForm
 from users.models import User
 from products.models import Product
 from posts.models import Post
-from profiles.models import Veterinarian
 import random
+from django.db.models import Q
 
 
 # Create your views here.
@@ -23,6 +24,17 @@ def vet_view(request):
          'vets':vets
     }
     return render(request, 'users/vet.html', context)
+
+def searchVet(request):
+    query = request.GET.get('query', '')
+    posts = Post.objects.filter(Q(caption__icontains=query) | Q(tags__icontains=query))
+    profiles = Veterinarian.objects.filter(Q(address__icontains=query) | Q(bio__icontains=query) | Q(slug__icontains=query))
+    context = {
+        'query':query,
+        'posts':posts,
+        'profiles':profiles, 
+    }
+    return render(request, 'users/vet_search.html', context)
 
 def about_view(request):
     products = list(Product.objects.all())

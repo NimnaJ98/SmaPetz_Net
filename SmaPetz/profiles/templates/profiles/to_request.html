@@ -1,47 +1,42 @@
 {% extends 'base.html' %}
 
-{% block title %}Request Friends{% endblock title %}
+{% block title %}Requested Friends{% endblock title %}
 
 {% block content %}
-
-{% for obj in qs %}
-    {% if obj.user != request.user %}
-        <div class="card  cardList mb-3 shadow rounded requestslist">
-            <div class="grid cardList gridList">
-                <div class="row cardList justify-content-center">
-                    <div class="col-3 cardList">
-                        <img class="img-fluid m-2" alt="Responsive image" src={{obj.profilePic.url}}>
+    {% for obj in qs %}
+        {% if obj.user != request.user %}
+            <section>
+                <div class="d-flex justify-content-center mb-5">
+                    <div class="row cardList shadow p-3 mb-5 bg-white rounded">
+                        <div class="col-3 cardList">
+                            <img class="img-fluid m-2" alt="Responsive image" src={{obj.profilePic.url}}>
+                        </div> 
+                        <div class="col-5 cardListCol">
+                            <h3 class="card-title users_name mt-4">{{obj.user.name}}</h3>
+                            <p class="bg-light">{{obj.bio}}</p>
+                        </div>
+                        <div class="col-4 cardListCol iconprofile p-3">
+                            <a href="{% url 'profiles:profile-detail-view' obj.slug %}">
+                                <button class="btn btnModal seeProfile mt-3 mb-3">
+                                    {% if obj.user.type == 'PET' %}
+                                        <i class="fa-solid fa-paw suggestIcon"></i>
+                                    {% endif %}
+                                    {% if obj.user.type == 'VET' %}
+                                        <i class="fa-solid fa-user-doctor suggestIcon"></i>
+                                    {% endif %}
+                                    {% if obj.user.type == 'STORE' %}
+                                        <i class="fa-solid fa-store suggestIcon"></i>
+                                    {% endif %}
+                                    {% if obj.user.type == 'PET_LOVER' %}
+                                        <i class="fa-solid fa-face-kiss-wink-heart suggestIcon"></i>
+                                    {% endif %}
+                                    &nbsp; See Profile
+                                </button>
+                            </a>
+                        </div> 
                     </div>
-                    <div class="col-8 cardListCol">
-                        <h5 class="card-title users_name mt-2">{{obj.user.name}}</h5>
-                        {% if obj.user.type == 'PET' %}
-                            <div class="alert alert-light" role="alert">
-                                A Pet Profile
-                            </div>
-                        {% endif %}
-                        {% if obj.user.type == 'VET' %}
-                            <div class="alert alert-light" role="alert">
-                                A Veterinarian Profile
-                            </div>
-                        {% endif %}
-                        {% if obj.user.type == 'STORE' %}
-                            <div class="alert alert-light" role="alert">
-                                A Store Profile
-                            </div>
-                        {% endif %}
-                        {% if obj.user.type == 'PET_LOVER' %}
-                            <div class="alert alert-light" role="alert">
-                                A Pet Lover Profile
-                            </div>
-                        {% endif %}
-                        <p class="bg-light">{{obj.bio}}</p>
-                    </div>
-                    <div class="col-1 cardListCol">
-                        <a href="{% url 'profiles:profile-detail-view' obj.slug %}"><button class="btn btnModal seeProfile mt-3 mb-3">See Profile</button></a>
-                    </div>
-                </div>    
+                </div>
             </div>
-        </div>
-    {% endif %}
-{% endfor %}
+        {% endif %}
+    {% endfor %}
 {% endblock content %}

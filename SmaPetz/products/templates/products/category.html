@@ -1,15 +1,20 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}
 Category
 {% endblock title %}
 
 {% block content %}
-<div class="container">
+<div class="section pl-5">
     <div class="row justify-content-center catRow">
+      <a href="{% url 'products:store-view' %}" class="btn backStore">
+        <i class="fa-solid fa-store storeIcon"></i>
+        Back to the Store
+      </a>
       <h3>Category: {{category.title}}</h3>
     </div>
     <hr/>
-    <div class="row">
+    <div class="row pl-5 pr-5">
         {% for product in category.products.all %}
           {% include 'products/list_item.html' %}
         {% endfor %}

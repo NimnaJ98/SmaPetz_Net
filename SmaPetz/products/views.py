@@ -21,13 +21,13 @@ def searchProduct(request):
         'products': products,
         'query':query,
         'posts':posts,
-        'profiles':profiles,
+        'profiles':profiles, 
     }
     return render(request, 'products/productSearch.html', context)
 
 
 def store_view(request):
-    newest_products = Product.objects.all()[0:9]
+    newest_products = Product.objects.all()[0:12]
     stores = Store.objects.all()
     list_stores = list(stores)
 

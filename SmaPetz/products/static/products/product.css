@@ -159,3 +159,24 @@ h2 {
     color:  #FFF !important;
     background: transparent !important;
 }
+.storeCon{
+    overflow: hidden !important;
+    padding: 0 !important;
+}
+.sugFriendDiv{
+    padding-left: 150px !important;
+}
+.catRow{
+    margin: auto !important;
+    padding: 20px !important;
+}
+.catRow a{
+    color: #ffffff !important;
+}
+.backStore{
+    background-color: #e56554 !important;
+    height: fit-content !important;
+}
+.searchTerm a{
+    color: #ffffff !important;
+}

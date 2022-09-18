@@ -5,7 +5,8 @@ Store
 {% endblock title %}
 
 {% block content %}
-<div class="container">
+<div class="section m-3">
+{% comment %} <div class="container"> {% endcomment %}
     <div class="row">
       <ul class="nav ">
         {% for category in menu_categories %}
@@ -30,7 +31,7 @@ Store
               <tr>
                 <td class="align-baseline"><input type ="search" class="form-control searchInput" placeholder="Search..." name="query"></td>
                 <td rowspan="2" class="align-baseline"><button class="btn btnSearch"><i class="fas fa-search"></i></button></td>
-              </tr>
+              </tr> 
             </table>
           </div>
         </form>
@@ -51,7 +52,7 @@ Store
       </div>
     <div>
     <br>
-    <div class="row mb-3">
+    <div class="row mb-3 sugFriendDiv">
       {% for store in stores %}
         <div class="orderhead m-3 p-3">
           <table class="suggestFriends">

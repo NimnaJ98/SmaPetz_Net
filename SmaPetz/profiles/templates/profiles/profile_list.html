@@ -8,13 +8,13 @@
 {% endif %}
 
 {% for obj in qs %}
-    <div class="card cardList mb-3 shadow rounded requestslist">
-        <div class="grid cardList">
-            <div class="row cardList justify-content-center">
+    <div class="d-flex justify-content-center mb-3">
+        <div class="grid cardList shadow p-3 mb-5 bg-white rounded" style="width: 850px !important;"> 
+            <div class="row cardList justify-content-center ">
                 <div class="col-3 cardList">
                     <img class="img-fluid m-2" alt="Responsive image" src={{obj.profilePic.url}}>
                 </div>
-                <div class="col-8 cardListCol">
+                <div class="col-6 cardListCol">
                     <h5 class="card-title users_name mt-2">{{obj.user.name}}</h5>
                     {% if obj.user.type == 'PET' %}
                         <div class="alert alert-light" role="alert">
@@ -38,15 +38,15 @@
                     {% endif %}
                     <p class="bg-light">{{obj.bio}}</p>
                 </div>
-                <div class="col-1 cardListCol">
-                    <a href="{% url 'profiles:profile-detail-view' obj.slug %}"><button class="btn btnModal seeProfile mt-3 mb-3">See Profile</button></a>
+                <div class="col-3 cardListCol friendbtncol">
+                    <a href="{% url 'profiles:profile-detail-view' obj.slug %}"><button class="btn btnModal seeProfile mt-3 mb-3" style="width: 250px !important;">See Profile</button></a>
                     
                     {% if obj.user not in request_receiver and obj.user not in request_sender %}
                         <form action="{% url 'profiles:send-request' %}" method="POST">
                             {% csrf_token %}
                             <input type="hidden" name="profile_pk" value={{obj.pk}}>
                             
-                            <button type="submit" class="btn btn-success">
+                            <button type="submit" class="btn btn-success" style="width: 250px !important;">
                                 <i class="fa-solid fa-plus" style="color: black !important;"></i>
                                 Add to Friends
                             </button>
@@ -54,7 +54,7 @@
                     {% endif %}
 
                     {% if obj.user in request_receiver and request.user not in obj.following.all %}
-                        <button class="btn waitingBtn" disabled>
+                        <button class="btn waitingBtn" style="width: 250px !important;" disabled>
                             <i class="fa-solid fa-paw"></i>
                             Waiting for Approval
                         </button>
@@ -64,7 +64,7 @@
                         <form action="{% url 'profiles:remove-friend' %}" method="POST">
                             {% csrf_token %}
                             <input type="hidden" name="profile_pk" value={{obj.pk}}>
-                            <button type="submit" class="btn btn-remove">
+                            <button type="submit" class="btn btn-remove" style="width: 250px !important;">
                                 <i class="fa-solid fa-minus"></i>
                                 Remove from Friends
                             </button>
@@ -72,7 +72,7 @@
                     {% endif %}
 
                     {% if obj.user in received_requests  %}
-                        <button class="btn waitingBtn" disabled>
+                        <button class="btn waitingBtn" style="width: 250px !important;" disabled>
                             <i class="fa-solid fa-hand"></i>
                             Requested from You
                         </button>

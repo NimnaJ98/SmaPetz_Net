@@ -1,27 +1,20 @@
 {% extends 'base.html' %}
 {% block title %}
-Search Products
+Search Veterinarians
 {% endblock title %}
 
 {% block content %}
 <div class="section p-5 m-3">
     <div class="row searchTerm m-3">
-      <a href="{% url 'products:store-view' %}" class="btn backStore">
-        <i class="fa-solid fa-store storeIcon"></i>
-        Back to the Store
+      <a href="{% url 'users:vet-view' %}" class="btn backStore">
+        <i class="fa-solid fa-user-doctor suggestVet"></i>
+        Back to the Veterinarian
       </a>
       <h3 class="pl-5"><i class="fa-solid fa-magnifying-glass"></i> "{{ query }}" </h3>
     </div>
-    <div class="row searchTitle"><h3 class="m-3">Products: </h3><br/></div>
+    <div class="row searchTitle"><h3 class="m-3">Profiles: </h3><br/></div>
     <div class="row mt-4">
-        {% for product in products %}
-          {% include 'products/list_item.html' %}
-        {% endfor %}
-    </div>
-    <hr>
-    {% comment %} <div class="row searchTitle"><h3 class="m-3">Profiles: </h3><br/></div>
-    <div class="row mt-4">
-      {% for profile in profiles %}
+      {% for vet in profiles %}
         {% include 'profiles/search_list.html' %} 
       {% endfor %}
     </div>
@@ -31,6 +24,6 @@ Search Products
       {% for post in posts %}
         {% include 'posts/post_list.html' %}
       {% endfor %}
-    </div> {% endcomment %}
+    </div>
 </div>
 {% endblock content %}

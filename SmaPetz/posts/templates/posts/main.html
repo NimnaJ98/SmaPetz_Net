@@ -153,18 +153,22 @@
                         <form action="" method="POST" class ="form-group" enctype="multipart/form-data">
                             <div class="modal-body">
                                 {% csrf_token %}
-                                <div class="form-row">
-                                    <div class="form-group mb-2">Caption: {{ post_form.caption }}</div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group mb-2">Picture: {{ post_form.picture }}</div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group mb-2">Video: {{ post_form.video }}</div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group mb-2">
-                                      {{ post_form.tags|as_crispy_field }}
+                                <div class="form-outline mb-4">
+                                    <label class="form-label bg-white labelUpdate" for="form3Example3">Caption :</label>
+                                    <div class="form-group" id="form3Example3">
+                                        {{ post_form.caption }}
+                                    </div>
+                                    <label class="form-label bg-white labelUpdate" for="form3Example3">Picture :</label>
+                                    <div class="form-group" id="form3Example3">
+                                        {{ post_form.picture }}
+                                    </div>
+                                    <label class="form-label bg-white labelUpdate" for="form3Example3">Video :</label>
+                                    <div class="form-group" id="form3Example3">
+                                        {{ post_form.video }}
+                                    </div>
+                                    <label class="form-label bg-white labelUpdate" for="form3Example3">Tags :</label>
+                                    <div class="form-group" id="form3Example3">
+                                        {{ post_form.tags }}
                                     </div>
                                 </div>
                             </div>
