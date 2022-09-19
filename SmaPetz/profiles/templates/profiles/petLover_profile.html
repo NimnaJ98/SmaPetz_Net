@@ -12,138 +12,223 @@
 {% endblock title %}
 
 {% block content %}
-
-<!-- Button trigger modal -->
-{% if confirm %}
-<div class="alert alert-success alert-dismissible fade show" role="alert">
-    Your Profile has been Updated
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-</div>
-{% endif %}
-
 <div class="card-lg">
+  <!-- Profile Details Part -->
   <div class="card-body">
     <div class = "row profileRow">
       <div class="col-sm-4">
-        <img class="img-fluid proAvatar m-3" alt="Responsive image" src={{profile.profilePic.url}}>
-        
+        <img class="img-fluid p-3" alt="Responsive image" src={{profile.profilePic.url}}>
       </div>
-      <div class="col-sm-8">
-          <div class="username mt-3">
-            {{request.user.name}}
-            <!-- Update profile button -->
-            <button type="button" class="btn btnUpdate" data-toggle="modal" data-target="#exampleModal">
-              <i class="fa fa-paw"></i>
-              Update Profile
-            </button>
-          </div>
-          <div class ="titles mt-4">
-            <a href="#" class="badge">{{profile.get_post_no}} Posts</a>
-            <a href="#" class="badge">{{profile.get_following_no}} Following</a>
-            <a href="#" class="badge">{{profile.get_followers_count}} Followers</a>
-          </div>
-          <div class ="userDetail mt-4">
-            {{profile.bio}} <br>
-          </div>
+      <div class="col-sm-8 profileContent">
+        <div class="username mt-3">
+          {{request.user.name}}
+          <!-- Update profile button -->
+          <button type="button" class="btn btnUpdate" data-toggle="modal" data-target="#exampleModal">
+            <i class="fa fa-paw"></i>
+            Update Profile
+          </button>
+        </div> 
+        <div class ="titles mt-4">
+          <a href="#" class="badge">{{profile.get_post_no}} Pawsts</a>
+          <a href="#friendsmodal" data-toggle="modal" data-target="#friendsmodal" class="badge">{{profile.get_following_no}} Following</a>
+          <a href="#" class="badge">{{profile.get_followers_count}} Followers</a>
+        </div>
+        <div class ="userDetail mt-4">
+          <table>
+            <tr>
+              <td class="userData"><i class="fa fa-solid fa-paw"></i></td>
+              <td class="userData"> &nbsp; : &nbsp;</td>
+              <td>{{profile.bio}}</td>
+            </tr>
+            <tr>
+              <td class="userData"><i class="fa-solid fa-location-dot"></i></td>
+              <td class="userData"> &nbsp; : &nbsp;</td>
+              <td>{{profile.address}}</td>
+            </tr>
+            <tr>
+              <td class="userData"><i class="fa-solid fa-phone"></i></td>
+              <td class="userData"> &nbsp; : &nbsp;</td>
+              <td>{{profile.number}}</td>
+            </tr>
+          </table>
+        </div>
       </div>
     </div>
   </div>
-  <ul class="nav nav-tabs justify-content-center">
-    <li class="tab active mr-4"><a data-toggle="tab" href="#gallery">Gallery</a></li>
-    <li class="tab"><li><a data-toggle="tab" href="#videos">Videos</a></li>
-    <li class="tab mr-4"><li><a data-toggle="tab" href="#posts">Posts</a></li>
+  <!-- Posts Part -->
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+    <li class="nav-item profileNav" role="presentation">
+      <a class="nav-link navButton active" data-toggle="tab" href="#gallery">Gallery</a>
+    </li>
+    <li class="nav-item profileNav" role="presentation">
+      <a class="nav-link navButton" data-toggle="tab" href="#videos">Videos</a>
+    </li>
+    <li class="nav-item profileNav" role="presentation">
+      <a class="nav-link navButton" data-toggle="tab" href="#posts">Posts</a>
+    </li>
   </ul>
-    <div class="tab-content">
-      <div id="gallery" class="tab-pane active">
-        <div class="card-group">
-          {% for obj in photo %}
-            {% if request.user == obj.author.user %}
-              <div class="card-gallery m-2 mt-3" style="width: 18rem !important; height: 20rem !important;">
-                <img src={{obj.picture.url}} class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h6 class="card-title">{{obj.caption}}</h6> 
-                  <p class="card-text"><small class="text-muted">{{obj.tags}}</small></p>
-                </div>
+  <!-- Tab contents -->
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="gallery" role="tabpanel" aria-labelledby="gallery-tab">
+      <div class="card-group galleryCard">
+        {% for obj in photo %}
+          {% if request.user == obj.author.user %}
+          <div class="card m-3 AboutPost" style="height:32rem;">
+            <img src="{{obj.picture.url}}" class="card-img-top profileImg" alt="...">
+            <div class="card-body aboutBody">
+              <h6 class="card-cap">{{obj.caption}}</h6>
+              <p class="card-small-text"><small class="text-muted">{{obj.tags}}</small></p>
+            </div>
+            <div class="card-footer">
+              <div class="extra contentprofile">
+                <i class="fa-solid fa-comment"></i>
+                <span> {{ obj.num_comments}}</span>
               </div>
-            {% endif %}
-          {% endfor %}
-        </div>
-      </div>
-      <div id="videos" class="tab-pane fade">
-        <div class="card-group">
-          {% for obj in video %}
-            {% if request.user == obj.author.user %}
-              <div class="card-gallery m-2 mt-3" style="width: 18rem !important; height: 20rem !important;">
-                <video controls autoplay muted id="vid">
-                  <source src={{obj.video.url}} type="video/mp4"></source>
-                </video>
-                <div class="card-body">
-                  <h6 class="card-title">{{obj.caption}}</h6> 
-                  <p class="card-text"><small class="text-muted">{{obj.tags}}</small></p>
-                </div>
-              </div>
-            {% endif %}
-          {% endfor %}
-        </div>
-      </div>
-      <div id="posts" class="tab-pane fade">
-        <div class="card-group">
-          {% for obj in post %}
-            {% if request.user == obj.author.user %}
-              {% if obj not in photo and video %}
-                <div class="card-gallery m-2 mt-3" style="width: 18rem !important; height: 20rem !important;">
-                  <div class="card-body">
-                    <h6 class="card-title">{{obj.caption}}</h6> 
-                    <p class="card-text"><small class="text-muted">{{obj.tags}}</small></p>
-                  </div>
-                </div>
-              {% endif %}
-            {% endif %}
-          {% endfor %}
-        </div>
-      </div>
-    </div>
-
-  <!-- Update modal -->  
-  <div class="modal fade update" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Update Your Profile</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form action="" method="POST" class="form-group" enctype ="multipart/form-data">
-            {% csrf_token %}
-            <div class="container mb-1">
-              <div class="row updateProfileRow">
-                <div class="col updateProfileRow">
-                  <div class ="image content ml-3"><img class="proAvatar" src = {{profile.profilePic.url}}></div><br>
-                  <div class ="description ml-3">{{lover_form.profilePic}}</div>
-                </div>
-                <div class="col mb-1">
-                  <div class ="description mb-2">Bio : {{lover_form.bio}}</div>
-                  <div class ="description mb-2">Address : {{lover_form.address}}</div>
-                  <div class ="description">Telephone Number : {{lover_form.number}}</div>
-                  
-                </div>
+              <div class="extra contentprofile">
+                <i class="fa-solid fa-heart"></i> 
+                <span>{{obj.num_likes}}</span>
               </div>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btnModal" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btnModal">Save changes</button>
-            </div>
-          </form>
-        </div>  
+          </div>
+          {% endif %}
+        {% endfor %}
       </div>
     </div>
-  </div>  
+    <div class="tab-pane fade" id="videos" role="tabpanel" aria-labelledby="videos-tab">
+      <div class="card-group galleryCard">
+        {% for obj in video %}
+          {% if request.user == obj.author.user %}
+          <div class="card m-3 AboutPost postVid">
+            <video controls autoplay muted id="vid"  class="profilevid justify-content-center">
+              <source src={{obj.video.url}} type="video/mp4" class="profilevid"></source>
+            </video>
+            <div class="card-body aboutBody">
+              <h6 class="card-cap">{{obj.caption}}</h6>
+              <p class="card-small-text"><small class="text-muted">{{obj.tags}}</small></p>
+            </div>
+            <div class="card-footer">
+              <div class="extra contentprofile">
+                <i class="fa-solid fa-comment"></i>
+                <span> {{ obj.num_comments}}</span>
+              </div>
+              <div class="extra contentprofile">
+                <i class="fa-solid fa-heart"></i> 
+                <span>{{obj.num_likes}}</span>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+    <div class="tab-pane fade" id="posts" role="tabpanel" aria-labelledby="posts-tab">
+      <div class="card-group galleryCard">
+        {% for obj in post %}
+          {% if request.user == obj.author.user %}
+          <div class="card m-3 AboutPost" style="height:18rem; width:20rem;">
+            <div class="card-body aboutBody">
+              <h6 class="card-cap">{{obj.caption}}</h6>
+              <p class="card-small-text"><small class="text-muted">{{obj.tags}}</small></p>
+            </div>
+            <div class="card-footer">
+              <div class="extra contentprofile">
+                <i class="fa-solid fa-comment"></i>
+                <span> {{ obj.num_comments}}</span>
+              </div>
+              <div class="extra contentprofile">
+                <i class="fa-solid fa-heart"></i> 
+                <span>{{obj.num_likes}}</span>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
 </div>
 
+<!-- Update modal -->  
+<div class="modal fade update" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
 
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update Your Profile</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="" method="POST" class="form-group" enctype ="multipart/form-data">
+          {% csrf_token %}
+          <div class="container mb-1">
+            <div class="row updateProfileRow">
+              <div class="col updateProfileRow">
+                <div class ="img content ml-3"><img src = {{profile.profilePic.url}}></div><br>
+                <div class ="description ml-3">{{lover_form.profilePic}}</div>
+              </div>
+              <div class="col mb-1">
+                <div class ="description mb-2">Bio : {{lover_form.bio}}</div>
+                <div class ="description mb-2">Address : {{lover_form.address}}</div>
+                <div class ="description">Telephone Number : {{lover_form.number}}</div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btnModal" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btnModal">Save changes</button>
+          </div>
+        </form>
+      </div>  
+    </div>
+  </div>
+</div>  
+</div>
+
+<!-- Friends modal -->  
+<div class="modal fade update" id="friendsmodal" tabindex="-1" role="dialog" aria-labelledby="friendsmodalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Friends</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {% for friend in profile.get_following %}
+          <div class="card m-3 StoreProduct rounded justify-content-center" style="width: 28rem;">
+            <table class="suggestFriends">
+                <tr>
+                    <td rowspan="2" class="align-baseline"><img class="img-fluid avatar-img" alt="Responsive image" src={{friend.user.profilePic.url}}></td>
+                    <td rowspan="2" class="align-baseline"><h6 class="card-title suggestName">{{friend.name}}</h6></td>
+                    <td rowspan="2" class="align-baseline pr-3">
+                      <a href="{% url 'profiles:profile-detail-view' friend.user.slug %}">
+                        {% if friend.type == 'PET' %}
+                            <i class="fa-solid fa-paw suggestIcon"></i>
+                        {% endif %}
+                        {% if friend.type == 'VET' %}
+                            <i class="fa-solid fa-user-doctor suggestIcon"></i>
+                        {% endif %}
+                        {% if friend.type == 'STORE' %}
+                            <i class="fa-solid fa-store suggestIcon"></i>
+                        {% endif %}
+                        {% if friend.type == 'PET_LOVER' %}
+                            <i class="fa-solid fa-face-kiss-wink-heart suggestIcon"></i>
+                        {% endif %}
+                      </a>
+                    </td>
+                </tr>    
+            </table>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btnModal" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock content %}

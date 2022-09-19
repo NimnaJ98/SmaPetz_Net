@@ -7,141 +7,139 @@ See Profile
 
 
 {% block content %}
-    <div class="card-lg">
-        <div class="card-body">
-            <div class = "row profileRow">
-                <div class="col-sm-4">
-                    <img class="img-fluid m-3" alt="Responsive image" src={{object.profilePic.url}}>
-                </div>
-                <div class="col-sm-4">
-                    <div class="username mt-3">
-                      {{object.user.name}}
-                      {% if object.user not in request_receiver and object.user not in request_sender %}
-                        <form action="{% url 'profiles:send-request' %}" method="POST" class="btn-form">
-                            {% csrf_token %}
-                            <input type="hidden" name="profile_pk" value={{object.pk}}>
-                            
-                            <button type="submit" class="btn btn-success">
-                                <i class="fa-solid fa-plus"></i>
-                                Add to Friends
-                            </button>
-                        </form>
-                     {% endif %}
-
-                     {% if object.user in request_receiver and request.user not in object.following.all %}
-                        <br><button class="btn waitingBtn" disabled>
-                            <i class="fa-solid fa-paw"></i>
-                            Waiting for Approval
-                        </button>
-                     {% endif %}
+<div class="card-lg">
+    <div class = "row profileRow">
+        <div class="col-sm-4">
+            <img class="img-fluid m-3" alt="Responsive image" src={{object.profilePic.url}}>
+        </div>
+        <div class="col-sm-8">
+            <div class="username mt-3">
+                {{object.user.name}}
+                {% if object.user not in request_receiver and object.user not in request_sender %}
+                <form action="{% url 'profiles:send-request' %}" method="POST" class="btn-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="profile_pk" value={{object.pk}}>
                     
-                     {% if request.user in object.following.all %}
-                        <form action="{% url 'profiles:remove-friend' %}" method="POST" class="btn-form">
-                            {% csrf_token %}
-                            <input type="hidden" name="profile_pk" value={{object.pk}}>
-                            <button type="submit" class="btn btn-remove">
-                                <i class="fa-solid fa-minus"></i>
-                                Remove from Friends
-                            </button>
-                        </form>
-                     {% endif %}
-                    </div>
-                    {% if object.user.type == 'PET' %}
-                        <div class="alert alert-light" role="alert">
-                            A Pet Profile
-                        </div>
-                    {% endif %}
-                    {% if object.user.type == 'VET' %}
-                        <div class="alert alert-light" role="alert">
-                            A Veterinarian Profile
-                        </div>
-                    {% endif %}
-                    {% if object.user.type == 'STORE' %}
-                        <div class="alert alert-light" role="alert">
-                            A Store Profile
-                        </div>
-                    {% endif %}
-                    {% if object.user.type == 'PET_LOVER' %}
-                        <div class="alert alert-light" role="alert">
-                            A Pet Lover Profile
-                        </div>
-                    {% endif %}
-                    <div class ="titles mt-4">
-                      <a href="#" class="badge">{{object.get_post_no}} Posts</a>
-                      <a href="#" class="badge">{{object.get_following_no}} Following</a>
-                      <a href="#" class="badge">{{object.get_followers_count}} Followers</a>
-                    </div>
-                    <div class ="userDetail mt-4 mb-4">
-                      {{object.bio}} <br>
-                    </div>
+                    <button type="submit" class="btn btn-success detailuserbutton">
+                        <i class="fa-solid fa-plus plusIcon"></i>
+                        Add to Friends
+                    </button>
+                </form>
+                {% endif %}
+
+                {% if object.user in request_receiver and request.user not in object.following.all %}
+                <button class="btn waitingBtn detailuserbutton" disabled>
+                    <i class="fa-solid fa-paw"></i>
+                    Waiting for Approval
+                </button>
+                {% endif %}
+            
+                {% if request.user in object.following.all %}
+                <form action="{% url 'profiles:remove-friend' %}" method="POST" class="btn-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="profile_pk" value={{object.pk}}>
+                    <button type="submit" class="btn btn-remove detailuserbutton">
+                        <i class="fa-solid fa-minus"></i>
+                        Remove from Friends
+                    </button>
+                </form>
+                {% endif %}
+
+                {% if object.user in received_requests  %}
+                <button class="btn waitingBtn detailuserbutton" style="width: 250px !important;" disabled>
+                    <i class="fa-solid fa-hand"></i>
+                    Requested from You
+                </button>
+                {% endif %}
+            </div>
+            {% if object.user.type == 'PET' %}
+                <div class="alert alert-light" role="alert">
+                    A Pet Profile
                 </div>
+            {% endif %}
+            {% if object.user.type == 'VET' %}
+                <div class="alert alert-light" role="alert">
+                    A Veterinarian Profile
+                </div>
+            {% endif %}
+            {% if object.user.type == 'STORE' %}
+                <div class="alert alert-light" role="alert">
+                    A Store Profile
+                </div>
+            {% endif %}
+            {% if object.user.type == 'PET_LOVER' %}
+                <div class="alert alert-light" role="alert">
+                    A Pet Lover Profile
+                </div>
+            {% endif %}
+            <div class ="titles mt-4">
+                <a href="#" class="badge">{{object.get_post_no}} Posts</a>
+                <a href="#" class="badge">{{object.get_following_no}} Following</a>
+                <a href="#" class="badge">{{object.get_followers_count}} Followers</a>
+            </div>
+            <div class ="userDetail mt-4 mb-4">
+                <table>
+                    <tr>
+                        <td class="userData"><i class="fa fa-solid fa-paw"></i></td>
+                        <td class="userData"> &nbsp; : &nbsp;</td>
+                        <td>{{object.bio}}</td>
+                    </tr>
+                    <tr>
+                        <td class="userData"><i class="fa-solid fa-location-dot"></i></td>
+                        <td class="userData"> &nbsp; : &nbsp;</td>
+                        <td>{{object.address}}</td>
+                    </tr>
+                    <tr>
+                        <td class="userData"><i class="fa-solid fa-phone"></i></td>
+                        <td class="userData"> &nbsp; : &nbsp;</td>
+                        <td>{{object.number}}</td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
-    <ul class="nav nav-tabs justify-content-center">
-        <li class="tab active mr-4"><a data-toggle="tab" href="#gallery">Gallery</a></li>
-        <li class="tab"><li><a data-toggle="tab" href="#videos">Videos</a></li>
-        <li class="tab mr-4"><li><a data-toggle="tab" href="#posts">Posts</a></li>
-    </ul>
-    
-    <div class="tab-content">
-        <div id="gallery" class="tab-pane active">
-          <div class="card-group">
-            {% if len_gallery %}
-                {% for post in gallery %}
-                    <div class="card-gallery m-2 mt-3" style="width: 18rem !important; height: 20rem !important;">
-                    <img src={{post.picture.url}} class="card-img-gallery" alt="...">
-                    <div class="card-body">
-                        <h6 class="card-title">{{post.caption}}</h6> 
-                        <p class="card-small-text"><small class="text-tags">{{post.tags}}</small></p>
-                    </div>
-                    </div>
-                {% endfor %}
-            {% else %}
-                <div class="alert alert-light" role="alert">
-                    No photos
-                </div>
-            {% endif %}
-          </div>
-        </div>
-        <div id="videos" class="tab-pane fade">
-          <div class="card-group">
-            {% if len_videos %}
-                {% for post in videos %}
-                    <div class="card-gallery m-3" style="width: 18rem !important; height: 20rem !important;">
-                        <video controls autoplay muted id="vid">
+</div>
+<!-- Nav tabs -->
+<ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+    <li class="nav-item profileNav" role="presentation">Gallery
+    </li>
+</ul>
+
+<div class="grid p-3">
+    <div class="row">
+        {% if len_posts %}
+            {% for post in posts %}
+                <div class="card m-3 AboutPostDetail">
+                    {% if post.picture %}
+                        <img src="{{post.picture.url}}" class="card-img-top postImg" alt="...">
+                    {% endif %}
+                    {% if post.video %}
+                        <video controls autoplay muted id="vid" style="width: 21rem; height:10rem;">
                             <source src={{post.video.url}} type="video/mp4"></source>
                         </video>
-                        <div class="card-body">
-                            <h6 class="card-title">{{post.caption}}</h6> 
-                            <p class="card-small-text"><small class="text-tags">{{post.tags}}</small></p>
+                    {% endif %}
+                    <div class="card-body AboutPostDetailBody">
+                        <h6 class="card-cap">{{post.caption}}</h6>
+                        <p class="card-small-text"><small class="text-muted">{{post.tags}}</small></p>
+                        </div>
+                    <div class="card-footer">
+                        <div class="extra contentprofile">
+                            <i class="fa-solid fa-comment"></i>
+                            <span> {{ post.num_comments}}</span>
+                        </div>
+                        <div class="extra contentprofile">
+                            <i class="fa-solid fa-heart"></i> 
+                            <span>{{post.num_likes}}</span>
                         </div>
                     </div>
-                {% endfor %}
-            {% else %}
-                <div class="alert alert-light" role="alert">
-                    No videos
                 </div>
-            {% endif %}
-          </div>
-        </div>
-        <div id="posts" class="tab-pane fade">
-          <div class="card-group">
-            {% if len_posts %}
-                {% for post in posts %}
-                    <div class="card-gallery m-2 mt-3" style="width: 18rem !important; height: 20rem !important;">
-                        <div class="card-body">
-                            <h6 class="card-title">{{post.caption}}</h6> 
-                            <p class="card-small-text"><small class="text-tags">{{post.tags}}</small></p>
-                        </div>
-                    </div>
-                {% endfor %}
-            {% else %}
-                <div class="alert alert-light" role="alert">
-                    No posts
-                </div>
-            {% endif %}
-          </div>
-      </div>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-light" role="alert">
+                No posts
+            </div>
+        {% endif %}
+    
+  </div>
     
 {% endblock content %}

@@ -187,7 +187,7 @@ class Store(Profile):
         PRODUCTSTORE = "PRODUCTSTORE", "Pet Product Store"
 
     store_id = models.OneToOneField(Profile, on_delete=models.CASCADE, parent_link=True, primary_key=True)
-    store_type = models.CharField(max_length=50, choices=storeTypes.choices, blank=False)
+    store_type = models.CharField(max_length=50, choices=storeTypes.choices, blank=True)
     
     def __str__(self):
         return str(self.user)

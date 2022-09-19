@@ -3,21 +3,11 @@
     cursor: pointer;
     background-color: #f1896a !important;
 }
-.btnUpdate:hover{
-    color: #000 !important;
-    cursor: pointer;
-    border-color: #EE7752 !important;
-    background: transparent !important;
-}
+
 .fa-paw{
     background: transparent !important;
 }
-.btnUpdate{
-    background: linear-gradient(-90deg, #EE7752, #ee9d99) !important;
-    color: #fff !important;
-    width: 150px;
-    margin-left: 25px;
-}
+
 .alert-success{
     border-color: #f1896a;
     color: #f1896a !important;
@@ -270,4 +260,82 @@ li.active>a{
     height: fit-content !important;
     background: transparent !important;
     background-color: transparent !important;
+}
+.profileRow img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 250px;
+    height: 250px;
+}
+.profileContent{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.profileContent button{
+    width: fit-content !important;
+    background: linear-gradient(-90deg, #EE7752, #ee9d99) !important;
+    color: #fff !important;
+    margin-left: 20px !important;
+    transition: transform 0.2s ease !important;
+}
+.profileContent button:hover{
+    background-color: #fff !important;
+    color: #221c1c !important;
+    border-color: #221c1c !important;
+    font-weight: bold !important;
+    border-width: 5 !important;
+    transform: scale(1.1) !important;
+}
+.userData{
+    color: #e56554 !important;   
+    text-shadow:1px 1px #201616, 3px 5px #ffffff;
+    margin-right: 20px !important;
+}
+.navButton{
+    color: #e56554 !important; 
+    background: #fafafa !important;
+}
+.profileNav{
+    background: #fafafa !important;
+    color: #e56554 !important; 
+}
+.galleryCard{
+    background: #fafafa !important;
+}
+.profileImg{
+    height: 320px !important;
+}
+.contentprofile{
+    color: #e56554 !important;
+}
+.profilevid{
+    height: 20rem !important;
+    width: 75rem !important;
+}
+#friendsmodal{
+    background-color:rgba(0, 0, 0, 0.75) !important;
+}
+.postProfile{
+    width: 100px !important;
+}
+.ordersLink:hover{
+    text-decoration: none !important;
+}
+.AboutPostDetail{
+    width: 350px !important;
+    height: 500px !important;
+    transition: transform 0.2s ease !important;
+    box-shadow: 0 4px 6px 0 rgba(22, 22, 26, 0.18) !important;
+}
+.AboutPostDetailBody{
+    overflow-y: scroll !important;
+    overflow-x: scroll !important;
+}
+.detailuserbutton{
+    width: fit-content !important;
+}
+.plusIcon{
+    color: #000 !important;
 }
