@@ -74,20 +74,22 @@
       <div class="card-group galleryCard">
         {% for obj in photo %}
           {% if request.user == obj.author.user %}
-          <div class="card m-3 AboutPost" style="height:32rem;">
-            <img src="{{obj.picture.url}}" class="card-img-top profileImg" alt="...">
-            <div class="card-body aboutBody">
-              <h6 class="card-cap">{{obj.caption}}</h6>
-              <p class="card-small-text"><small class="text-muted">{{obj.tags}}</small></p>
-            </div>
-            <div class="card-footer">
-              <div class="extra contentprofile">
-                <i class="fa-solid fa-comment"></i>
-                <span> {{ obj.num_comments}}</span>
+          <div class="row m-3"  style="width:22rem;">
+            <div class="card m-3 AboutPost">
+              <img src="{{obj.picture.url}}" class="card-img-top" alt="..."  style="height:22rem;">
+              <div class="card-body">
+                <h6 class="card-cap">{{obj.caption}}</h6>
+                <p class="card-small-text"><small class="text-muted">{{obj.tags}}</small></p>
               </div>
-              <div class="extra contentprofile">
-                <i class="fa-solid fa-heart"></i> 
-                <span>{{obj.num_likes}}</span>
+              <div class="card-footer">
+                <div class="extra contentprofile">
+                  <i class="fa-solid fa-comment"></i>
+                  <span> {{ obj.num_comments}}</span>
+                </div>
+                <div class="extra contentprofile">
+                  <i class="fa-solid fa-heart"></i> 
+                  <span>{{obj.num_likes}}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -126,19 +128,21 @@
       <div class="card-group galleryCard">
         {% for obj in post %}
           {% if request.user == obj.author.user %}
-          <div class="card m-3 AboutPost" style="height:18rem; width:20rem;">
-            <div class="card-body aboutBody">
-              <h6 class="card-cap">{{obj.caption}}</h6>
-              <p class="card-small-text"><small class="text-muted">{{obj.tags}}</small></p>
-            </div>
-            <div class="card-footer">
-              <div class="extra contentprofile">
-                <i class="fa-solid fa-comment"></i>
-                <span> {{ obj.num_comments}}</span>
+          <div class="row m-3"  style="width:22rem;">
+            <div class="card m-3 AboutPost" style="height:18rem; width:20rem;">
+              <div class="card-body aboutBody">
+                <h6 class="card-cap">{{obj.caption}}</h6>
+                <p class="card-small-text"><small class="text-muted">{{obj.tags}}</small></p>
               </div>
-              <div class="extra contentprofile">
-                <i class="fa-solid fa-heart"></i> 
-                <span>{{obj.num_likes}}</span>
+              <div class="card-footer">
+                <div class="extra contentprofile">
+                  <i class="fa-solid fa-comment"></i>
+                  <span> {{ obj.num_comments}}</span>
+                </div>
+                <div class="extra contentprofile">
+                  <i class="fa-solid fa-heart"></i> 
+                  <span>{{obj.num_likes}}</span>
+                </div>
               </div>
             </div>
           </div>

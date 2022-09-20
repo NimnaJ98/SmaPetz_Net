@@ -23,7 +23,7 @@ class Order(models.Model):
         ordering = ['-created_at']
 
     def __str__(self):
-        return self.first_name 
+        return str(self.id) 
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE) 

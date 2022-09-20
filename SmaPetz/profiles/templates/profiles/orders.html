@@ -14,7 +14,7 @@ Display Orders
         {% for order in orders %}
             <div class="card mt-3 mb-4 orderCart">
                 <div class="col m-2 p-1" style="width:50% !important;">
-                    <h3 class="orderDetail">#{{order.id}} - {{order.first_name}} {{order.last_name}}</h3> 
+                    <h3 class="orderDetail">Order ID : #{{order.id}}</h3> 
                 </div>
                 <div class="col m-4" style="width:50% !important;">
                     <b>Name:</b> {{ order.first_name }} {{ order.last_name }} <br>

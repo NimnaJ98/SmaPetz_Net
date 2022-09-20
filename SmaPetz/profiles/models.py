@@ -56,7 +56,7 @@ class Profile(models.Model):
     profilePic = models.ImageField(upload_to='avatars', default='pet_avatar.png')
     bio = models.TextField(default="no bio...", blank=True, max_length=100)
     address = models.TextField(max_length=100, blank=True)
-    number = PhoneNumberField(unique = True, null = True, blank = True)
+    number = models.TextField(max_length=100, blank=True, null=True)
     slug = models.SlugField(unique=True, blank=True)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
