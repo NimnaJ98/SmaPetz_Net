@@ -62,7 +62,7 @@ cart
         </div>
         <div class="card-footer">
             <h3 class='sub-title mb-3'>Contact Information</h3>
-            <form method="post" action="." id="payment-form">
+            <form method="post" action="." id="payment-form"> 
                 {% csrf_token %}
 
                 {% if form.non_field_errors %}

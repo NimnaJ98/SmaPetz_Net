@@ -9,7 +9,10 @@ from products.models import Product
 from posts.models import Post
 import random
 from django.db.models import Q
-
+import nltk
+from nltk.tokenize import sent_tokenize, word_tokenize
+from nltk.stem import WordNetLemmatizer
+from nltk.corpus import stopwords
 
 # Create your views here.
 def home_view(request):
@@ -27,10 +30,20 @@ def vet_view(request):
 
 def searchVet(request):
     query = request.GET.get('query', '')
-    posts = Post.objects.filter(Q(caption__icontains=query) | Q(tags__icontains=query))
-    profiles = Veterinarian.objects.filter(Q(address__icontains=query) | Q(bio__icontains=query) | Q(slug__icontains=query))
+    words_in_query = word_tokenize(query)
+    stop_words = set(stopwords.words("english"))
+    filtered_list = []
+    for w in words_in_query:
+        if w.casefold() not in stop_words:
+            filtered_list.append(w)
+
+    for word in filtered_list:
+        posts = Post.objects.filter(Q(caption__icontains=word) | Q(tags__icontains=word))
+        profiles = Veterinarian.objects.filter(Q(address__icontains=word) | Q(bio__icontains=word) | Q(slug__icontains=word))
+    
     context = {
         'query':query,
+        'word':word,
         'posts':posts,
         'profiles':profiles, 
     }
