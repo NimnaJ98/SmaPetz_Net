@@ -9,10 +9,7 @@ from products.models import Product
 from posts.models import Post
 import random
 from django.db.models import Q
-import nltk
-from nltk.tokenize import sent_tokenize, word_tokenize
-from nltk.stem import WordNetLemmatizer
-from nltk.corpus import stopwords
+
 
 # Create your views here.
 def home_view(request):
