@@ -17,7 +17,7 @@ def searchProduct(request):
     products = Product.objects.filter(Q(title__icontains=query) | Q(description__icontains=query))
     posts = Post.objects.filter(Q(caption__icontains=query) | Q(tags__icontains=query))
     profiles = Profile.objects.filter(Q(address__icontains=query) | Q(bio__icontains=query))
-    context = {
+    context = { 
         'products': products,
         'query':query,
         'posts':posts,
